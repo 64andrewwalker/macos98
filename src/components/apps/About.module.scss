@@ -1,0 +1,43 @@
+.about {
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: flex-start;
+    background-color: #dddddd;
+    font-family: var(--sys-font);
+    color: #000000;
+}
+
+.logo {
+    img {
+        width: 64px;
+        image-rendering: pixelated;
+    }
+}
+
+.info {
+    flex: 1;
+
+    h2 {
+        margin: 0 0 10px 0;
+        font-size: 18px;
+    }
+
+    p {
+        margin: 5px 0;
+        font-size: 12px;
+    }
+}
+
+.copyright {
+    font-size: 10px;
+    color: #333333;
+    margin-top: 10px;
+}
+
+.memory {
+    margin-top: 15px;
+    border-top: 1px solid #888888;
+    padding-top: 5px;
+}

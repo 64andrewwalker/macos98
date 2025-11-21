@@ -1,0 +1,26 @@
+:root {
+  --sys-font: 'Chicago', 'Geneva', sans-serif;
+  --sys-bg-color: #dddddd;
+  --sys-highlight: #000080;
+  --sys-border-light: #ffffff;
+  --sys-border-dark: #000000;
+  --sys-border-gray: #808080;
+}
+
+@font-face {
+  font-family: 'Chicago';
+  src: local('Chicago'), url('https://db.onlinewebfonts.com/t/1064f0ad1cb65fdab43bb592ddd8aa91.woff2') format('woff2'); /* Fallback or use a local font if available, for now relying on system or webfont */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--sys-font);
+  overflow: hidden;
+  user-select: none;
+  -webkit-font-smoothing: none; /* Retro crispness */
+}
+
+* {
+  box-sizing: border-box;
+}
