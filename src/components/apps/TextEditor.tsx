@@ -223,6 +223,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ fileId, fileName, initialConten
                     className={styles.content}
                     contentEditable
                     onInput={handleInput}
+                    data-testid="text-editor-content"
                     style={{
                         fontFamily: `var(--font-${fontFamily.toLowerCase()})`,
                         fontSize: `${fontSize}px`,
