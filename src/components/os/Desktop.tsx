@@ -15,6 +15,16 @@ import gameIcon from '../../assets/joystick.png';
 import Calculator from '../apps/Calculator';
 import TicTacToe from '../apps/TicTacToe';
 import About from '../apps/About';
+import Finder from '../apps/Finder';
+
+export interface FileItem {
+    id: string;
+    name: string;
+    type: 'folder' | 'file' | 'app';
+    icon: string;
+    children?: FileItem[];
+    content?: string; // For text files
+}
 
 interface WindowData {
     id: string;
@@ -32,7 +42,9 @@ interface DesktopIconData {
     icon: string;
     x: number;
     y: number;
-    onDoubleClick?: () => void;
+    type?: 'folder' | 'file' | 'app' | 'system';
+    children?: FileItem[];
+    onDoubleClick: () => void;
 }
 
 const Desktop: React.FC = () => {
@@ -64,9 +76,24 @@ const Desktop: React.FC = () => {
             id: 'docs',
             label: 'Documents',
             icon: folderIcon,
+            type: 'folder',
             x: 20,
             y: 130,
-            onDoubleClick: () => openWindow('docs', 'Documents', <div><p>Empty folder</p></div>)
+            children: [
+                { id: 'file_readme', name: 'README.txt', type: 'file', icon: folderIcon, content: 'Welcome to macOS 90s!\n\nThis is a retro simulation of classic Mac OS.\n\nEnjoy!' },
+                { id: 'file_notes', name: 'Notes.txt', type: 'file', icon: folderIcon, content: 'My notes...' },
+                {
+                    id: 'folder_work', name: 'Work', type: 'folder', icon: folderIcon, children: [
+                        { id: 'file_project', name: 'Project.txt', type: 'file', icon: folderIcon, content: 'Project details here.' }
+                    ]
+                }
+            ],
+            onDoubleClick: () => {
+                const docsIcon = icons.find(i => i.id === 'docs');
+                if (docsIcon && docsIcon.children) {
+                    openFinder('docs', 'Documents', docsIcon.children, ['Documents']);
+                }
+            }
         },
         {
             id: 'calc',
@@ -93,6 +120,70 @@ const Desktop: React.FC = () => {
             onDoubleClick: () => openWindow('trash', 'Trash', <div><p>Trash is empty</p></div>)
         }
     ]);
+
+    // Helper to find folder by ID recursively
+    const findFolderById = (id: string, searchItems: FileItem[] = []): FileItem | null => {
+        for (const item of searchItems) {
+            if (item.id === id) return item;
+            if (item.children) {
+                const found = findFolderById(id, item.children);
+                if (found) return found;
+            }
+        }
+        // Also search in desktop icons
+        for (const icon of icons) {
+            if (icon.id === id && icon.children) {
+                return {
+                    id: icon.id,
+                    name: icon.label,
+                    type: 'folder',
+                    icon: icon.icon,
+                    children: icon.children
+                };
+            }
+            if (icon.children) {
+                const found = findFolderById(id, icon.children);
+                if (found) return found;
+            }
+        }
+        return null;
+    };
+
+    const openFinder = (folderId: string, folderName: string, items: FileItem[], path: string[]) => {
+        const windowId = `finder_${folderId}`;
+
+        // Check if window already exists
+        if (windows.find(w => w.id === windowId)) {
+            setActiveWindowId(windowId);
+            return;
+        }
+
+        openWindow(
+            windowId,
+            folderName,
+            <Finder
+                items={items}
+                path={path}
+                onNavigate={(id) => {
+                    const folder = findFolderById(id, items);
+                    if (folder && folder.children) {
+                        openFinder(id, folder.name, folder.children, [...path, folder.name]);
+                    }
+                }}
+                onOpenFile={(fileId, fileName, content) => {
+                    openWindow(
+                        `file_${fileId}`,
+                        fileName,
+                        <div style={{ padding: '10px', whiteSpace: 'pre-wrap', fontFamily: 'monospace' }}>{content}</div>,
+                        400,
+                        300
+                    );
+                }}
+            />,
+            500,
+            400
+        );
+    };
 
     const openWindow = (id: string, title: string, content: React.ReactNode, width: number = 400, height: number = 300) => {
         if (id === 'about') {
