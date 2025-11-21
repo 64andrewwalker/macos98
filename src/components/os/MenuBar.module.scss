@@ -74,12 +74,23 @@
 .dropdownItem {
     padding: 3px 15px;
     cursor: default;
+    color: #000000;
     font-family: var(--sys-font);
     font-size: 12px;
 
     &:hover {
         background-color: #000080;
         color: #ffffff;
+    }
+
+    &.disabled {
+        color: #888888;
+        cursor: default;
+
+        &:hover {
+            background-color: transparent;
+            color: #888888;
+        }
     }
 }
 

@@ -5,6 +5,7 @@ import DesktopIcon from './DesktopIcon';
 import Window from './Window';
 import ContextMenu from './ContextMenu';
 import type { ContextMenuItem } from './ContextMenu';
+import InfoDialog from './InfoDialog';
 import patternBg from '../../assets/pattern_bg.png';
 import hdIcon from '../../assets/hd_icon_transparent.png';
 import trashIcon from '../../assets/trash_icon_transparent.png';
@@ -43,6 +44,9 @@ const Desktop: React.FC = () => {
         y: 0,
         visible: false
     });
+    const [clipboard, setClipboard] = useState<DesktopIconData | null>(null);
+    const [history, setHistory] = useState<{ type: string; data: any }[]>([]);
+    const [showInfoDialog, setShowInfoDialog] = useState(false);
 
     const [icons, setIcons] = useState<DesktopIconData[]>([
         {
@@ -139,8 +143,78 @@ const Desktop: React.FC = () => {
         }
     };
 
+    const closeActiveWindow = () => {
+        if (activeWindowId) {
+            closeWindow(activeWindowId);
+        }
+    };
+
     const focusWindow = (id: string) => {
         setActiveWindowId(id);
+    };
+
+    const handleCopy = () => {
+        if (!selectedIconId) return;
+        const icon = icons.find(i => i.id === selectedIconId);
+        if (icon) {
+            setClipboard({ ...icon });
+        }
+    };
+
+    const handleCut = () => {
+        if (!selectedIconId) return;
+        const icon = icons.find(i => i.id === selectedIconId);
+        if (icon) {
+            setClipboard({ ...icon, _cut: true } as any);
+            // Mark visually or handle differently if needed
+        }
+    };
+
+    const handlePaste = () => {
+        if (!clipboard) return;
+
+        const newIcon: DesktopIconData = {
+            ...clipboard,
+            id: `${clipboard.id}_copy_${Date.now()}`,
+            x: clipboard.x + 20,
+            y: clipboard.y + 20,
+            label: clipboard.label.includes('copy') ? clipboard.label : `${clipboard.label} copy`
+        };
+
+        // If this was a cut operation, remove the original
+        if ((clipboard as any)._cut) {
+            const filteredIcons = icons.filter(i => i.id !== clipboard.id);
+            setHistory([...history, { type: 'cut_paste', data: { original: clipboard, new: newIcon } }]);
+            setIcons([...filteredIcons, newIcon]);
+            setClipboard(null);
+        } else {
+            setHistory([...history, { type: 'paste', data: newIcon }]);
+            setIcons([...icons, newIcon]);
+        }
+        setSelectedIconId(newIcon.id);
+    };
+
+    const handleUndo = () => {
+        if (history.length === 0) return;
+
+        const lastAction = history[history.length - 1];
+
+        if (lastAction.type === 'create_folder' || lastAction.type === 'paste') {
+            // Remove the created icon
+            setIcons(icons.filter(i => i.id !== lastAction.data.id));
+        } else if (lastAction.type === 'cut_paste') {
+            // Restore original, remove the pasted copy
+            setIcons([
+                ...icons.filter(i => i.id !== lastAction.data.new.id),
+                lastAction.data.original
+            ]);
+        }
+
+        setHistory(history.slice(0, -1));
+    };
+
+    const handleClear = () => {
+        setSelectedIconId(null);
     };
 
     const handleContextMenu = (e: React.MouseEvent) => {
@@ -166,6 +240,7 @@ const Desktop: React.FC = () => {
                     onDoubleClick: () => openWindow(newId, 'New Folder', <div><p>Empty folder</p></div>)
                 };
                 setIcons([...icons, newFolder]);
+                setHistory([...history, { type: 'create_folder', data: newFolder }]);
             }
         },
         {
@@ -178,7 +253,7 @@ const Desktop: React.FC = () => {
         { separator: true },
         {
             label: 'Get Info',
-            action: () => alert('Get Info not implemented yet.')
+            action: () => setShowInfoDialog(true)
         }
     ];
 
@@ -195,7 +270,18 @@ const Desktop: React.FC = () => {
             }}
             onContextMenu={handleContextMenu}
         >
-            <MenuBar onOpenWindow={openWindow} />
+            <MenuBar
+                onOpenWindow={openWindow}
+                onCloseActiveWindow={closeActiveWindow}
+                onUndo={handleUndo}
+                onCut={handleCut}
+                onCopy={handleCopy}
+                onPaste={handlePaste}
+                onClear={handleClear}
+                hasSelection={selectedIconId !== null}
+                hasClipboard={clipboard !== null}
+                canUndo={history.length > 0}
+            />
             <div className={styles.iconContainer}>
                 {icons.map(icon => (
                     <DesktopIcon
@@ -233,6 +319,12 @@ const Desktop: React.FC = () => {
                 items={contextMenuItems}
                 onClose={() => setContextMenu({ ...contextMenu, visible: false })}
             />
+            {showInfoDialog && (
+                <InfoDialog
+                    iconData={selectedIconId ? icons.find(i => i.id === selectedIconId) : undefined}
+                    onClose={() => setShowInfoDialog(false)}
+                />
+            )}
         </div>
     );
 };

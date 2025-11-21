@@ -4,9 +4,29 @@ import appleLogo from '../../assets/apple_logo.png';
 
 interface MenuBarProps {
     onOpenWindow: (id: string, title: string, content: React.ReactNode, width?: number, height?: number) => void;
+    onCloseActiveWindow: () => void;
+    onUndo: () => void;
+    onCut: () => void;
+    onCopy: () => void;
+    onPaste: () => void;
+    onClear: () => void;
+    hasSelection: boolean;
+    hasClipboard: boolean;
+    canUndo: boolean;
 }
 
-const MenuBar: React.FC<MenuBarProps> = ({ onOpenWindow }) => {
+const MenuBar: React.FC<MenuBarProps> = ({
+    onOpenWindow,
+    onCloseActiveWindow,
+    onUndo,
+    onCut,
+    onCopy,
+    onPaste,
+    onClear,
+    hasSelection,
+    hasClipboard,
+    canUndo
+}) => {
     const [time, setTime] = useState(new Date());
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
 
@@ -68,11 +88,16 @@ const MenuBar: React.FC<MenuBarProps> = ({ onOpenWindow }) => {
                     File
                     {activeMenu === 'file' && (
                         <div className={styles.dropdown}>
-                            <div className={styles.dropdownItem} onClick={(e) => { e.stopPropagation(); onOpenWindow('new_folder', 'New Folder', null); setActiveMenu(null); }}>New Folder</div>
+                            <div className={styles.dropdownItem} onClick={(e) => {
+                                e.stopPropagation();
+                                // New Folder is handled in Desktop via openWindow
+                                onOpenWindow('new_folder', 'New Folder', null);
+                                setActiveMenu(null);
+                            }}>New Folder</div>
                             <div className={styles.dropdownItem} onClick={(e) => { e.stopPropagation(); alert('Open feature not implemented yet.'); setActiveMenu(null); }}>Open</div>
                             <div className={styles.dropdownItem} onClick={(e) => { e.stopPropagation(); alert('Print feature not implemented yet.'); setActiveMenu(null); }}>Print</div>
                             <div className={styles.separator}></div>
-                            <div className={styles.dropdownItem} onClick={(e) => { e.stopPropagation(); alert('Close feature not implemented yet.'); setActiveMenu(null); }}>Close</div>
+                            <div className={styles.dropdownItem} onClick={(e) => { e.stopPropagation(); onCloseActiveWindow(); setActiveMenu(null); }}>Close</div>
                         </div>
                     )}
                 </div>
@@ -85,12 +110,65 @@ const MenuBar: React.FC<MenuBarProps> = ({ onOpenWindow }) => {
                     Edit
                     {activeMenu === 'edit' && (
                         <div className={styles.dropdown}>
-                            <div className={styles.dropdownItem} onClick={(e) => { e.stopPropagation(); alert('Undo not implemented.'); setActiveMenu(null); }}>Undo</div>
+                            <div
+                                className={`${styles.dropdownItem} ${!canUndo ? styles.disabled : ''}`}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (canUndo) {
+                                        onUndo();
+                                        setActiveMenu(null);
+                                    }
+                                }}
+                            >
+                                Undo
+                            </div>
                             <div className={styles.separator}></div>
-                            <div className={styles.dropdownItem} onClick={(e) => { e.stopPropagation(); alert('Cut not implemented.'); setActiveMenu(null); }}>Cut</div>
-                            <div className={styles.dropdownItem} onClick={(e) => { e.stopPropagation(); alert('Copy not implemented.'); setActiveMenu(null); }}>Copy</div>
-                            <div className={styles.dropdownItem} onClick={(e) => { e.stopPropagation(); alert('Paste not implemented.'); setActiveMenu(null); }}>Paste</div>
-                            <div className={styles.dropdownItem} onClick={(e) => { e.stopPropagation(); alert('Clear not implemented.'); setActiveMenu(null); }}>Clear</div>
+                            <div
+                                className={`${styles.dropdownItem} ${!hasSelection ? styles.disabled : ''}`}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (hasSelection) {
+                                        onCut();
+                                        setActiveMenu(null);
+                                    }
+                                }}
+                            >
+                                Cut
+                            </div>
+                            <div
+                                className={`${styles.dropdownItem} ${!hasSelection ? styles.disabled : ''}`}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (hasSelection) {
+                                        onCopy();
+                                        setActiveMenu(null);
+                                    }
+                                }}
+                            >
+                                Copy
+                            </div>
+                            <div
+                                className={`${styles.dropdownItem} ${!hasClipboard ? styles.disabled : ''}`}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (hasClipboard) {
+                                        onPaste();
+                                        setActiveMenu(null);
+                                    }
+                                }}
+                            >
+                                Paste
+                            </div>
+                            <div
+                                className={styles.dropdownItem}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onClear();
+                                    setActiveMenu(null);
+                                }}
+                            >
+                                Clear
+                            </div>
                         </div>
                     )}
                 </div>
