@@ -16,6 +16,7 @@ import Calculator from '../apps/Calculator';
 import TicTacToe from '../apps/TicTacToe';
 import About from '../apps/About';
 import Finder from '../apps/Finder';
+import TextEditor from '../apps/TextEditor';
 
 export interface FileItem {
     id: string;
@@ -174,15 +175,41 @@ const Desktop: React.FC = () => {
                     openWindow(
                         `file_${fileId}`,
                         fileName,
-                        <div style={{ padding: '10px', whiteSpace: 'pre-wrap', fontFamily: 'monospace' }}>{content}</div>,
-                        400,
-                        300
+                        <TextEditor
+                            fileId={fileId}
+                            fileName={fileName}
+                            initialContent={content}
+                            onSave={(id, newContent) => updateFileContent(id, newContent)}
+                        />,
+                        600,
+                        500
                     );
                 }}
             />,
             500,
             400
         );
+    };
+
+    const updateFileContent = (fileId: string, newContent: string) => {
+        const updateInArray = (items: FileItem[]): FileItem[] => {
+            return items.map(item => {
+                if (item.id === fileId) {
+                    return { ...item, content: newContent };
+                }
+                if (item.children) {
+                    return { ...item, children: updateInArray(item.children) };
+                }
+                return item;
+            });
+        };
+
+        setIcons(icons.map(icon => {
+            if (icon.children) {
+                return { ...icon, children: updateInArray(icon.children) };
+            }
+            return icon;
+        }));
     };
 
     const openWindow = (id: string, title: string, content: React.ReactNode, width: number = 400, height: number = 300) => {
