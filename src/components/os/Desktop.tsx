@@ -7,7 +7,7 @@ import ContextMenu from './ContextMenu';
 import type { ContextMenuItem } from './ContextMenu';
 import InfoDialog from './InfoDialog';
 import patternBg from '../../assets/pattern_bg.png';
-import hdIcon from '../../assets/hd_icon_transparent.png';
+import hdIcon from '../../assets/hd_icon.png';
 import trashIcon from '../../assets/trash_icon_transparent.png';
 import folderIcon from '../../assets/folder_icon.png';
 import calcIcon from '../../assets/calculator.png';

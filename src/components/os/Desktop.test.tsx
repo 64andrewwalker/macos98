@@ -5,7 +5,7 @@ import Desktop from './Desktop';
 
 // Mock the imported images and components
 vi.mock('../../assets/pattern_bg.png', () => ({ default: 'pattern-bg.png' }));
-vi.mock('../../assets/hd_icon_transparent.png', () => ({ default: 'hd-icon.png' }));
+vi.mock('../../assets/hd_icon.png', () => ({ default: 'hd-icon.png' }));
 vi.mock('../../assets/trash_icon_transparent.png', () => ({ default: 'trash-icon.png' }));
 vi.mock('../../assets/folder_icon.png', () => ({ default: 'folder-icon.png' }));
 vi.mock('../../assets/calculator.png', () => ({ default: 'calculator-icon.png' }));
