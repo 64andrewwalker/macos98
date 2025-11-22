@@ -26,3 +26,11 @@
 - [x] 4.2 Remove obsolete or unused style definitions uncovered during the migration (while preserving behavior and tests).
 - [x] 4.3 Update or add tests where necessary to ensure that window/menu/button visuals still match the retro OS 9 aesthetic after refactoring.
 - [x] 4.4 Run `pnpm lint`, `pnpm test`, and `pnpm build` to validate the change end-to-end and adjust as needed.
+
+## 5. Add SCSS linting to enforce design system
+
+- [x] 5.1 Install stylelint with standard SCSS configuration and plugins (`stylelint`, `stylelint-config-standard-scss`, `stylelint-scss`).
+- [x] 5.2 Configure `.stylelintrc.json` to prohibit literal hex colors in component files while allowing them in token definition files (`_tokens.scss`, `global.scss`).
+- [x] 5.3 Add npm scripts (`lint:css`, `lint:all`) for running SCSS linting and combined JS+CSS linting.
+- [x] 5.4 Auto-fix formatting issues across all SCSS files to ensure compliance with linting rules.
+- [x] 5.5 Create `SCSS_LINTING.md` documentation explaining the linting setup, rules, and integration options.

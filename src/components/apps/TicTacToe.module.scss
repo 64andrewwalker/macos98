@@ -51,7 +51,7 @@
     color: tokens.$color-text;
     background-color: tokens.$color-window-bg;
     border: tokens.$space-1 solid tokens.$color-border-dark;
-    box-shadow: tokens.$space-1 tokens.$space-1 0px tokens.$color-border-dark;
+    box-shadow: tokens.$space-1 tokens.$space-1 0 tokens.$color-border-dark;
     cursor: pointer;
 
     &:active {

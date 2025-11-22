@@ -39,7 +39,7 @@ $color-button-equals: var(--accent-equals);      // Calculator equals button (gr
 $color-text-selection: var(--accent-selection);  // Text selection (cream)
 
 // Special (legacy - minimize usage)
-$color-stripe-alt: #aaaaaa;  // Title bar stripe pattern
+$color-stripe-alt: #aaa;  // Title bar stripe pattern
 
 // ============================================================================
 // SPACING (comprehensive scale, no literals allowed)
@@ -62,10 +62,10 @@ $space-20: 20px;
 // ============================================================================
 // SHADOWS (using spacing tokens for consistency)
 // ============================================================================
-$shadow-window: $space-2 $space-2 0px rgba(0, 0, 0, 0.2);
-$shadow-menu: $space-2 $space-2 0px rgba(0, 0, 0, 0.2);
-$shadow-dialog: $space-4 $space-4 0px rgba(0, 0, 0, 0.5);
-$shadow-display-inset: inset $space-1 $space-1 $space-2 rgba(0, 0, 0, 0.2);
+$shadow-window: $space-2 $space-2 0px rgb(0, 0, 0, 0.2);
+$shadow-menu: $space-2 $space-2 0px rgb(0, 0, 0, 0.2);
+$shadow-dialog: $space-4 $space-4 0px rgb(0, 0, 0, 0.5);
+$shadow-display-inset: inset $space-1 $space-1 $space-2 rgb(0, 0, 0, 0.2);
 
 // ============================================================================
 // BORDERS
