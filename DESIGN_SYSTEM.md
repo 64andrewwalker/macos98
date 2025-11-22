@@ -1493,7 +1493,8 @@ npm test
 
 ## Related Documentation
 
-- **Component Blueprints** (PRIMARY): `COMPONENT_BLUEPRINTS.md` — Standard DOM structures, zones, inheritance
+- **Component Blueprints**: `COMPONENT_BLUEPRINTS.md` — Standard DOM structures, zones, inheritance
+- **Interaction Blueprint**: `INTERACTION_BLUEPRINT.md` — Component behavior (hover, pressed, drag, focus)
 - **Implementation**: `src/styles/_tokens.scss`, `src/styles/_mixins.scss`
 - **Linting Guide**: `SCSS_LINTING.md`
 - **Proposal**: `openspec/changes/refactor-scss-design-system/proposal.md`

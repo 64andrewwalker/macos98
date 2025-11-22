@@ -62,3 +62,14 @@
 - [x] 8.4 Document composite component patterns (buttons, menus, grids) with required SCSS mixins and forbidden structural variations.
 - [x] 8.5 Document anti-patterns (custom window structures, single-layer content, reordered zones, manual bevel logic) with correct alternatives.
 - [x] 8.6 Update `DESIGN_SYSTEM.md` to reference `COMPONENT_BLUEPRINTS.md` for structural patterns (DOM, zones, inheritance) vs styling patterns (tokens, mixins).
+
+## 9. Create Interaction Blueprint Layer (behavioral consistency)
+
+- [x] 9.1 Create `INTERACTION_BLUEPRINT.md` as the official interaction model specification defining OS9-authentic behavior patterns for all interactive components.
+- [x] 9.2 Define Title Bar drag zones (only left empty area draggable, not title text or controls) with implementation patterns and cursor behavior.
+- [x] 9.3 Define Button State Machine with state priority (`:active` always overrides `:hover`), bevel flip rules (outset → inset on press), and focus ring standards.
+- [x] 9.4 Define Window focus/inactive behavior (title bar dimming, control button states, bevel contrast reduction, content opacity) with SCSS implementation patterns.
+- [x] 9.5 Define OS9 Menu Interaction Model (click to enter "menu mode", hover switches menus only in menu mode, click outside exits) with state machine and keyboard navigation.
+- [x] 9.6 Define Finder Selection Rules (blue fill + white text + subtle inner shadow, NOT button bevel) with multi-selection patterns and icon/list view differences.
+- [x] 9.7 Define Keyboard Navigation standards (dotted focus ring, tab order, arrow key navigation) with `:focus-visible` implementation.
+- [x] 9.8 Update `COMPONENT_BLUEPRINTS.md` and `DESIGN_SYSTEM.md` to reference `INTERACTION_BLUEPRINT.md` for behavioral patterns.
