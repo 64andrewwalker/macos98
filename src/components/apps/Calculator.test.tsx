@@ -107,9 +107,9 @@ describe('Calculator', () => {
             fireEvent.click(screen.getByTestId('btn-5'));
             fireEvent.click(screen.getByTestId('btn-add'));
             fireEvent.click(screen.getByTestId('btn-dot'));
-            expect(screen.getByTestId('display').textContent).toBe('5.');
+            expect(screen.getByTestId('display').textContent).toBe('0.');
             fireEvent.click(screen.getByTestId('btn-2'));
-            expect(screen.getByTestId('display').textContent).toBe('2');
+            expect(screen.getByTestId('display').textContent).toBe('0.2');
         });
     });
 

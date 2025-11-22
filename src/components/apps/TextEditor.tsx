@@ -12,18 +12,29 @@ type FontFamily = 'Geneva' | 'Times' | 'Courier' | 'Helvetica';
 type FontSize = 9 | 10 | 12 | 14 | 18 | 24;
 type Alignment = 'left' | 'center' | 'right' | 'justify';
 
-const extractPlainText = (html: string) => {
-    const wrapper = document.createElement('div');
-    wrapper.innerHTML = html;
-    const plain = wrapper.textContent ?? '';
-    return plain || html;
+const sanitizeContent = (html: string) => {
+    if (!html) return '';
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+
+    doc.querySelectorAll('script, style').forEach(node => node.remove());
+    doc.querySelectorAll<HTMLElement>('*').forEach(el => {
+        Array.from(el.attributes).forEach(attr => {
+            if (attr.name.toLowerCase().startsWith('on')) {
+                el.removeAttribute(attr.name);
+            }
+        });
+    });
+
+    return doc.body.textContent ?? '';
 };
 
 const TextEditor: React.FC<TextEditorProps> = ({ fileId, fileName, initialContent, onSave }) => {
     const normalizedInitialContent = initialContent ?? '';
     const editorRef = useRef<HTMLDivElement>(null);
     const [isDirty, setIsDirty] = useState(false);
-    const [content, setContent] = useState(() => extractPlainText(normalizedInitialContent));
+    const [content, setContent] = useState(() => sanitizeContent(normalizedInitialContent));
     const [fontFamily, setFontFamily] = useState<FontFamily>('Geneva');
     const [fontSize, setFontSize] = useState<FontSize>(12);
     const [isBold, setIsBold] = useState(false);
@@ -35,9 +46,9 @@ const TextEditor: React.FC<TextEditorProps> = ({ fileId, fileName, initialConten
     const [showHelp, setShowHelp] = useState(false);
 
     useEffect(() => {
-        const plainText = extractPlainText(normalizedInitialContent);
+        const plainText = sanitizeContent(normalizedInitialContent);
         if (editorRef.current) {
-            editorRef.current.innerText = plainText;
+            editorRef.current.textContent = plainText;
         }
         // Content is already initialized in useState, no need to set it here
     }, [normalizedInitialContent]);

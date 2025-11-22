@@ -15,7 +15,7 @@ import gameIcon from '../../assets/joystick.png';
 import Calculator from '../apps/Calculator';
 import TicTacToe from '../apps/TicTacToe';
 import About from '../apps/About';
-import Finder from '../apps/Finder';
+import Finder, { type Breadcrumb } from '../apps/Finder';
 import TextEditor from '../apps/TextEditor';
 
 export interface FileItem {
@@ -55,11 +55,14 @@ type HistoryAction =
     | { type: 'paste'; data: DesktopIconData }
     | { type: 'cut_paste'; data: { original: DesktopIconData; newIcon: DesktopIconData } };
 
-// Generate unique IDs using a counter (outside component to avoid re-creation)
+// Generate unique IDs using a counter fallback for environments without crypto.randomUUID
 let idCounter = 0;
-const generateId = () => {
+const generateId = (prefix: string) => {
+    if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
+        return `${prefix}_${crypto.randomUUID()}`;
+    }
     idCounter += 1;
-    return idCounter;
+    return `${prefix}_${idCounter}`;
 };
 
 const Desktop: React.FC = () => {
@@ -80,6 +83,7 @@ const Desktop: React.FC = () => {
             id: 'hd',
             label: 'Macintosh HD',
             icon: hdIcon,
+            type: 'system',
             x: 20, // Top-right is traditional, but let's stick to left for now or move to right? 
             // User said "piled up", usually means they are on top of each other.
             // My previous coords were 20,40 then 20,140 etc. Vertical stack.
@@ -106,7 +110,7 @@ const Desktop: React.FC = () => {
             onDoubleClick: () => {
                 const docsIcon = icons.find(i => i.id === 'docs');
                 if (docsIcon && docsIcon.children) {
-                    openFinder('docs', 'Documents', docsIcon.children, ['Documents']);
+                    openFinder('docs', 'Documents', docsIcon.children, [{ id: 'docs', name: 'Documents' }]);
                 }
             }
         },
@@ -114,6 +118,7 @@ const Desktop: React.FC = () => {
             id: 'calc',
             label: 'Calculator',
             icon: calcIcon,
+            type: 'app',
             x: 20,
             y: 220,
             onDoubleClick: () => openWindow('calc', 'Calculator', <Calculator />, 200, 300)
@@ -122,6 +127,7 @@ const Desktop: React.FC = () => {
             id: 'game',
             label: 'TicTacToe',
             icon: gameIcon,
+            type: 'app',
             x: 20,
             y: 310,
             onDoubleClick: () => openWindow('game', 'TicTacToe', <TicTacToe />, 200, 250)
@@ -130,6 +136,7 @@ const Desktop: React.FC = () => {
             id: 'trash',
             label: 'Trash',
             icon: trashIcon,
+            type: 'system',
             x: 20,
             y: 400,
             onDoubleClick: () => openWindow('trash', 'Trash', <div><p>Trash is empty</p></div>)
@@ -169,24 +176,27 @@ const Desktop: React.FC = () => {
     };
 
     const createNewFolder = (position?: { x?: number; y?: number }) => {
-        const baseX = 150 + (icons.length % 5) * 100;
-        const baseY = 50 + Math.floor(icons.length / 5) * 100;
-        const newId = `folder_${generateId()}`;
-        const newFolder: DesktopIconData = {
-            id: newId,
-            label: 'New Folder',
-            icon: folderIcon,
-            x: position?.x ?? baseX,
-            y: position?.y ?? baseY,
-            onDoubleClick: () => openWindow(newId, 'New Folder', <div><p>Empty folder</p></div>)
-        };
+        setIcons(prevIcons => {
+            const baseX = 150 + (prevIcons.length % 5) * 100;
+            const baseY = 50 + Math.floor(prevIcons.length / 5) * 100;
+            const newId = generateId('folder');
+            const newFolder: DesktopIconData = {
+                id: newId,
+                label: 'New Folder',
+                icon: folderIcon,
+                type: 'folder',
+                x: position?.x ?? baseX,
+                y: position?.y ?? baseY,
+                onDoubleClick: () => openWindow(newId, 'New Folder', <div><p>Empty folder</p></div>)
+            };
 
-        setIcons([...icons, newFolder]);
-        setHistory([...history, { type: 'create_folder', data: newFolder }]);
-        setSelectedIconId(newId);
+            setHistory(prevHistory => [...prevHistory, { type: 'create_folder', data: newFolder }]);
+            setSelectedIconId(newId);
+            return [...prevIcons, newFolder];
+        });
     };
 
-    const openFinder = (folderId: string, folderName: string, items: FileItem[], path: string[]) => {
+    const openFinder = (folderId: string, folderName: string, items: FileItem[], path: Breadcrumb[]) => {
         const windowId = `finder_${folderId}`;
 
         // Check if window already exists
@@ -202,9 +212,14 @@ const Desktop: React.FC = () => {
                 items={items}
                 path={path}
                 onNavigate={(id) => {
-                    const folder = findFolderById(id, items);
+                    const folder = findFolderById(id);
                     if (folder && folder.children) {
-                        openFinder(id, folder.name, folder.children, [...path, folder.name]);
+                        const existingIndex = path.findIndex(crumb => crumb.id === id);
+                        const nextPath = existingIndex >= 0
+                            ? path.slice(0, existingIndex + 1)
+                            : [...path, { id, name: folder.name }];
+
+                        openFinder(id, folder.name, folder.children, nextPath);
                     }
                 }}
                 onOpenFile={(fileId, fileName, content) => {
@@ -317,42 +332,49 @@ const Desktop: React.FC = () => {
         const { _cut, ...clipboardData } = clipboard;
         const newIcon: DesktopIconData = {
             ...clipboardData,
-            id: `${clipboard.id}_copy_${generateId()}`,
-            x: clipboard.x + 20,
-            y: clipboard.y + 20,
-            label: clipboard.label.includes('copy') ? clipboard.label : `${clipboard.label} copy`
+            id: `${clipboardData.id}_copy_${generateId('copy')}`,
+            x: clipboardData.x + 20,
+            y: clipboardData.y + 20,
+            label: clipboardData.label.includes('copy') ? clipboardData.label : `${clipboardData.label} copy`
         };
 
-        // If this was a cut operation, remove the original
-        if (_cut) {
-            const filteredIcons = icons.filter(i => i.id !== clipboard.id);
-            setHistory([...history, { type: 'cut_paste', data: { original: clipboardData, newIcon } }]);
-            setIcons([...filteredIcons, newIcon]);
-            setClipboard(null);
-        } else {
-            setHistory([...history, { type: 'paste', data: newIcon }]);
-            setIcons([...icons, newIcon]);
-        }
+        setIcons(prevIcons => {
+            if (_cut) {
+                setHistory(prevHistory => [...prevHistory, { type: 'cut_paste', data: { original: clipboardData, newIcon } }]);
+                setClipboard(null);
+                return [...prevIcons.filter(i => i.id !== clipboardData.id), newIcon];
+            }
+
+            setHistory(prevHistory => [...prevHistory, { type: 'paste', data: newIcon }]);
+            return [...prevIcons, newIcon];
+        });
+
         setSelectedIconId(newIcon.id);
     };
 
     const handleUndo = () => {
-        if (history.length === 0) return;
+        setHistory(prevHistory => {
+            if (prevHistory.length === 0) return prevHistory;
 
-        const lastAction = history[history.length - 1];
+            const lastAction = prevHistory[prevHistory.length - 1];
 
-        if (lastAction.type === 'create_folder' || lastAction.type === 'paste') {
-            // Remove the created icon
-            setIcons(icons.filter(i => i.id !== lastAction.data.id));
-        } else if (lastAction.type === 'cut_paste') {
-            // Restore original, remove the pasted copy
-            setIcons([
-                ...icons.filter(i => i.id !== lastAction.data.newIcon.id),
-                lastAction.data.original
-            ]);
-        }
+            setIcons(prevIcons => {
+                if (lastAction.type === 'create_folder' || lastAction.type === 'paste') {
+                    return prevIcons.filter(i => i.id !== lastAction.data.id);
+                }
 
-        setHistory(history.slice(0, -1));
+                if (lastAction.type === 'cut_paste') {
+                    return [
+                        ...prevIcons.filter(i => i.id !== lastAction.data.newIcon.id),
+                        lastAction.data.original
+                    ];
+                }
+
+                return prevIcons;
+            });
+
+            return prevHistory.slice(0, -1);
+        });
     };
 
     const handleClear = () => {
@@ -453,7 +475,7 @@ const Desktop: React.FC = () => {
                 y={contextMenu.y}
                 visible={contextMenu.visible}
                 items={contextMenuItems}
-                onClose={() => setContextMenu({ ...contextMenu, visible: false })}
+                onClose={() => setContextMenu(prev => ({ ...prev, visible: false }))}
             />
             {showInfoDialog && (
                 <InfoDialog

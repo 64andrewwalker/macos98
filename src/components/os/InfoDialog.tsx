@@ -7,6 +7,8 @@ interface IconData {
     x: number;
     y: number;
     id: string;
+    type?: 'folder' | 'file' | 'app' | 'system';
+    children?: unknown[];
 }
 
 interface InfoDialogProps {
@@ -15,6 +17,15 @@ interface InfoDialogProps {
 }
 
 const InfoDialog: React.FC<InfoDialogProps> = ({ iconData, onClose }) => {
+    const getTypeLabel = (data: IconData) => {
+        if (data.type === 'folder' || data.children || data.id.startsWith('folder')) return 'Folder';
+        if (data.id === 'hd') return 'Hard Drive';
+        if (data.id === 'trash') return 'Trash';
+        if (data.type === 'file') return 'File';
+        if (data.type === 'app') return 'Application';
+        return 'Application';
+    };
+
     return (
         <div className={styles.overlay} onClick={onClose}>
             <div className={styles.dialog} onClick={(e) => e.stopPropagation()}>
@@ -37,11 +48,7 @@ const InfoDialog: React.FC<InfoDialogProps> = ({ iconData, onClose }) => {
                             </div>
                             <div className={styles.infoRow}>
                                 <label>Type:</label>
-                                <span>
-                                    {iconData.id.startsWith('folder') ? 'Folder' :
-                                        iconData.id === 'hd' ? 'Hard Drive' :
-                                            iconData.id === 'trash' ? 'Trash' : 'Application'}
-                                </span>
+                                <span>{getTypeLabel(iconData)}</span>
                             </div>
                             <div className={styles.infoRow}>
                                 <label>Position:</label>

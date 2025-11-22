@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import TextEditor from './TextEditor';
 
@@ -50,5 +50,27 @@ describe('TextEditor', () => {
     expect(editor.innerHTML).toBe('Bold and italic');
 
     expect(await screen.findByText('Characters: 15')).toBeInTheDocument();
+  });
+
+  it('sanitizes scripts and inline handlers from initial content', async () => {
+    const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {});
+    const maliciousContent = "<script>window.__xss = 'ran'; alert('boom')</script><div onclick=\"window.__clicked = true\">Click me</div>";
+
+    render(
+      <TextEditor
+        fileId="3"
+        fileName="Malicious.txt"
+        initialContent={maliciousContent}
+        onSave={() => {}}
+      />
+    );
+
+    const editor = await screen.findByTestId('text-editor-content');
+    expect(editor.textContent).toBe('Click me');
+    expect((window as typeof window & { __xss?: string; __clicked?: boolean }).__xss).toBeUndefined();
+    expect((window as typeof window & { __xss?: string; __clicked?: boolean }).__clicked).toBeUndefined();
+    expect(alertSpy).not.toHaveBeenCalled();
+
+    alertSpy.mockRestore();
   });
 });

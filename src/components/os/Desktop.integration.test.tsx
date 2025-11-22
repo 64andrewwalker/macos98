@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import Desktop from './Desktop';
 
 vi.mock('../../assets/pattern_bg.png', () => ({ default: 'pattern-bg.png' }));
@@ -45,6 +45,24 @@ describe('Desktop integration', () => {
 
         const hdIconAfter = findDesktopIconByLabel('Macintosh HD');
         expect(hdIconAfter.style.left).toBe('120px');
+    });
+
+    it('creates distinct folders when New Folder is triggered twice quickly', async () => {
+        render(<Desktop />);
+
+        const fileMenu = screen.getByText('File');
+        fireEvent.click(fileMenu);
+        const newFolderMenuItem = await screen.findByText('New Folder');
+
+        act(() => {
+            newFolderMenuItem.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+            newFolderMenuItem.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        });
+
+        await waitFor(() => {
+            const newFolderLabels = screen.getAllByText('New Folder');
+            expect(newFolderLabels).toHaveLength(2);
+        });
     });
 
     it('preserves new desktop items when saving from TextEditor', async () => {

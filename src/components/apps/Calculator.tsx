@@ -18,6 +18,12 @@ const Calculator: React.FC = () => {
     };
 
     const inputDot = () => {
+        if (waitingForSecondOperand) {
+            setDisplay('0.');
+            setWaitingForSecondOperand(false);
+            return;
+        }
+
         if (!display.includes('.')) {
             setDisplay(display + '.');
         }
