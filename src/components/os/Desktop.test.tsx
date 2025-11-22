@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import Desktop from './Desktop';
+import { DesktopProvider } from '../../contexts/DesktopContext';
 import type { ContextMenuItem } from './ContextMenu';
 
 // Mock the imported images and components
@@ -124,25 +125,34 @@ afterEach(() => {
     cleanup();
 });
 
+// Helper to render Desktop with provider
+const renderDesktop = () => {
+    return render(
+        <DesktopProvider>
+            <Desktop />
+        </DesktopProvider>
+    );
+};
+
 describe('Desktop', () => {
     describe('Initial Rendering', () => {
         it('renders without crashing', () => {
-            expect(() => render(<Desktop />)).not.toThrow();
+            expect(() => renderDesktop()).not.toThrow();
         });
 
         it('renders the desktop container', () => {
-            render(<Desktop />);
+            renderDesktop();
             const desktop = document.querySelector('[data-testid="menubar"]')?.parentElement;
             expect(desktop).toBeInTheDocument();
         });
 
         it('renders the menu bar', () => {
-            render(<Desktop />);
+            renderDesktop();
             expect(screen.getByTestId('menubar')).toBeInTheDocument();
         });
 
         it('renders all default desktop icons', () => {
-            render(<Desktop />);
+            renderDesktop();
 
             expect(screen.getByTestId('desktop-icon-macintosh-hd')).toBeInTheDocument();
             expect(screen.getByTestId('desktop-icon-documents')).toBeInTheDocument();
@@ -152,20 +162,20 @@ describe('Desktop', () => {
         });
 
         it('no windows are open initially', () => {
-            render(<Desktop />);
+            renderDesktop();
             const windows = screen.queryAllByTestId(/^window-/);
             expect(windows).toHaveLength(0);
         });
 
         it('context menu is not visible initially', () => {
-            render(<Desktop />);
+            renderDesktop();
             expect(screen.queryByTestId('context-menu')).not.toBeInTheDocument();
         });
     });
 
     describe('Icon Interactions', () => {
         it('double-clicking Macintosh HD opens a window', () => {
-            render(<Desktop />);
+            renderDesktop();
             const hdIcon = screen.getByTestId('desktop-icon-macintosh-hd');
 
             fireEvent.doubleClick(hdIcon);
@@ -175,7 +185,7 @@ describe('Desktop', () => {
         });
 
         it('double-clicking Calculator opens calculator window', () => {
-            render(<Desktop />);
+            renderDesktop();
             const calcIcon = screen.getByTestId('desktop-icon-calculator');
 
             fireEvent.doubleClick(calcIcon);
@@ -185,7 +195,7 @@ describe('Desktop', () => {
         });
 
         it('double-clicking TicTacToe opens game window', () => {
-            render(<Desktop />);
+            renderDesktop();
             const gameIcon = screen.getByTestId('desktop-icon-tictactoe');
 
             fireEvent.doubleClick(gameIcon);
@@ -195,7 +205,7 @@ describe('Desktop', () => {
         });
 
         it('clicking an icon selects it', () => {
-            render(<Desktop />);
+            renderDesktop();
             const hdIcon = screen.getByTestId('desktop-icon-macintosh-hd');
 
             fireEvent.click(hdIcon);
@@ -204,7 +214,7 @@ describe('Desktop', () => {
         });
 
         it('icon selection can be changed', () => {
-            render(<Desktop />);
+            renderDesktop();
             const hdIcon = screen.getByTestId('desktop-icon-macintosh-hd');
             const calcIcon = screen.getByTestId('desktop-icon-calculator');
 
@@ -221,7 +231,7 @@ describe('Desktop', () => {
 
     describe('Window Management', () => {
         it('opens different windows independently', () => {
-            render(<Desktop />);
+            renderDesktop();
 
             fireEvent.doubleClick(screen.getByTestId('desktop-icon-macintosh-hd'));
             expect(screen.getByTestId('window-macintosh-hd')).toBeInTheDocument();
@@ -233,7 +243,7 @@ describe('Desktop', () => {
         });
 
         it('double-clicking same icon twice opens only one window', () => {
-            render(<Desktop />);
+            renderDesktop();
             const hdIcon = screen.getByTestId('desktop-icon-macintosh-hd');
 
             fireEvent.doubleClick(hdIcon);
@@ -244,7 +254,7 @@ describe('Desktop', () => {
         });
 
         it('can close windows', () => {
-            render(<Desktop />);
+            renderDesktop();
 
             fireEvent.doubleClick(screen.getByTestId('desktop-icon-macintosh-hd'));
             expect(screen.getByTestId('window-macintosh-hd')).toBeInTheDocument();
@@ -254,7 +264,7 @@ describe('Desktop', () => {
         });
 
         it('newly opened window shows active state', () => {
-            render(<Desktop />);
+            renderDesktop();
 
             fireEvent.doubleClick(screen.getByTestId('desktop-icon-calculator'));
             expect(screen.getByTestId('window-calculator')).toHaveAttribute('data-active', 'true');
@@ -263,7 +273,7 @@ describe('Desktop', () => {
 
     describe('Menu Bar Integration', () => {
         it('menu bar can open About window', () => {
-            render(<Desktop />);
+            renderDesktop();
 
             fireEvent.click(screen.getByTestId('menubar-about'));
 
@@ -272,7 +282,7 @@ describe('Desktop', () => {
         });
 
         it('undo removes a new folder created from the File menu', () => {
-            render(<Desktop />);
+            renderDesktop();
 
             fireEvent.click(screen.getByTestId('menubar-new-folder'));
             expect(screen.getByTestId('desktop-icon-new-folder')).toBeInTheDocument();
@@ -284,7 +294,7 @@ describe('Desktop', () => {
 
     describe('Context Menu', () => {
         it('right-clicking desktop shows context menu', () => {
-            render(<Desktop />);
+            renderDesktop();
             const desktop = screen.getByTestId('menubar').parentElement as HTMLElement;
 
             fireEvent.contextMenu(desktop);
@@ -293,7 +303,7 @@ describe('Desktop', () => {
         });
 
         it('context menu has expected items', () => {
-            render(<Desktop />);
+            renderDesktop();
             const desktop = screen.getByTestId('menubar').parentElement as HTMLElement;
 
             fireEvent.contextMenu(desktop);
@@ -305,7 +315,7 @@ describe('Desktop', () => {
         });
 
         it('context menu can be closed manually', () => {
-            render(<Desktop />);
+            renderDesktop();
             const desktop = screen.getByTestId('menubar').parentElement as HTMLElement;
 
             fireEvent.contextMenu(desktop);
@@ -316,7 +326,7 @@ describe('Desktop', () => {
         });
 
         it('New Folder creates a new desktop icon', () => {
-            render(<Desktop />);
+            renderDesktop();
             const desktop = screen.getByTestId('menubar').parentElement as HTMLElement;
 
             fireEvent.contextMenu(desktop);
@@ -327,7 +337,7 @@ describe('Desktop', () => {
         });
 
         it('clicking outside context menu closes it', () => {
-            render(<Desktop />);
+            renderDesktop();
             const desktop = screen.getByTestId('menubar').parentElement as HTMLElement;
 
             fireEvent.contextMenu(desktop);
@@ -340,7 +350,7 @@ describe('Desktop', () => {
 
     describe('State Management', () => {
         it('maintains icon selection state correctly', () => {
-            render(<Desktop />);
+            renderDesktop();
             const hdIcon = screen.getByTestId('desktop-icon-macintosh-hd');
             const calcIcon = screen.getByTestId('desktop-icon-calculator');
 
@@ -353,14 +363,14 @@ describe('Desktop', () => {
         });
 
         it('window has proper title', () => {
-            render(<Desktop />);
+            renderDesktop();
 
             fireEvent.doubleClick(screen.getByTestId('desktop-icon-calculator'));
             expect(screen.getByTestId('window-title-calculator')).toHaveTextContent('Calculator');
         });
 
         it('closing active window updates active state', () => {
-            render(<Desktop />);
+            renderDesktop();
 
             fireEvent.doubleClick(screen.getByTestId('desktop-icon-macintosh-hd'));
             expect(screen.getByTestId('window-macintosh-hd')).toHaveAttribute('data-active', 'true');
@@ -372,7 +382,7 @@ describe('Desktop', () => {
 
     describe('Edge Cases', () => {
         it('handles rapid icon double-clicks', () => {
-            render(<Desktop />);
+            renderDesktop();
             const hdIcon = screen.getByTestId('desktop-icon-macintosh-hd');
 
             fireEvent.doubleClick(hdIcon);
@@ -383,8 +393,20 @@ describe('Desktop', () => {
             expect(hdWindows).toHaveLength(1);
         });
 
+        describe('Background Modes', () => {
+            it('applies fill mode styles by default', () => {
+                renderDesktop();
+                const desktop = document.querySelector('[class*="desktop"]');
+                expect(desktop).toHaveStyle({
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center'
+                });
+            });
+        });
+
         it('can open different types of windows', () => {
-            render(<Desktop />);
+            renderDesktop();
 
             fireEvent.doubleClick(screen.getByTestId('desktop-icon-trash'));
             expect(screen.getByTestId('window-trash')).toBeInTheDocument();

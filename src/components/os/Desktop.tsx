@@ -6,7 +6,6 @@ import Window from './Window';
 import ContextMenu from './ContextMenu';
 import type { ContextMenuItem } from './ContextMenu';
 import InfoDialog from './InfoDialog';
-import patternBg from '../../assets/pattern_bg.png';
 import hdIcon from '../../assets/hd_icon.png';
 import trashIcon from '../../assets/trash_icon.png';
 import folderIcon from '../../assets/folder_icon.png';
@@ -17,6 +16,8 @@ import TicTacToe from '../apps/TicTacToe';
 import About from '../apps/About';
 import Finder, { type Breadcrumb } from '../apps/Finder';
 import TextEditor from '../apps/TextEditor';
+import BackgroundSwitcher from '../apps/BackgroundSwitcher';
+import { useDesktop } from '../../contexts/DesktopContext';
 
 export interface FileItem {
     id: string;
@@ -66,6 +67,7 @@ const generateId = (prefix: string) => {
 };
 
 const Desktop: React.FC = () => {
+    const { backgroundImage, backgroundMode } = useDesktop();
     const [windows, setWindows] = useState<WindowData[]>([]);
     const [activeWindowId, setActiveWindowId] = useState<string | null>(null);
     const [selectedIconId, setSelectedIconId] = useState<string | null>(null);
@@ -401,6 +403,12 @@ const Desktop: React.FC = () => {
             }
         },
         {
+            label: 'Change Background...',
+            action: () => {
+                openWindow('background_switcher', 'Change Background', <BackgroundSwitcher />, 600, 500);
+            }
+        },
+        {
             label: 'Refresh',
             action: () => {
                 // Could add refresh logic here if needed
@@ -414,10 +422,27 @@ const Desktop: React.FC = () => {
         }
     ];
 
+    const getBackgroundStyle = () => {
+        const baseStyle: React.CSSProperties = {
+            backgroundImage: `url(${backgroundImage})`
+        };
+
+        switch (backgroundMode) {
+            case 'fill':
+                return { ...baseStyle, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' };
+            case 'fit':
+                return { ...baseStyle, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundColor: '#000' };
+            case 'tile':
+                return { ...baseStyle, backgroundSize: 'auto', backgroundRepeat: 'repeat' };
+            default:
+                return baseStyle;
+        }
+    };
+
     return (
         <div
             className={styles.desktop}
-            style={{ backgroundImage: `url(${patternBg})` }}
+            style={getBackgroundStyle()}
             onClick={() => setActiveWindowId(null)}
             onMouseDown={(e) => {
                 // Only deselect if clicking directly on the desktop background
