@@ -33,13 +33,13 @@
 
   .copyright {
     font-size: 10px;
-    color: tokens.$color-gray-dark;
+    color: tokens.$color-text;
     margin-top: 10px;
   }
 
   .memory {
     margin-top: 15px;
-    border-top: 1px solid tokens.$color-disabled-text;
+    border-top: 1px solid tokens.$color-text-disabled;
     padding-top: 5px;
   }
 }

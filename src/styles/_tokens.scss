@@ -1,56 +1,124 @@
-// SCSS design tokens for the retro macOS 98 UI
+// ============================================================================
+// macOS 98 Design Tokens
+// All color tokens reference CSS custom properties for runtime theming
+// ============================================================================
 
-// Base system colors from CSS custom properties
-$color-sys-bg: var(--sys-bg-color);
-$color-sys-highlight: var(--sys-highlight);
-$color-border-light: var(--sys-border-light);
-$color-border-dark: var(--sys-border-dark);
-$color-border-gray: var(--sys-border-gray);
+// ============================================================================
+// COLORS
+// ============================================================================
 
-// Semantic surface and text colors
-$color-window-bg: $color-sys-bg;
-$color-surface: #ffffff;
-$color-text: #000000;
-$color-disabled-text: #888888;
-$color-selection-bg: $color-sys-highlight;
+// Raw Gray Scale (5 values only - authentic OS9 palette)
+// Use semantic tokens below instead of these raw values
+$gray-0: var(--gray-0);  // #000 - Black
+$gray-1: var(--gray-1);  // #808080 - Mid gray
+$gray-2: var(--gray-2);  // #c0c0c0 - Toolbar gray
+$gray-3: var(--gray-3);  // #ddd - Window gray
+$gray-4: var(--gray-4);  // #fff - White
 
-// Additional accent colors used in retro chrome
-$color-stripe-alt: #aaaaaa;
+// Semantic Color Tokens (use these in components)
+// Borders
+$color-border-light: var(--sys-border-light);    // White edge highlight
+$color-border-dark: var(--sys-border-dark);      // Black borders
+$color-border-gray: var(--sys-border-gray);      // Mid-gray borders
 
-// Gray scale for UI elements
-$color-gray-dark: #333333;           // Dark text/borders
-$color-gray-medium: #606060;         // Medium gray text
-$color-gray-mid: #808080;            // Mid-tone gray (already in border-gray)
-$color-gray-light: #c0c0c0;          // Toolbar/dialog background
-$color-gray-lighter: #d0d0d0;        // Lighter toolbar elements
-$color-gray-button: #d4d4d4;         // Button active state
-$color-gray-lightest: #e0e0e0;       // Very light backgrounds
-$color-gray-pale: #eeeeee;           // Pale backgrounds
-$color-gray-ultralight: #f0f0f0;     // Ultra-light backgrounds
+// Surfaces
+$color-window-bg: var(--surface-window);         // Main window surface
+$color-toolbar-bg: var(--surface-toolbar);       // Toolbar background
+$color-surface: var(--surface-input);            // White input/display surfaces
 
-// Button accent colors
-$color-button-clear: #ffcccc;        // Calculator clear button
-$color-button-equals: #ccffcc;       // Calculator equals button
-$color-text-selection: #ffe4b5;      // Text selection highlight
+// Text
+$color-text: var(--text-primary);                // Primary text (black)
+$color-text-disabled: var(--text-disabled);      // Disabled text (gray)
 
-// Shadows
+// Interactive
+$color-selection-bg: var(--sys-highlight);       // Selection highlight (blue)
+
+// Accents
+$color-button-clear: var(--accent-clear);        // Calculator clear button (pink)
+$color-button-equals: var(--accent-equals);      // Calculator equals button (green)
+$color-text-selection: var(--accent-selection);  // Text selection (cream)
+
+// Special (legacy - minimize usage)
+$color-stripe-alt: #aaaaaa;  // Title bar stripe pattern
+
+// ============================================================================
+// SHADOWS
+// ============================================================================
 $shadow-window: 2px 2px 0px rgba(0, 0, 0, 0.2);
 $shadow-menu: 2px 2px 0px rgba(0, 0, 0, 0.2);
 $shadow-dialog: 4px 4px 0px rgba(0, 0, 0, 0.5);
 $shadow-display-inset: inset 1px 1px 2px rgba(0, 0, 0, 0.2);
 
-// Spacing
+// ============================================================================
+// BORDERS
+// ============================================================================
+$border-width-thin: 1px;
+$border-width-thick: 2px;
+$border-style: solid;
+
+// ============================================================================
+// SPACING (2px grid system)
+// ============================================================================
+$space-0: 0;
 $space-xxs: 2px;
 $space-xs: 4px;
-$space-sm: 5px;
+$space-sm: 5px;   // Legacy - prefer even values
 $space-md: 8px;
 $space-lg: 10px;
+$space-xl: 12px;
+$space-2xl: 15px;
+$space-3xl: 16px;
+$space-4xl: 20px;
 
-// Typography
+// ============================================================================
+// TYPOGRAPHY
+// ============================================================================
+
+// Font Families
 $font-system: var(--sys-font);
 $font-mono: 'Courier New', monospace;
-$font-size-xs: 11px;
-$font-size-sm: 12px;
-$font-size-md: 14px;
-$font-size-lg: 18px;
 
+// Font Sizes (OS9 standard sizes)
+$font-size-xs: 9px;   // Small labels
+$font-size-sm: 10px;  // Menu items
+$font-size-md: 11px;  // Title bars, default UI
+$font-size-base: 12px; // Body text
+$font-size-lg: 14px;  // Headings
+$font-size-xl: 18px;  // Large headings
+$font-size-2xl: 24px; // Display text
+
+// Line Heights
+$line-height-tight: 1.0;
+$line-height-normal: 1.2;
+$line-height-relaxed: 1.4;
+
+// Font Weights
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+
+// ============================================================================
+// SIZING (Common UI element sizes)
+// ============================================================================
+$size-icon-sm: 16px;
+$size-icon-md: 32px;
+$size-icon-lg: 48px;
+$size-icon-xl: 64px;
+
+$size-button-sm: 24px;
+$size-button-md: 28px;
+$size-button-lg: 32px;
+
+$size-input-height: 22px;
+$size-titlebar-height: 18px;
+$size-menubar-height: 22px;
+$size-toolbar-height: 28px;
+
+// ============================================================================
+// Z-INDEX SCALE
+// ============================================================================
+$z-desktop: 0;
+$z-window: 100;
+$z-menubar: 1000;
+$z-dropdown: 2000;
+$z-dialog: 10000;
+$z-overlay: 10001;

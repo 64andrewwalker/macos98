@@ -1,20 +1,68 @@
 @use './tokens';
 
+// ============================================================================
+// CORE 3D BEVEL SYSTEM
+// ============================================================================
+
+// Create 3D "outset" bevel (raised effect)
+// Used for: buttons, toolbars, raised surfaces
+@mixin bevel-outset($width: tokens.$border-width-thin) {
+  border-top: $width tokens.$border-style tokens.$color-border-light;
+  border-left: $width tokens.$border-style tokens.$color-border-light;
+  border-right: $width tokens.$border-style tokens.$color-border-gray;
+  border-bottom: $width tokens.$border-style tokens.$color-border-gray;
+}
+
+// Create 3D "inset" bevel (pressed/sunken effect)
+// Used for: pressed buttons, input fields, display panels
+@mixin bevel-inset($width: tokens.$border-width-thin) {
+  border-top: $width tokens.$border-style tokens.$color-border-gray;
+  border-left: $width tokens.$border-style tokens.$color-border-gray;
+  border-right: $width tokens.$border-style tokens.$color-border-light;
+  border-bottom: $width tokens.$border-style tokens.$color-border-light;
+}
+
+// Flat dark border (no 3D effect)
+@mixin border-flat($width: tokens.$border-width-thin) {
+  border: $width tokens.$border-style tokens.$color-border-dark;
+}
+
+// Hover effect for toolbar gray surfaces
+// Uses filter for brightness instead of creating new colors
+@mixin hover-brighten {
+  &:hover {
+    filter: brightness(1.05);
+  }
+}
+
+// Active/pressed state (inverts bevel + slight darkening)
+@mixin pressed-state($width: tokens.$border-width-thin) {
+  @include bevel-inset($width);
+  filter: brightness(0.95);
+}
+
+// ============================================================================
+// WINDOW SYSTEM
+// ============================================================================
+
 // Window chrome (outer container)
 @mixin window-chrome {
   position: absolute;
   background-color: tokens.$color-window-bg;
-  border: 1px solid tokens.$color-border-dark;
+  @include border-flat(tokens.$border-width-thin);
   box-shadow: tokens.$shadow-window;
   display: flex;
   flex-direction: column;
-  padding: 1px;
+  padding: tokens.$border-width-thin;
 }
 
 // Window title bar (active/inactive)
 @mixin window-title-bar($active: false) {
-  height: 18px;
-  border-bottom: 1px solid tokens.$color-border-dark;
+  height: tokens.$size-titlebar-height;
+  @include border-flat(tokens.$border-width-thin);
+  border-left: none;
+  border-right: none;
+  border-top: none;
   display: flex;
   align-items: center;
   padding: 0 tokens.$space-xs;
@@ -40,105 +88,131 @@
   }
 }
 
-// Window inner content frame
+// Window inner content frame (2-layer inset effect)
 @mixin window-content-frame {
   flex: 1;
-  border: 1px solid tokens.$color-border-light;
-  border-right-color: tokens.$color-border-gray;
-  border-bottom-color: tokens.$color-border-gray;
+  @include bevel-inset(tokens.$border-width-thin);
   margin: tokens.$space-xxs;
   background-color: tokens.$color-surface;
   overflow: hidden;
   position: relative;
+
+  // Inner shadow for deeper inset effect
+  box-shadow:
+    inset tokens.$border-width-thin tokens.$border-width-thin 0 tokens.$color-border-dark,
+    inset (0 - tokens.$border-width-thin) (0 - tokens.$border-width-thin) 0 tokens.$color-border-gray;
 }
 
-// Retro button with beveled edges
+// ============================================================================
+// BUTTON SYSTEM
+// ============================================================================
+
+// Standard OS9 retro button
 @mixin retro-button {
   font-family: tokens.$font-system;
-  font-size: tokens.$font-size-md;
-  font-weight: bold;
+  font-size: tokens.$font-size-lg;
+  font-weight: tokens.$font-weight-bold;
   color: tokens.$color-text;
   background-color: tokens.$color-window-bg;
-  border: 1px solid tokens.$color-border-dark;
-  border-top-color: tokens.$color-border-light;
-  border-left-color: tokens.$color-border-light;
-  box-shadow: 1px 1px 0 tokens.$color-border-dark;
+  @include bevel-outset(tokens.$border-width-thin);
+  box-shadow: tokens.$border-width-thin tokens.$border-width-thin 0 tokens.$color-border-dark;
   cursor: pointer;
 
   &:active {
-    border-top-color: tokens.$color-border-dark;
-    border-left-color: tokens.$color-border-dark;
-    border-bottom-color: tokens.$color-border-light;
-    border-right-color: tokens.$color-border-light;
+    @include bevel-inset(tokens.$border-width-thin);
     box-shadow: none;
-    transform: translate(1px, 1px);
+    transform: translate(tokens.$border-width-thin, tokens.$border-width-thin);
   }
 }
 
-// Outset / inset 2px toolbar-style button (for mode toggles, etc.)
+// Toolbar toggle button (thicker 2px bevel)
 @mixin toolbar-toggle-button {
   font-family: tokens.$font-system;
   font-size: tokens.$font-size-xs;
-  background-color: tokens.$color-gray-light;
-  border-top: 2px solid tokens.$color-border-light;
-  border-left: 2px solid tokens.$color-border-light;
-  border-right: 2px solid tokens.$color-border-gray;
-  border-bottom: 2px solid tokens.$color-border-gray;
+  background-color: tokens.$color-toolbar-bg;
+  @include bevel-outset(tokens.$border-width-thick);
   cursor: pointer;
+
+  @include hover-brighten;
 
   &:active,
   &.active {
-    border-top: 2px solid tokens.$color-border-gray;
-    border-left: 2px solid tokens.$color-border-gray;
-    border-right: 2px solid tokens.$color-border-light;
-    border-bottom: 2px solid tokens.$color-border-light;
-    background-color: tokens.$color-gray-button;
-    font-weight: bold;
+    @include bevel-inset(tokens.$border-width-thick);
+    font-weight: tokens.$font-weight-bold;
   }
 
   &.active {
-    background-color: tokens.$color-gray-lightest;
-    box-shadow: inset 1px 1px 0 tokens.$color-border-dark;
+    box-shadow: inset tokens.$border-width-thin tokens.$border-width-thin 0 tokens.$color-border-dark;
   }
 }
+
+// Dialog button (with outset border style)
+@mixin dialog-button {
+  padding: tokens.$space-xs tokens.$space-4xl;
+  @include bevel-outset(tokens.$border-width-thick);
+  background-color: tokens.$color-toolbar-bg;
+  cursor: pointer;
+  font-family: tokens.$font-system;
+  font-size: tokens.$font-size-base;
+  font-weight: tokens.$font-weight-bold;
+  color: tokens.$color-text;
+
+  @include hover-brighten;
+
+  &:active {
+    border-style: inset;
+  }
+}
+
+// ============================================================================
+// TOOLBAR & STATUS BAR
+// ============================================================================
 
 // Generic toolbar stripe (Finder/TextEditor header bars)
 @mixin toolbar-strip {
   display: flex;
   align-items: center;
-  padding: 4px 8px;
-  background-color: tokens.$color-gray-light;
-  border-bottom: 1px solid tokens.$color-border-gray;
+  padding: tokens.$space-xs tokens.$space-md;
+  background-color: tokens.$color-toolbar-bg;
+  border-bottom: tokens.$border-width-thin tokens.$border-style tokens.$color-border-gray;
+  min-height: tokens.$size-toolbar-height;
 }
 
 // Generic status bar (Finder/TextEditor status rows)
 @mixin status-bar {
   font-family: tokens.$font-system;
-  font-size: tokens.$font-size-xs;
-  background-color: tokens.$color-gray-light;
-  border-top: 1px solid tokens.$color-border-gray;
+  font-size: tokens.$font-size-sm;
+  background-color: tokens.$color-toolbar-bg;
+  border-top: tokens.$border-width-thin tokens.$border-style tokens.$color-border-gray;
   color: tokens.$color-text;
 }
 
+// ============================================================================
+// MENU SYSTEM
+// ============================================================================
+
 // Menu bar container
 @mixin menu-bar {
-  height: 22px;
+  height: tokens.$size-menubar-height;
   background-color: tokens.$color-surface !important;
   color: tokens.$color-text !important;
-  border-bottom: 1px solid tokens.$color-border-dark;
+  @include border-flat(tokens.$border-width-thin);
+  border-top: none;
+  border-left: none;
+  border-right: none;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 tokens.$space-md;
   font-size: tokens.$font-size-sm;
   font-family: tokens.$font-system;
-  z-index: 1000;
+  z-index: tokens.$z-menubar;
   position: relative;
 }
 
 // Menu bar item
 @mixin menu-item {
-  padding: 0 12px;
+  padding: 0 tokens.$space-xl;
   height: 100%;
   display: flex;
   align-items: center;
@@ -156,37 +230,37 @@
 // Dropdown menu container
 @mixin menu-dropdown {
   position: absolute;
-  top: 22px;
+  top: tokens.$size-menubar-height;
   left: 0;
   background-color: tokens.$color-surface;
-  border: 1px solid tokens.$color-border-dark;
+  @include border-flat(tokens.$border-width-thin);
   box-shadow: tokens.$shadow-menu;
   min-width: 200px;
-  z-index: 2000;
-  padding: 2px 0;
+  z-index: tokens.$z-dropdown;
+  padding: tokens.$space-xxs 0;
   color: tokens.$color-text;
 }
 
 // Dropdown menu item
 @mixin menu-dropdown-item {
-  padding: 3px 15px;
+  padding: tokens.$space-xxs tokens.$space-2xl;
   cursor: default;
   font-family: tokens.$font-system;
   font-size: tokens.$font-size-sm;
   color: tokens.$color-text;
 
   &:hover {
-    background-color: tokens.$color-sys-highlight;
+    background-color: tokens.$color-selection-bg;
     color: tokens.$color-surface;
   }
 
   &.disabled {
-    color: tokens.$color-disabled-text;
+    color: tokens.$color-text-disabled;
     cursor: default;
 
     &:hover {
       background-color: transparent;
-      color: tokens.$color-disabled-text;
+      color: tokens.$color-text-disabled;
     }
   }
 }

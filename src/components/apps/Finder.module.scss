@@ -87,7 +87,7 @@
     }
 
     &:hover:not(.selected) {
-      background-color: tokens.$color-gray-lightest;
+      background-color: tokens.$gray-3;
     }
   }
 
@@ -100,12 +100,12 @@
   .iconPlaceholder {
     width: 48px;
     height: 48px;
-    border: 1px solid tokens.$color-gray-lighter;
-    background-color: tokens.$color-gray-ultralight;
+    border: 1px solid tokens.$gray-2;
+    background-color: tokens.$color-surface;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: tokens.$color-gray-medium;
+    color: tokens.$gray-1;
     font-size: 18px;
   }
 
@@ -129,7 +129,7 @@
     color: tokens.$color-text;
 
     thead {
-      background-color: tokens.$color-gray-light;
+      background-color: tokens.$color-toolbar-bg;
       border-bottom: 2px solid tokens.$color-border-gray;
 
       th {
@@ -149,7 +149,7 @@
         cursor: default;
 
         &:hover:not(.selected) {
-          background-color: tokens.$color-gray-lightest;
+          background-color: tokens.$gray-3;
         }
 
         &.selected {
@@ -159,7 +159,7 @@
 
         td {
           padding: 4px 8px;
-          border-bottom: 1px solid tokens.$color-gray-lighter;
+          border-bottom: 1px solid tokens.$gray-2;
         }
       }
     }
@@ -177,12 +177,12 @@
     width: 16px;
     height: 16px;
     margin-right: 4px;
-    border: 1px solid tokens.$color-gray-lighter;
-    background-color: tokens.$color-gray-ultralight;
+    border: 1px solid tokens.$gray-2;
+    background-color: tokens.$color-surface;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: tokens.$color-gray-medium;
+    color: tokens.$gray-1;
     font-size: 10px;
     vertical-align: middle;
   }
