@@ -40,7 +40,7 @@
 
   .clear {
     grid-column: span 1;
-    background-color: #ffcccc;
+    background-color: tokens.$color-button-clear;
   }
 
   .plus {
@@ -51,7 +51,7 @@
   .equals {
     grid-row: span 2;
     height: 65px;
-    background-color: #ccffcc;
+    background-color: tokens.$color-button-equals;
   }
 
   .zero {
