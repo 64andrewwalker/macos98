@@ -12,20 +12,20 @@
   .toolbar {
     @include mixins.toolbar-strip;
     justify-content: space-between;
-    min-height: 28px;
+    min-height: tokens.$size-28;
   }
 
   .breadcrumb {
     display: flex;
     align-items: center;
-    gap: 4px;
-    font-size: tokens.$font-size-sm;
+    gap: tokens.$space-4;
+    font-size: tokens.$font-size-12;
     color: tokens.$color-text;
   }
 
   .breadcrumbItem {
     cursor: pointer;
-    padding: 2px 4px;
+    padding: tokens.$space-2 tokens.$space-4;
 
     &:hover {
       background-color: tokens.$color-selection-bg;
@@ -40,14 +40,14 @@
 
   .viewToggle {
     display: flex;
-    gap: 2px;
+    gap: tokens.$space-2;
   }
 
   .viewButton {
-    width: 24px;
-    height: 24px;
+    width: tokens.$size-24;
+    height: tokens.$size-24;
     @include mixins.toolbar-toggle-button;
-    font-size: 14px;
+    font-size: tokens.$font-size-14;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,24 +57,24 @@
   .content {
     flex: 1;
     overflow: auto;
-    padding: 8px;
+    padding: tokens.$space-8;
     background-color: tokens.$color-surface;
   }
 
   /* Icon View */
   .iconView {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 16px;
-    padding: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(tokens.$size-80, 1fr));
+    gap: tokens.$space-16;
+    padding: tokens.$space-8;
   }
 
   .iconItem {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
-    padding: 8px;
+    gap: tokens.$space-4;
+    padding: tokens.$space-8;
     cursor: default;
     user-select: none;
 
@@ -87,33 +87,33 @@
     }
 
     &:hover:not(.selected) {
-      background-color: tokens.$gray-3;
+      background-color: tokens.$color-gray-lightest;
     }
   }
 
   .icon {
-    width: 48px;
-    height: 48px;
+    width: tokens.$size-48;
+    height: tokens.$size-48;
     image-rendering: pixelated;
   }
 
   .iconPlaceholder {
-    width: 48px;
-    height: 48px;
-    border: 1px solid tokens.$gray-2;
-    background-color: tokens.$color-surface;
+    width: tokens.$size-48;
+    height: tokens.$size-48;
+    border: tokens.$space-1 solid tokens.$color-gray-lighter;
+    background-color: tokens.$color-gray-ultralight;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: tokens.$gray-1;
-    font-size: 18px;
+    color: tokens.$color-gray-medium;
+    font-size: tokens.$font-size-18;
   }
 
   .label {
-    font-size: 11px;
+    font-size: tokens.$font-size-11;
     text-align: center;
     word-break: break-word;
-    max-width: 80px;
+    max-width: tokens.$size-80;
     color: tokens.$color-text;
   }
 
@@ -125,18 +125,18 @@
   .table {
     width: 100%;
     border-collapse: collapse;
-    font-size: tokens.$font-size-sm;
+    font-size: tokens.$font-size-12;
     color: tokens.$color-text;
 
     thead {
-      background-color: tokens.$color-toolbar-bg;
-      border-bottom: 2px solid tokens.$color-border-gray;
+      background-color: tokens.$color-gray-light;
+      border-bottom: tokens.$space-2 solid tokens.$color-border-gray;
 
       th {
         text-align: left;
-        padding: 4px 8px;
+        padding: tokens.$space-4 tokens.$space-8;
         font-weight: bold;
-        border-right: 1px solid tokens.$color-border-gray;
+        border-right: tokens.$space-1 solid tokens.$color-border-gray;
 
         &:last-child {
           border-right: none;
@@ -149,7 +149,7 @@
         cursor: default;
 
         &:hover:not(.selected) {
-          background-color: tokens.$gray-3;
+          background-color: tokens.$color-gray-lightest;
         }
 
         &.selected {
@@ -158,39 +158,39 @@
         }
 
         td {
-          padding: 4px 8px;
-          border-bottom: 1px solid tokens.$gray-2;
+          padding: tokens.$space-4 tokens.$space-8;
+          border-bottom: tokens.$space-1 solid tokens.$color-gray-lighter;
         }
       }
     }
   }
 
   .smallIcon {
-    width: 16px;
-    height: 16px;
-    margin-right: 4px;
+    width: tokens.$size-16;
+    height: tokens.$size-16;
+    margin-right: tokens.$space-4;
     vertical-align: middle;
     image-rendering: pixelated;
   }
 
   .smallIconPlaceholder {
-    width: 16px;
-    height: 16px;
-    margin-right: 4px;
-    border: 1px solid tokens.$gray-2;
-    background-color: tokens.$color-surface;
+    width: tokens.$size-16;
+    height: tokens.$size-16;
+    margin-right: tokens.$space-4;
+    border: tokens.$space-1 solid tokens.$color-gray-lighter;
+    background-color: tokens.$color-gray-ultralight;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: tokens.$gray-1;
-    font-size: 10px;
+    color: tokens.$color-gray-medium;
+    font-size: tokens.$font-size-10;
     vertical-align: middle;
   }
 
   /* Status Bar */
   .statusBar {
-    padding: 4px 8px;
+    padding: tokens.$space-4 tokens.$space-8;
     @include mixins.status-bar;
-    min-height: 20px;
+    min-height: tokens.$size-20;
   }
 }

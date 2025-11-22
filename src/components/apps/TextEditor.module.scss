@@ -11,57 +11,57 @@
   /* Toolbar */
   .toolbar {
     @include mixins.toolbar-strip;
-    gap: 4px;
-    min-height: 32px;
+    gap: tokens.$space-4;
+    min-height: tokens.$size-32;
   }
 
   .fontSelect,
   .sizeSelect {
-    padding: 2px 4px;
-    border: 1px inset tokens.$color-border-gray;
+    padding: tokens.$space-2 tokens.$space-4;
+    border: tokens.$space-1 inset tokens.$color-border-gray;
     background-color: tokens.$color-surface;
     font-family: tokens.$font-system;
-    font-size: tokens.$font-size-xs;
-    height: 22px;
+    font-size: tokens.$font-size-11;
+    height: tokens.$size-22;
   }
 
   .fontSelect {
-    min-width: 100px;
+    min-width: tokens.$size-100;
   }
 
   .sizeSelect {
-    min-width: 50px;
+    min-width: tokens.$size-50;
   }
 
   .separator {
-    width: 1px;
-    height: 20px;
+    width: tokens.$space-1;
+    height: tokens.$size-20;
     background-color: tokens.$color-border-gray;
-    margin: 0 4px;
+    margin: 0 tokens.$space-4;
   }
 
   .styleButton {
-    width: 28px;
-    height: 24px;
+    width: tokens.$size-28;
+    height: tokens.$size-24;
     @include mixins.toolbar-toggle-button;
-    font-size: 14px;
+    font-size: tokens.$font-size-14;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .saveButton {
-    padding: 3px 12px;
-    border: 2px outset tokens.$color-border-light;
-    background-color: tokens.$color-toolbar-bg;
+    padding: tokens.$space-3 tokens.$space-12;
+    border: tokens.$space-2 outset tokens.$color-border-light;
+    background-color: tokens.$color-gray-light;
     cursor: pointer;
     font-family: tokens.$font-system;
-    font-size: tokens.$font-size-xs;
+    font-size: tokens.$font-size-11;
     font-weight: bold;
     color: tokens.$color-text;
 
     &:hover {
-      filter: brightness(1.05);
+      background-color: tokens.$color-gray-lighter;
     }
 
     &:active {
@@ -74,19 +74,19 @@
   }
 
   .helpButton {
-    width: 24px;
-    height: 24px;
-    border: 2px outset tokens.$color-border-light;
-    background-color: tokens.$color-toolbar-bg;
+    width: tokens.$size-24;
+    height: tokens.$size-24;
+    border: tokens.$space-2 outset tokens.$color-border-light;
+    background-color: tokens.$color-gray-light;
     cursor: pointer;
     font-family: tokens.$font-system;
-    font-size: 14px;
+    font-size: tokens.$font-size-14;
     font-weight: bold;
     color: tokens.$color-text;
-    margin-left: 4px;
+    margin-left: tokens.$space-4;
 
     &:hover {
-      filter: brightness(1.05);
+      background-color: tokens.$color-gray-lighter;
     }
 
     &:active {
@@ -97,13 +97,13 @@
   /* Ruler */
   .ruler {
     display: flex;
-    height: 20px;
-    background-color: tokens.$color-surface;
-    border-bottom: 1px solid tokens.$color-border-gray;
-    padding: 0 10px;
-    font-size: 9px;
+    height: tokens.$size-20;
+    background-color: tokens.$color-gray-ultralight;
+    border-bottom: tokens.$space-1 solid tokens.$color-border-gray;
+    padding: 0 tokens.$space-10;
+    font-size: tokens.$font-size-9;
     font-family: tokens.$font-mono;
-    color: tokens.$gray-1;
+    color: tokens.$color-gray-medium;
     align-items: center;
     position: relative;
     overflow: hidden;
@@ -111,46 +111,46 @@
 
   .rulerMark {
     position: absolute;
-    font-size: 8px;
+    font-size: tokens.$font-size-8;
 
     &:nth-child(1) {
-      left: 10px;
+      left: tokens.$ruler-pos-1;
     }
 
     &:nth-child(2) {
-      left: 60px;
+      left: tokens.$ruler-pos-2;
     }
 
     &:nth-child(3) {
-      left: 110px;
+      left: tokens.$ruler-pos-3;
     }
 
     &:nth-child(4) {
-      left: 160px;
+      left: tokens.$ruler-pos-4;
     }
 
     &:nth-child(5) {
-      left: 210px;
+      left: tokens.$ruler-pos-5;
     }
 
     &:nth-child(6) {
-      left: 260px;
+      left: tokens.$ruler-pos-6;
     }
 
     &:nth-child(7) {
-      left: 310px;
+      left: tokens.$ruler-pos-7;
     }
 
     &:nth-child(8) {
-      left: 360px;
+      left: tokens.$ruler-pos-8;
     }
 
     &:nth-child(9) {
-      left: 410px;
+      left: tokens.$ruler-pos-9;
     }
 
     &:nth-child(10) {
-      left: 460px;
+      left: tokens.$ruler-pos-10;
     }
   }
 
@@ -162,7 +162,7 @@
   }
 
   .content {
-    padding: 10px;
+    padding: tokens.$space-10;
     outline: none;
     min-height: 100%;
     line-height: 1.4;
@@ -179,10 +179,10 @@
   .statusBar {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 2px 8px;
+    gap: tokens.$space-8;
+    padding: tokens.$space-2 tokens.$space-8;
     @include mixins.status-bar;
-    min-height: 20px;
+    min-height: tokens.$size-20;
   }
 
   .divider {
@@ -205,41 +205,41 @@
 
   .helpDialog {
     background-color: tokens.$color-surface;
-    border: 2px solid tokens.$color-border-dark;
+    border: tokens.$space-2 solid tokens.$color-border-dark;
     box-shadow: tokens.$shadow-dialog;
-    min-width: 400px;
-    max-width: 500px;
+    min-width: tokens.$size-400;
+    max-width: tokens.$size-500;
     font-family: tokens.$font-system;
   }
 
   .helpTitle {
     background-color: tokens.$color-border-dark;
     color: tokens.$color-surface;
-    padding: 4px 8px;
+    padding: tokens.$space-4 tokens.$space-8;
     font-weight: bold;
-    font-size: tokens.$font-size-sm;
+    font-size: tokens.$font-size-12;
   }
 
   .helpContent {
-    padding: 15px;
-    font-size: tokens.$font-size-sm;
+    padding: tokens.$space-15;
+    font-size: tokens.$font-size-12;
     color: tokens.$color-text;
-    max-height: 400px;
+    max-height: tokens.$size-400;
     overflow-y: auto;
 
     h3 {
-      margin: 10px 0 5px 0;
-      font-size: 13px;
+      margin: tokens.$space-10 0 tokens.$space-5 0;
+      font-size: tokens.$font-size-13;
       font-weight: bold;
     }
 
     ul {
-      margin: 5px 0;
-      padding-left: 20px;
+      margin: tokens.$space-5 0;
+      padding-left: tokens.$space-20;
     }
 
     li {
-      margin: 5px 0;
+      margin: tokens.$space-5 0;
       line-height: 1.4;
     }
 
@@ -250,23 +250,23 @@
   }
 
   .helpButtons {
-    padding: 10px;
+    padding: tokens.$space-10;
     text-align: center;
-    border-top: 1px solid tokens.$color-border-gray;
+    border-top: tokens.$space-1 solid tokens.$color-border-gray;
   }
 
   .okButton {
-    padding: 4px 20px;
-    border: 2px outset tokens.$color-border-light;
-    background-color: tokens.$color-toolbar-bg;
+    padding: tokens.$space-4 tokens.$space-20;
+    border: tokens.$space-2 outset tokens.$color-border-light;
+    background-color: tokens.$color-gray-light;
     cursor: pointer;
     font-family: tokens.$font-system;
-    font-size: tokens.$font-size-xs;
+    font-size: tokens.$font-size-11;
     font-weight: bold;
     color: tokens.$color-text;
 
     &:hover {
-      filter: brightness(1.05);
+      background-color: tokens.$color-gray-lighter;
     }
 
     &:active {

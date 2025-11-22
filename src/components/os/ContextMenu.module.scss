@@ -3,10 +3,10 @@
 
 .contextMenu {
   @include mixins.menu-dropdown;
-  min-width: 150px;
+  min-width: tokens.$size-150;
   z-index: 10000;
   font-family: tokens.$font-system;
-  font-size: tokens.$font-size-sm;
+  font-size: tokens.$font-size-12;
 }
 
 .menuItem {
@@ -14,7 +14,7 @@
 }
 
 .separator {
-  height: 1px;
+  height: tokens.$space-1;
   background-color: tokens.$color-border-gray;
-  margin: 2px 0;
+  margin: tokens.$space-2 0;
 }

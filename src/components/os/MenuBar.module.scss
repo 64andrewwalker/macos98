@@ -14,11 +14,11 @@
   }
 
   .appleLogo {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: tokens.$space-10;
+    padding-right: tokens.$space-10;
 
     img {
-      height: 14px;
+      height: tokens.$size-14;
       image-rendering: pixelated;
     }
   }
@@ -30,7 +30,7 @@
 
   .clock {
     font-weight: bold;
-    padding-left: 10px;
+    padding-left: tokens.$space-10;
   }
 
   .dropdown {
@@ -41,9 +41,9 @@
     }
 
     .separator {
-      height: 1px;
+      height: tokens.$space-1;
       background-color: tokens.$color-border-dark;
-      margin: 2px 0;
+      margin: tokens.$space-2 0;
     }
   }
 }

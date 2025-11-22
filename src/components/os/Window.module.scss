@@ -15,11 +15,11 @@
   }
 
   .closeBox {
-    width: 12px;
-    height: 12px;
+    width: tokens.$size-12;
+    height: tokens.$size-12;
     background-color: tokens.$color-surface;
-    border: 1px solid tokens.$color-border-dark;
-    margin-right: 4px;
+    border: tokens.$space-1 solid tokens.$color-border-dark;
+    margin-right: tokens.$space-4;
     position: relative;
     cursor: pointer;
 
@@ -33,17 +33,17 @@
     display: flex;
     justify-content: center;
     background-color: tokens.$color-window-bg;
-    margin: 0 4px;
-    padding: 0 4px;
+    margin: 0 tokens.$space-4;
+    padding: 0 tokens.$space-4;
   }
 
   .titleText {
     font-family: tokens.$font-system;
     font-weight: bold;
-    font-size: tokens.$font-size-xs;
+    font-size: tokens.$font-size-11;
     color: tokens.$color-text;
     background-color: tokens.$color-window-bg;
-    padding: 0 5px;
+    padding: 0 tokens.$space-5;
   }
 
   .contentOuter {
@@ -54,19 +54,19 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    padding: 5px;
+    padding: tokens.$space-5;
     font-family: 'Geneva', sans-serif;
-    font-size: 12px;
+    font-size: tokens.$font-size-12;
     color: tokens.$color-text;
   }
 
   .zoomBox,
   .collapseBox {
-    width: 12px;
-    height: 12px;
+    width: tokens.$size-12;
+    height: tokens.$size-12;
     background-color: tokens.$color-window-bg;
-    border: 1px solid tokens.$color-border-dark;
-    margin-left: 4px;
+    border: tokens.$space-1 solid tokens.$color-border-dark;
+    margin-left: tokens.$space-4;
     position: relative;
     cursor: pointer;
     display: flex;
@@ -79,17 +79,17 @@
   }
 
   .zoomInner {
-    width: 6px;
-    height: 6px;
-    border: 1px solid tokens.$color-border-dark;
-    border-top: 2px solid tokens.$color-border-dark;
+    width: tokens.$space-6;
+    height: tokens.$space-6;
+    border: tokens.$space-1 solid tokens.$color-border-dark;
+    border-top: tokens.$space-2 solid tokens.$color-border-dark;
   }
 
   .collapseInner {
-    width: 8px;
-    height: 2px;
+    width: tokens.$space-8;
+    height: tokens.$space-2;
     background-color: tokens.$color-border-dark;
-    border-top: 1px solid tokens.$color-border-dark;
-    border-bottom: 1px solid tokens.$color-border-dark;
+    border-top: tokens.$space-1 solid tokens.$color-border-dark;
+    border-bottom: tokens.$space-1 solid tokens.$color-border-dark;
   }
 }

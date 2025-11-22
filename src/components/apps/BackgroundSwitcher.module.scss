@@ -2,85 +2,85 @@
 @use '../../styles/mixins';
 
 .backgroundSwitcher {
-  padding: 16px;
-  background-color: tokens.$color-toolbar-bg;
+  padding: tokens.$space-16;
+  background-color: tokens.$color-gray-light;
   font-family: tokens.$font-system;
   height: 100%;
   display: flex;
   flex-direction: column;
 
   .header {
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid tokens.$color-border-gray;
+    margin-bottom: tokens.$space-12;
+    padding-bottom: tokens.$space-8;
+    border-bottom: tokens.$space-1 solid tokens.$color-border-gray;
 
     h3 {
       margin: 0;
-      font-size: 14px;
+      font-size: tokens.$font-size-14;
       font-weight: bold;
       color: tokens.$color-text;
     }
   }
 
   .controls {
-    padding: 8px 4px;
-    border-bottom: 1px solid tokens.$color-border-gray;
-    margin-bottom: 8px;
+    padding: tokens.$space-8 tokens.$space-4;
+    border-bottom: tokens.$space-1 solid tokens.$color-border-gray;
+    margin-bottom: tokens.$space-8;
   }
 
   .modeGroup {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: tokens.$space-12;
 
     label {
-      font-size: tokens.$font-size-sm;
+      font-size: tokens.$font-size-12;
       font-weight: bold;
     }
   }
 
   .buttonGroup {
     display: flex;
-    gap: 4px;
+    gap: tokens.$space-4;
   }
 
   .modeButton {
-    padding: 4px 12px;
+    padding: tokens.$space-4 tokens.$space-12;
     @include mixins.toolbar-toggle-button;
     font-family: tokens.$font-system;
-    font-size: tokens.$font-size-xs;
-    min-width: 60px;
+    font-size: tokens.$font-size-11;
+    min-width: tokens.$size-60;
   }
 
   .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: tokens.$space-16;
     overflow-y: auto;
-    padding: 4px;
+    padding: tokens.$space-4;
   }
 
   .preview {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 8px;
+    padding: tokens.$space-8;
     cursor: pointer;
-    background-color: tokens.$color-toolbar-bg;
-    border-top: 2px solid tokens.$color-border-light;
-    border-left: 2px solid tokens.$color-border-light;
-    border-right: 2px solid tokens.$color-border-gray;
-    border-bottom: 2px solid tokens.$color-border-gray;
+    background-color: tokens.$color-gray-light;
+    border-top: tokens.$space-2 solid tokens.$color-border-light;
+    border-left: tokens.$space-2 solid tokens.$color-border-light;
+    border-right: tokens.$space-2 solid tokens.$color-border-gray;
+    border-bottom: tokens.$space-2 solid tokens.$color-border-gray;
 
     &:hover {
-      filter: brightness(1.05);
+      background-color: tokens.$color-gray-button;
     }
 
     &:active {
-      border-top: 2px solid tokens.$color-border-gray;
-      border-left: 2px solid tokens.$color-border-gray;
-      border-right: 2px solid tokens.$color-border-light;
-      border-bottom: 2px solid tokens.$color-border-light;
+      border-top: tokens.$space-2 solid tokens.$color-border-gray;
+      border-left: tokens.$space-2 solid tokens.$color-border-gray;
+      border-right: tokens.$space-2 solid tokens.$color-border-light;
+      border-bottom: tokens.$space-2 solid tokens.$color-border-light;
     }
 
     &.selected {
@@ -91,8 +91,8 @@
       }
 
       .imageContainer {
-        border: 2px solid tokens.$color-surface;
-        box-shadow: 0 0 0 1px tokens.$color-selection-bg;
+        border: tokens.$space-2 solid tokens.$color-surface;
+        box-shadow: 0 0 0 tokens.$space-1 tokens.$color-selection-bg;
       }
     }
   }
@@ -102,11 +102,11 @@
     aspect-ratio: 4 / 3;
     overflow: hidden;
     background-color: tokens.$color-border-dark;
-    margin-bottom: 6px;
-    border-top: 2px solid tokens.$color-border-gray;
-    border-left: 2px solid tokens.$color-border-gray;
-    border-right: 2px solid tokens.$color-border-light;
-    border-bottom: 2px solid tokens.$color-border-light;
+    margin-bottom: tokens.$space-6;
+    border-top: tokens.$space-2 solid tokens.$color-border-gray;
+    border-left: tokens.$space-2 solid tokens.$color-border-gray;
+    border-right: tokens.$space-2 solid tokens.$color-border-light;
+    border-bottom: tokens.$space-2 solid tokens.$color-border-light;
 
     img {
       width: 100%;
@@ -118,7 +118,7 @@
   }
 
   .name {
-    font-size: 11px;
+    font-size: tokens.$font-size-11;
     text-align: center;
     color: tokens.$color-text;
     word-wrap: break-word;
