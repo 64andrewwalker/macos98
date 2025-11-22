@@ -1,28 +1,20 @@
+@use '../../styles/tokens';
+@use '../../styles/mixins';
+
 .contextMenu {
-    position: absolute;
-    background-color: #ffffff;
-    border: 1px solid #000000;
-    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
-    min-width: 150px;
-    z-index: 10000;
-    padding: 2px 0;
-    font-family: var(--sys-font);
-    font-size: 12px;
+  @include mixins.menu-dropdown;
+  min-width: tokens.$size-150;
+  z-index: 10000;
+  font-family: tokens.$font-system;
+  font-size: tokens.$font-size-12;
 }
 
 .menuItem {
-    padding: 3px 15px;
-    cursor: default;
-    color: #000000;
-
-    &:hover {
-        background-color: #000080;
-        color: #ffffff;
-    }
+  @include mixins.menu-dropdown-item;
 }
 
 .separator {
-    height: 1px;
-    background-color: #808080;
-    margin: 2px 0;
+  height: tokens.$space-1;
+  background-color: tokens.$color-border-gray;
+  margin: tokens.$space-2 0;
 }

@@ -1,0 +1,155 @@
+// ============================================================================
+// macOS 98 Design Tokens
+// All color tokens reference CSS custom properties for runtime theming
+// ============================================================================
+
+// ============================================================================
+// COLORS
+// ============================================================================
+
+// Raw Gray Scale (5 values only - authentic OS9 palette)
+// Use semantic tokens below instead of these raw values
+$gray-0: var(--gray-0);  // #000 - Black
+$gray-1: var(--gray-1);  // #808080 - Mid gray
+$gray-2: var(--gray-2);  // #c0c0c0 - Toolbar gray
+$gray-3: var(--gray-3);  // #ddd - Window gray
+$gray-4: var(--gray-4);  // #fff - White
+
+// Semantic Color Tokens (use these in components)
+// Borders
+$color-border-light: var(--sys-border-light);    // White edge highlight
+$color-border-dark: var(--sys-border-dark);      // Black borders
+$color-border-gray: var(--sys-border-gray);      // Mid-gray borders
+
+// Surfaces
+$color-window-bg: var(--surface-window);         // Main window surface
+$color-toolbar-bg: var(--surface-toolbar);       // Toolbar background
+$color-surface: var(--surface-input);            // White input/display surfaces
+
+// Text
+$color-text: var(--text-primary);                // Primary text (black)
+$color-text-disabled: var(--text-disabled);      // Disabled text (gray)
+
+// Interactive
+$color-selection-bg: var(--sys-highlight);       // Selection highlight (blue)
+
+// Accents
+$color-button-clear: var(--accent-clear);        // Calculator clear button (pink)
+$color-button-equals: var(--accent-equals);      // Calculator equals button (green)
+$color-text-selection: var(--accent-selection);  // Text selection (cream)
+
+// Special
+$color-stripe-alt: var(--stripe-alt);  // Title bar stripe pattern (inactive window)
+
+// ============================================================================
+// SPACING (comprehensive scale, no literals allowed)
+// ============================================================================
+$space-0: 0;
+$space-1: 1px;
+$space-2: 2px;
+$space-3: 3px;
+$space-4: 4px;
+$space-5: 5px;
+$space-6: 6px;
+$space-8: 8px;
+$space-9: 9px;
+$space-10: 10px;
+$space-12: 12px;
+$space-15: 15px;
+$space-16: 16px;
+$space-20: 20px;
+
+// ============================================================================
+// SHADOWS (using spacing tokens for consistency)
+// ============================================================================
+$shadow-window: $space-2 $space-2 0px rgb(0, 0, 0, 0.2);
+$shadow-menu: $space-2 $space-2 0px rgb(0, 0, 0, 0.2);
+$shadow-dialog: $space-4 $space-4 0px rgb(0, 0, 0, 0.5);
+$shadow-display-inset: inset $space-1 $space-1 $space-2 rgb(0, 0, 0, 0.2);
+
+// ============================================================================
+// BORDERS
+// ============================================================================
+$border-width-thin: $space-1;
+$border-width-thick: $space-2;
+$border-style: solid;
+
+// ============================================================================
+// TYPOGRAPHY
+// ============================================================================
+
+// Font Families
+$font-system: var(--sys-font);
+$font-mono: 'Courier New', monospace;
+
+// Font size scale (comprehensive, no literals allowed)
+$font-size-8: 8px;
+$font-size-9: 9px;
+$font-size-10: 10px;
+$font-size-11: 11px;
+$font-size-12: 12px;
+$font-size-13: 13px;
+$font-size-14: 14px;
+$font-size-18: 18px;
+$font-size-24: 24px;
+
+// Line Heights
+$line-height-tight: 1.0;
+$line-height-normal: 1.2;
+$line-height-relaxed: 1.4;
+
+// Font Weights
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+
+// ============================================================================
+// SIZING (comprehensive scale, no literals allowed)
+// ============================================================================
+$size-12: 12px;
+$size-14: 14px;
+$size-16: 16px;
+$size-18: 18px;
+$size-20: 20px;
+$size-22: 22px;
+$size-24: 24px;
+$size-28: 28px;
+$size-30: 30px;
+$size-32: 32px;
+$size-40: 40px;
+$size-48: 48px;
+$size-50: 50px;
+$size-60: 60px;
+$size-64: 64px;
+$size-65: 65px;
+$size-80: 80px;
+$size-90: 90px;
+$size-100: 100px;
+$size-150: 150px;
+$size-200: 200px;
+$size-300: 300px;
+$size-400: 400px;
+$size-500: 500px;
+
+// ============================================================================
+// RULER POSITIONS (for TextEditor ruler marks)
+// ============================================================================
+$ruler-pos-1: 10px;
+$ruler-pos-2: 60px;
+$ruler-pos-3: 110px;
+$ruler-pos-4: 160px;
+$ruler-pos-5: 210px;
+$ruler-pos-6: 260px;
+$ruler-pos-7: 310px;
+$ruler-pos-8: 360px;
+$ruler-pos-9: 410px;
+$ruler-pos-10: 460px;
+
+// ============================================================================
+// Z-INDEX SCALE
+// ============================================================================
+$z-desktop: 0;
+$z-window: 100;
+$z-menubar: 1000;
+$z-dropdown: 2000;
+$z-dialog: 10000;
+$z-overlay: 10001;

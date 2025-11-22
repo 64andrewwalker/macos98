@@ -1,59 +1,62 @@
+@use '../../styles/tokens';
+@use '../../styles/mixins';
+
 .tictactoe {
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
+  padding: tokens.$space-10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: tokens.$space-10;
 
-.status {
-    font-family: var(--sys-font);
-    font-size: 14px;
+  .status {
+    font-family: tokens.$font-system;
+    font-size: tokens.$font-size-14;
     font-weight: bold;
-    color: #000000;
-    margin-bottom: 5px;
-}
+    color: tokens.$color-text;
+    margin-bottom: tokens.$space-5;
+  }
 
-.board {
+  .board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    background-color: #000000;
-    border: 2px solid #000000;
-}
+    gap: tokens.$space-2;
+    background-color: tokens.$color-border-dark;
+    border: tokens.$space-2 solid tokens.$color-border-dark;
+  }
 
-.square {
-    width: 40px;
-    height: 40px;
-    background-color: #ffffff;
+  .square {
+    width: tokens.$size-40;
+    height: tokens.$size-40;
+    background-color: tokens.$color-surface;
     border: none;
-    font-family: var(--sys-font);
-    font-size: 24px;
+    font-family: tokens.$font-system;
+    font-size: tokens.$font-size-24;
     font-weight: bold;
-    color: #000000;
+    color: tokens.$color-text;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
 
     &:hover {
-        background-color: #eeeeee;
+      background-color: tokens.$gray-3;
     }
-}
+  }
 
-.reset {
-    margin-top: 10px;
-    padding: 5px 10px;
-    font-family: var(--sys-font);
+  .reset {
+    margin-top: tokens.$space-10;
+    padding: tokens.$space-5 tokens.$space-10;
+    font-family: tokens.$font-system;
     font-weight: bold;
-    color: #000000;
-    background-color: #dddddd;
-    border: 1px solid #000000;
-    box-shadow: 1px 1px 0px #000000;
+    color: tokens.$color-text;
+    background-color: tokens.$color-window-bg;
+    border: tokens.$space-1 solid tokens.$color-border-dark;
+    box-shadow: tokens.$space-1 tokens.$space-1 0 tokens.$color-border-dark;
     cursor: pointer;
 
     &:active {
-        box-shadow: none;
-        transform: translate(1px, 1px);
+      box-shadow: none;
+      transform: translate(tokens.$space-1, tokens.$space-1);
     }
+  }
 }

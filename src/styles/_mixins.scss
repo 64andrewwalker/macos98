@@ -1,0 +1,274 @@
+@use './tokens';
+
+// ============================================================================
+// CORE 3D BEVEL SYSTEM
+// ============================================================================
+
+// Create 3D "outset" bevel (raised effect)
+// Used for: buttons, toolbars, raised surfaces
+@mixin bevel-outset($width: tokens.$border-width-thin) {
+  border-top: $width tokens.$border-style tokens.$color-border-light;
+  border-left: $width tokens.$border-style tokens.$color-border-light;
+  border-right: $width tokens.$border-style tokens.$color-border-gray;
+  border-bottom: $width tokens.$border-style tokens.$color-border-gray;
+}
+
+// Create 3D "inset" bevel (pressed/sunken effect)
+// Used for: pressed buttons, input fields, display panels
+@mixin bevel-inset($width: tokens.$border-width-thin) {
+  border-top: $width tokens.$border-style tokens.$color-border-gray;
+  border-left: $width tokens.$border-style tokens.$color-border-gray;
+  border-right: $width tokens.$border-style tokens.$color-border-light;
+  border-bottom: $width tokens.$border-style tokens.$color-border-light;
+}
+
+// Flat dark border (no 3D effect)
+@mixin border-flat($width: tokens.$border-width-thin) {
+  border: $width tokens.$border-style tokens.$color-border-dark;
+}
+
+// Hover effect for toolbar gray surfaces
+// Uses filter for brightness instead of creating new colors
+@mixin hover-brighten {
+  &:hover {
+    filter: brightness(1.05);
+  }
+}
+
+// Active/pressed state (inverts bevel + slight darkening)
+@mixin pressed-state($width: tokens.$border-width-thin) {
+  @include bevel-inset($width);
+  filter: brightness(0.95);
+}
+
+// ============================================================================
+// WINDOW SYSTEM
+// ============================================================================
+
+// Window chrome (outer container)
+@mixin window-chrome {
+  position: absolute;
+  background-color: tokens.$color-window-bg;
+
+  @include border-flat(tokens.$border-width-thin);
+  box-shadow: tokens.$shadow-window;
+  display: flex;
+  flex-direction: column;
+  padding: tokens.$border-width-thin;
+}
+
+// Window title bar (active/inactive)
+@mixin window-title-bar($active: false) {
+  height: tokens.$size-18;
+
+  @include border-flat(tokens.$border-width-thin);
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  display: flex;
+  align-items: center;
+  padding: 0 tokens.$space-4;
+  cursor: default;
+  user-select: none;
+
+  @if $active {
+    background: repeating-linear-gradient(
+      90deg,
+      tokens.$color-window-bg,
+      tokens.$color-window-bg tokens.$space-2,
+      tokens.$color-border-dark tokens.$space-2,
+      tokens.$color-border-dark tokens.$space-4
+    );
+  } @else {
+    background: repeating-linear-gradient(
+      90deg,
+      tokens.$color-window-bg,
+      tokens.$color-window-bg tokens.$space-2,
+      tokens.$color-stripe-alt tokens.$space-2,
+      tokens.$color-stripe-alt tokens.$space-4
+    );
+  }
+}
+
+// Window inner content frame (2-layer inset effect)
+@mixin window-content-frame {
+  flex: 1;
+
+  @include bevel-inset(tokens.$border-width-thin);
+  margin: tokens.$space-2;
+  background-color: tokens.$color-surface;
+  overflow: hidden;
+  position: relative;
+
+  // Inner shadow for deeper inset effect
+  box-shadow:
+    inset tokens.$border-width-thin tokens.$border-width-thin 0 tokens.$color-border-dark,
+    inset (0 - tokens.$border-width-thin) (0 - tokens.$border-width-thin) 0 tokens.$color-border-gray;
+}
+
+// ============================================================================
+// BUTTON SYSTEM
+// ============================================================================
+
+// Standard OS9 retro button
+@mixin retro-button {
+  font-family: tokens.$font-system;
+  font-size: tokens.$font-size-14;
+  font-weight: tokens.$font-weight-bold;
+  color: tokens.$color-text;
+  background-color: tokens.$color-window-bg;
+
+  @include bevel-outset(tokens.$border-width-thin);
+  box-shadow: tokens.$border-width-thin tokens.$border-width-thin 0 tokens.$color-border-dark;
+  cursor: pointer;
+
+  &:active {
+    @include bevel-inset(tokens.$border-width-thin);
+    box-shadow: none;
+    transform: translate(tokens.$border-width-thin, tokens.$border-width-thin);
+  }
+}
+
+// Toolbar toggle button (thicker 2px bevel)
+@mixin toolbar-toggle-button {
+  font-family: tokens.$font-system;
+  font-size: tokens.$font-size-11;
+  background-color: tokens.$color-toolbar-bg;
+
+  @include bevel-outset(tokens.$border-width-thick);
+  cursor: pointer;
+
+  @include hover-brighten;
+
+  &:active,
+  &.active {
+    @include bevel-inset(tokens.$border-width-thick);
+    font-weight: tokens.$font-weight-bold;
+  }
+
+  &.active {
+    box-shadow: inset tokens.$border-width-thin tokens.$border-width-thin 0 tokens.$color-border-dark;
+  }
+}
+
+// Dialog button (with outset border style)
+@mixin dialog-button {
+  padding: tokens.$space-4 tokens.$space-20;
+
+  @include bevel-outset(tokens.$border-width-thick);
+  background-color: tokens.$color-toolbar-bg;
+  cursor: pointer;
+  font-family: tokens.$font-system;
+  font-size: tokens.$font-size-12;
+  font-weight: tokens.$font-weight-bold;
+  color: tokens.$color-text;
+
+  @include hover-brighten;
+
+  &:active {
+    border-style: inset;
+  }
+}
+
+// ============================================================================
+// TOOLBAR & STATUS BAR
+// ============================================================================
+
+// Generic toolbar stripe (Finder/TextEditor header bars)
+@mixin toolbar-strip {
+  display: flex;
+  align-items: center;
+  padding: tokens.$space-4 tokens.$space-8;
+  background-color: tokens.$color-toolbar-bg;
+  border-bottom: tokens.$border-width-thin tokens.$border-style tokens.$color-border-gray;
+  min-height: tokens.$size-28;
+}
+
+// Generic status bar (Finder/TextEditor status rows)
+@mixin status-bar {
+  font-family: tokens.$font-system;
+  font-size: tokens.$font-size-11;
+  background-color: tokens.$color-toolbar-bg;
+  border-top: tokens.$border-width-thin tokens.$border-style tokens.$color-border-gray;
+  color: tokens.$color-text;
+}
+
+// ============================================================================
+// MENU SYSTEM
+// ============================================================================
+
+// Menu bar container
+@mixin menu-bar {
+  height: tokens.$size-22;
+  background-color: tokens.$color-surface !important;
+  color: tokens.$color-text !important;
+
+  @include border-flat(tokens.$border-width-thin);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 tokens.$space-8;
+  font-size: tokens.$font-size-12;
+  font-family: tokens.$font-system;
+  z-index: tokens.$z-menubar;
+  position: relative;
+}
+
+// Menu bar item
+@mixin menu-item {
+  padding: 0 tokens.$space-12;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  cursor: default;
+  position: relative;
+  color: tokens.$color-text;
+
+  &:hover,
+  &.active {
+    background-color: tokens.$color-border-dark !important;
+    color: tokens.$color-surface !important;
+  }
+}
+
+// Dropdown menu container
+@mixin menu-dropdown {
+  position: absolute;
+  top: tokens.$size-22;
+  left: 0;
+  background-color: tokens.$color-surface;
+
+  @include border-flat(tokens.$border-width-thin);
+  box-shadow: tokens.$shadow-menu;
+  min-width: tokens.$size-200;
+  z-index: tokens.$z-dropdown;
+  padding: tokens.$space-2 0;
+  color: tokens.$color-text;
+}
+
+// Dropdown menu item
+@mixin menu-dropdown-item {
+  padding: tokens.$space-3 tokens.$space-15;
+  cursor: default;
+  font-family: tokens.$font-system;
+  font-size: tokens.$font-size-12;
+  color: tokens.$color-text;
+
+  &:hover {
+    background-color: tokens.$color-selection-bg;
+    color: tokens.$color-surface;
+  }
+
+  &.disabled {
+    color: tokens.$color-text-disabled;
+    cursor: default;
+
+    &:hover {
+      background-color: transparent;
+      color: tokens.$color-text-disabled;
+    }
+  }
+}
