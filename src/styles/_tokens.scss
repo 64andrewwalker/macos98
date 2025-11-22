@@ -38,8 +38,8 @@ $color-button-clear: var(--accent-clear);        // Calculator clear button (pin
 $color-button-equals: var(--accent-equals);      // Calculator equals button (green)
 $color-text-selection: var(--accent-selection);  // Text selection (cream)
 
-// Special (legacy - minimize usage)
-$color-stripe-alt: #aaa;  // Title bar stripe pattern
+// Special
+$color-stripe-alt: var(--stripe-alt);  // Title bar stripe pattern (inactive window)
 
 // ============================================================================
 // SPACING (comprehensive scale, no literals allowed)

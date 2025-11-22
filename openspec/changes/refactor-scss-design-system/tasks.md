@@ -45,3 +45,11 @@
 - [x] 6.6 Document complete mixin API reference for all 17 mixins (window system, button system, menu system, toolbar/status bar) with signatures, parameters, output, usage rules, and examples.
 - [x] 6.7 Document component patterns (window structure, nesting rules) and forbidden patterns (literal values, duplicated logic, modern CSS).
 - [x] 6.8 Update `SCSS_LINTING.md` to reference `DESIGN_SYSTEM.md` as the primary visual specification.
+
+## 7. Add visual regression testing (SCSS baseline tests)
+
+- [x] 7.1 Fix token inconsistency: migrate `$color-stripe-alt` from literal `#aaa` to CSS custom property `var(--stripe-alt)`.
+- [x] 7.2 Create comprehensive Window baseline test (`Window.baseline.test.tsx`) with 28 tests covering chrome, title bar, content frame, controls, and anti-regression checks.
+- [x] 7.3 Verify all baseline tests check for: token usage (var(--) references), pixel-perfect spacing, no modern CSS (border-radius, transitions, blur).
+- [x] 7.4 Run full test suite (360 tests) to ensure no regressions from token migration and new tests.
+- [x] 7.5 Update `DESIGN_SYSTEM.md` with comprehensive "Visual Regression Testing" section documenting test strategy, coverage, and rationale.

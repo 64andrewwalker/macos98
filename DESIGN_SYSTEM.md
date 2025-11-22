@@ -1371,16 +1371,110 @@ npm run lint:css -- --fix  # Auto-fix formatting
 - [ ] SCSS nesting mirrors JSX structure
 - [ ] Window components use 2-layer content structure
 
-### Testing Requirements
+### Visual Regression Testing
 
-**Visual Regression Tests**:
-- Window chrome appears with correct gray + shadow
-- Buttons have correct 3D bevel (light top-left, dark bottom-right)
-- Menu hover is black background with white text
-- Title bar stripes are horizontal at 2px width
+**Purpose**: Prevent visual drift that linters cannot detect.
 
-**Component Tests**:
-See `*.style.test.tsx` for examples using `getComputedStyle()`.
+The design system uses **SCSS compilation tests** to verify pixel-perfect visual baseline:
+
+#### Test Strategy
+
+**SCSS Compilation Tests** (`*.baseline.test.tsx`):
+- Compile SCSS to CSS and verify exact output values
+- Check token usage (var(--) references)
+- Verify spacing, sizing, colors, borders, shadows
+- Catch regressions in compiled CSS
+
+**Example**: `Window.baseline.test.tsx` (28 tests)
+
+```typescript
+import * as sass from 'sass'
+
+const compiledCss = sass.compile('./Window.module.scss').css
+
+it('has 2px 2px solid shadow (no blur)', () => {
+  expect(compiledCss).toMatch(/box-shadow:\s*2px 2px 0px/)
+})
+
+it('has inset bevel borders', () => {
+  expect(compiledCss).toMatch(/border-top:\s*1px solid var\(--sys-border-gray\)/)
+  expect(compiledCss).toMatch(/border-right:\s*1px solid var\(--sys-border-light\)/)
+})
+```
+
+#### Required Test Coverage
+
+**Window Baseline** (28 tests):
+- ✅ Chrome background color (#ddd via var(--surface-window))
+- ✅ 1px solid black border
+- ✅ 2px 2px shadow (no blur)
+- ✅ Title bar height (18px)
+- ✅ Title bar stripe pattern (90deg, 2px)
+- ✅ Content frame 2-layer inset (gray/light borders + inner shadow)
+- ✅ Control boxes (12x12px)
+- ✅ No border-radius, no transitions, no blur
+
+**Button Baseline**:
+- ✅ Outset bevel (default state)
+- ✅ Inset bevel (active state)
+- ✅ 14px bold font
+- ✅ Special buttons (pink/green backgrounds)
+
+**Menu Baseline**:
+- ✅ Menu bar height (22px)
+- ✅ White background
+- ✅ Menu item hover (black background)
+- ✅ Dropdown positioning + shadow
+- ✅ Disabled item styling (gray text, no hover)
+
+**Finder Baseline**:
+- ✅ Toolbar height (28px)
+- ✅ Status bar height (20px)
+- ✅ Icon grid spacing (16px)
+- ✅ Label wrapping (overflow-wrap: break-word)
+- ✅ Table header bevel
+
+#### Running Visual Tests
+
+```bash
+# Run all baseline tests
+npm test -- --run *.baseline.test.tsx
+
+# Run specific component baseline
+npm test -- --run Window.baseline.test.tsx
+
+# Run full test suite (includes 28 visual baseline tests)
+npm test
+```
+
+#### Test Files
+
+- `src/components/os/Window.baseline.test.tsx` (28 tests)
+- `src/components/os/Window.style.test.tsx` (token usage)
+- `src/components/os/MenuBar.style.test.tsx` (token usage)
+- `src/components/apps/Calculator.style.test.tsx` (token usage)
+
+#### Why SCSS Compilation Tests?
+
+**Advantages**:
+- ✅ No browser environment needed
+- ✅ Fast execution (pure Node.js)
+- ✅ Verify exact CSS output values
+- ✅ Catch token usage errors
+- ✅ Detect missing mixins
+
+**What They Catch**:
+- Bevel border directions inverted
+- Shadow blur added accidentally
+- Token references removed
+- Spacing/sizing values changed
+- Border-radius or transitions added
+- Font sizes changed
+
+**What They Miss**:
+- Visual rendering in actual browsers (use manual testing)
+- Cross-browser compatibility (use Playwright if needed)
+- Accessibility (use axe-core if needed)
 
 ---
 
