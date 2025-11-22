@@ -1,9 +1,12 @@
 import './styles/global.scss'
 import Desktop from './components/os/Desktop'
+import { DesktopProvider } from './contexts/DesktopContext'
 
 function App() {
   return (
-    <Desktop />
+    <DesktopProvider>
+      <Desktop />
+    </DesktopProvider>
   )
 }
 

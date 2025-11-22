@@ -2,6 +2,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import Desktop from './Desktop';
+import { DesktopProvider } from '../../contexts/DesktopContext';
 
 vi.mock('../../assets/pattern_bg.png', () => ({ default: 'pattern-bg.png' }));
 vi.mock('../../assets/hd_icon.png', () => ({ default: 'hd-icon.png' }));
@@ -26,9 +27,18 @@ afterEach(() => {
     cleanup();
 });
 
+// Helper to render Desktop with provider
+const renderDesktop = () => {
+    return render(
+        <DesktopProvider>
+            <Desktop />
+        </DesktopProvider>
+    );
+};
+
 describe('Desktop integration', () => {
     it('keeps dragged icon position after desktop re-renders', async () => {
-        render(<Desktop />);
+        renderDesktop();
 
         const hdIcon = findDesktopIconByLabel('Macintosh HD');
         expect(hdIcon.style.left).toBe('20px');
@@ -48,7 +58,7 @@ describe('Desktop integration', () => {
     });
 
     it('creates distinct folders when New Folder is triggered twice quickly', async () => {
-        render(<Desktop />);
+        renderDesktop();
 
         const fileMenu = screen.getByText('File');
         fireEvent.click(fileMenu);
@@ -66,7 +76,7 @@ describe('Desktop integration', () => {
     });
 
     it('preserves new desktop items when saving from TextEditor', async () => {
-        const { container } = render(<Desktop />);
+        const { container } = renderDesktop();
 
         const docsIcon = findDesktopIconByLabel('Documents');
         fireEvent.doubleClick(docsIcon);
