@@ -1,6 +1,10 @@
-# React + TypeScript + Vite
+# macOS 98
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A late-90s Mac OS desktop simulator built with React 19, TypeScript, Vite, and SCSS modules.
+
+## Development Approach
+
+**Test-Driven Development (TDD)**: This project follows a test-driven development methodology. For all new features and bug fixes, write test cases first, then implement the code.
 
 Currently, two official plugins are available:
 
