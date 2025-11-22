@@ -34,7 +34,11 @@ describe('Finder', () => {
         }
     ];
 
-    const mockPath = ['Macintosh HD', 'Users', 'Documents'];
+    const mockPath = [
+        { id: 'hd', name: 'Macintosh HD' },
+        { id: 'users', name: 'Users' },
+        { id: 'folder1', name: 'Documents' }
+    ];
 
     const defaultProps = {
         items: mockItems,
@@ -87,15 +91,13 @@ describe('Finder', () => {
             expect(separators).toHaveLength(2);
         });
 
-        it('calls handleBreadcrumbClick when breadcrumb is clicked', () => {
-            const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => { });
+        it('navigates to ancestor when breadcrumb is clicked', () => {
             render(<Finder {...defaultProps} />);
 
-            const firstBreadcrumb = screen.getByText('Macintosh HD');
-            fireEvent.click(firstBreadcrumb);
+            const usersBreadcrumb = screen.getByText('Users');
+            fireEvent.click(usersBreadcrumb);
 
-            expect(consoleSpy).toHaveBeenCalledWith('Navigate to breadcrumb index:', 0);
-            consoleSpy.mockRestore();
+            expect(mockOnNavigate).toHaveBeenCalledWith('users');
         });
 
         it('handles empty path', () => {
@@ -105,7 +107,7 @@ describe('Finder', () => {
         });
 
         it('handles single item path', () => {
-            render(<Finder {...defaultProps} path={['Root']} />);
+            render(<Finder {...defaultProps} path={[{ id: 'root', name: 'Root' }]} />);
 
             expect(screen.getByText('Root')).toBeInTheDocument();
             const separators = screen.queryAllByText('›');
@@ -227,22 +229,23 @@ describe('Finder', () => {
             expect(mockOnOpenFile).toHaveBeenCalledWith('file1', 'readme.txt', 'This is a test file content.');
         });
 
-        it('does not call onOpenFile when file has no content', () => {
-            const itemsWithoutContent = [
+        it('calls onOpenFile when file is empty', () => {
+            const itemsWithEmptyContent = [
                 {
                     id: 'file2',
                     name: 'empty.txt',
                     type: 'file' as const,
-                    icon: '/file-icon.png'
+                    icon: '/file-icon.png',
+                    content: ''
                 }
             ];
 
-            render(<Finder {...defaultProps} items={itemsWithoutContent} />);
+            render(<Finder {...defaultProps} items={itemsWithEmptyContent} />);
 
             const fileItem = screen.getByText('empty.txt').closest('[class*="iconItem"]') as HTMLElement;
             fireEvent.doubleClick(fileItem);
 
-            expect(mockOnOpenFile).not.toHaveBeenCalled();
+            expect(mockOnOpenFile).toHaveBeenCalledWith('file2', 'empty.txt', '');
         });
 
         it('does not call navigation callbacks for app items', () => {

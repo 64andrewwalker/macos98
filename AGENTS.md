@@ -24,6 +24,7 @@ This project simulates a late-90s Mac OS desktop using React 19, TypeScript, Vit
 
 ## Testing Guidelines
 - Vitest with `@testing-library/react` and `@testing-library/jest-dom` is configured in `vitest.config.ts`; jsdom is the default environment.
+- **Test-Driven Development (TDD)**: Write tests first before implementing new features or fixes. This ensures behavior is clearly defined and code remains reliable.
 - Mirror the existing pattern of colocated `*.test.tsx` files. Focus on user-visible behavior: menu interactions, window state, keyboard/mouse flows, and calculator/game logic.
 - Use accessible queries (`getByRole`, `getByText`) and avoid brittle snapshot assertions. Prefer small, focused tests over broad integration where possible.
 

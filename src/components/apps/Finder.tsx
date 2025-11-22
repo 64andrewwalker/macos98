@@ -10,9 +10,14 @@ export interface FileItem {
     content?: string;
 }
 
+export interface Breadcrumb {
+    id: string;
+    name: string;
+}
+
 interface FinderProps {
     items: FileItem[];
-    path: string[];
+    path: Breadcrumb[];
     onNavigate: (folderId: string) => void;
     onOpenFile: (fileId: string, fileName: string, content: string) => void;
 }
@@ -29,15 +34,19 @@ const Finder: React.FC<FinderProps> = ({
     const handleDoubleClick = (item: FileItem) => {
         if (item.type === 'folder') {
             onNavigate(item.id);
-        } else if (item.type === 'file' && item.content) {
-            onOpenFile(item.id, item.name, item.content);
+            return;
+        }
+        if (item.type === 'file') {
+            onOpenFile(item.id, item.name, item.content ?? '');
         }
     };
 
     const handleBreadcrumbClick = (index: number) => {
-        // Navigate back to a parent folder
-        // This will be implemented when we have parent tracking
-        console.log('Navigate to breadcrumb index:', index);
+        const target = path[index];
+        if (target) {
+            setSelectedId(null);
+            onNavigate(target.id);
+        }
     };
 
     const renderIconVisual = (item: FileItem, size: 'large' | 'small') => {
@@ -74,7 +83,7 @@ const Finder: React.FC<FinderProps> = ({
                                 className={styles.breadcrumbItem}
                                 onClick={() => handleBreadcrumbClick(index)}
                             >
-                                {segment}
+                                {segment.name}
                             </span>
                             {index < path.length - 1 && <span className={styles.separator}>›</span>}
                         </React.Fragment>

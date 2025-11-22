@@ -95,6 +95,13 @@ describe('InfoDialog', () => {
             render(<InfoDialog iconData={appData} onClose={mockOnClose} />);
             expect(screen.getByText('Application')).toBeInTheDocument();
         });
+
+        it('prefers explicit type when id is not folder-prefixed', () => {
+            const docsFolder = { ...mockIconData, id: 'docs', type: 'folder' as const };
+            render(<InfoDialog iconData={docsFolder} onClose={mockOnClose} />);
+
+            expect(screen.getByText('Folder')).toBeInTheDocument();
+        });
     });
 
     describe('Without Icon Data (Desktop Info)', () => {
@@ -184,7 +191,8 @@ describe('InfoDialog', () => {
         });
 
         it('handles missing icon property', () => {
-            const { icon: _icon, ...noIconData } = mockIconData;
+            const { icon, ...noIconData } = mockIconData;
+            expect(icon).toBeDefined();
             expect(() => render(<InfoDialog iconData={noIconData} onClose={mockOnClose} />)).not.toThrow();
         });
     });
