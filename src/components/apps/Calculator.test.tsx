@@ -216,6 +216,33 @@ describe('Calculator', () => {
                 fireEvent.click(screen.getByTestId('btn-equals'));
                 expect(screen.getByTestId('display').textContent).toBe('2.5');
             });
+
+            it('truncates long decimal results to prevent UI overflow', () => {
+                render(<Calculator />);
+                // 1 / 3 = 0.333333... (repeating)
+                fireEvent.click(screen.getByTestId('btn-1'));
+                fireEvent.click(screen.getByTestId('btn-divide'));
+                fireEvent.click(screen.getByTestId('btn-3'));
+                fireEvent.click(screen.getByTestId('btn-equals'));
+
+                const display = screen.getByTestId('display').textContent || '';
+                // Should be truncated to reasonable precision (e.g., max 8 decimal places)
+                expect(display.length).toBeLessThanOrEqual(10); // 0.33333333 = 10 chars
+                expect(display).toMatch(/^0\.3+$/); // Should start with 0.3...
+            });
+
+            it('handles division resulting in very long decimals', () => {
+                render(<Calculator />);
+                // 2 / 3 = 0.666666... (repeating)
+                fireEvent.click(screen.getByTestId('btn-2'));
+                fireEvent.click(screen.getByTestId('btn-divide'));
+                fireEvent.click(screen.getByTestId('btn-3'));
+                fireEvent.click(screen.getByTestId('btn-equals'));
+
+                const display = screen.getByTestId('display').textContent || '';
+                expect(display.length).toBeLessThanOrEqual(10);
+                expect(display).toMatch(/^0\.6+$/); // Should start with 0.6...
+            });
         });
     });
 

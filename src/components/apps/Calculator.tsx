@@ -45,14 +45,40 @@ const Calculator: React.FC = () => {
         setOperator(nextOperator);
     };
 
-    const calculate = (first: number, second: number, op: string) => {
-        switch (op) {
-            case '+': return first + second;
-            case '-': return first - second;
-            case '*': return first * second;
-            case '/': return first / second;
-            default: return second;
+    /**
+     * Format display value to prevent UI overflow
+     * Limits decimal places to max 8 digits
+     */
+    const formatDisplay = (value: number): number => {
+        // Check if the number has more than 8 decimal places
+        const stringValue = value.toString();
+
+        // If number is in scientific notation or doesn't have decimal point, return as is
+        if (stringValue.includes('e') || !stringValue.includes('.')) {
+            return value;
         }
+
+        // Get the decimal part
+        const decimalPart = stringValue.split('.')[1];
+
+        // If decimal part has more than 8 digits, round to 8 decimal places
+        if (decimalPart && decimalPart.length > 8) {
+            return parseFloat(value.toFixed(8));
+        }
+
+        return value;
+    };
+
+    const calculate = (first: number, second: number, op: string) => {
+        let result: number;
+        switch (op) {
+            case '+': result = first + second; break;
+            case '-': result = first - second; break;
+            case '*': result = first * second; break;
+            case '/': result = first / second; break;
+            default: result = second;
+        }
+        return formatDisplay(result);
     };
 
     return (
