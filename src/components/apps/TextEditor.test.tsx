@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import TextEditor from './TextEditor';
 
 afterEach(() => {
@@ -16,6 +17,17 @@ describe('TextEditor', () => {
       onSave={() => {}}
     />
   );
+
+  it('keeps the caret position while typing', async () => {
+    const user = userEvent.setup();
+    renderEditor();
+
+    const editor = screen.getByTestId('text-editor-content');
+    await user.click(editor);
+    await user.type(editor, 'abc');
+
+    expect(editor.textContent).toBe('abc');
+  });
 
   it('updates status bar counts after successive inputs', async () => {
     const { container } = renderEditor();

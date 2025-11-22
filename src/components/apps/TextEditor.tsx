@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './TextEditor.module.scss';
 
 interface TextEditorProps {
@@ -33,6 +33,7 @@ const sanitizeContent = (html: string) => {
 const TextEditor: React.FC<TextEditorProps> = ({ fileId, fileName, initialContent, onSave }) => {
     const normalizedInitialContent = initialContent ?? '';
     const editorRef = useRef<HTMLDivElement>(null);
+    const initializedRef = useRef(false);
     const [isDirty, setIsDirty] = useState(false);
     const [content, setContent] = useState(() => sanitizeContent(normalizedInitialContent));
     const [fontFamily, setFontFamily] = useState<FontFamily>('Geneva');
@@ -46,27 +47,26 @@ const TextEditor: React.FC<TextEditorProps> = ({ fileId, fileName, initialConten
     const [showHelp, setShowHelp] = useState(false);
 
     useEffect(() => {
-        const plainText = sanitizeContent(normalizedInitialContent);
-        if (editorRef.current) {
-            editorRef.current.textContent = plainText;
+        if (initializedRef.current) {
+            return;
         }
-        // Content is already initialized in useState, no need to set it here
-    }, [normalizedInitialContent]);
+        if (editorRef.current) {
+            editorRef.current.textContent = content;
+        }
+        initializedRef.current = true;
+    }, [content]);
 
     const handleInput = () => {
-        if (editorRef.current) {
-            setContent(editorRef.current.innerText);
-        }
+        const text = editorRef.current?.innerText ?? '';
+        setContent(text);
         setIsDirty(true);
     };
 
     const handleSave = () => {
-        if (editorRef.current) {
-            const textContent = editorRef.current.innerText;
-            setContent(textContent);
-            onSave(fileId, textContent);
-            setIsDirty(false);
-        }
+        const textContent = editorRef.current?.innerText ?? '';
+        setContent(textContent);
+        onSave(fileId, textContent);
+        setIsDirty(false);
     };
 
     const applyBold = () => {
@@ -103,14 +103,13 @@ const TextEditor: React.FC<TextEditorProps> = ({ fileId, fileName, initialConten
         }
     };
 
-    const getStats = () => {
-        const safeContent = content ?? '';
-        const lines = safeContent.split('\n').length;
-        const chars = safeContent.length;
+    const getStats = (text: string) => {
+        const lines = text.split('\n').length;
+        const chars = text.length;
         return { lines, chars };
     };
 
-    const stats = getStats();
+    const stats = getStats(content || '');
 
     return (
         <div className={styles.textEditor}>
@@ -258,9 +257,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ fileId, fileName, initialConten
                         fontWeight: 'normal'
                     }}
                     suppressContentEditableWarning
-                >
-                    {content}
-                </div>
+                />
             </div>
 
             {/* Status Bar */}
