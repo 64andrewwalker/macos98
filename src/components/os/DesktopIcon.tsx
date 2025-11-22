@@ -19,14 +19,19 @@ const DesktopIcon: React.FC<DesktopIconProps> = ({ icon, label, x, y, onDoubleCl
     const prevPropsRef = useRef({ x, y });
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
 
-    // Sync props to state when not dragging and props changed
+    // Sync props to state when props change
+    // If dragging when props change, stop dragging and sync to new position
     // Using useLayoutEffect to update before paint
     React.useLayoutEffect(() => {
-        if (!isDragging && (prevPropsRef.current.x !== x || prevPropsRef.current.y !== y)) {
+        if (prevPropsRef.current.x !== x || prevPropsRef.current.y !== y) {
             const newPosition = { x, y };
             setPosition(newPosition);
             positionRef.current = newPosition;
             prevPropsRef.current = newPosition;
+            // If we were dragging when props changed, stop dragging
+            if (isDragging) {
+                setIsDragging(false);
+            }
         }
     }, [x, y, isDragging]);
 
