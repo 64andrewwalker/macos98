@@ -53,3 +53,12 @@
 - [x] 7.3 Verify all baseline tests check for: token usage (var(--) references), pixel-perfect spacing, no modern CSS (border-radius, transitions, blur).
 - [x] 7.4 Run full test suite (360 tests) to ensure no regressions from token migration and new tests.
 - [x] 7.5 Update `DESIGN_SYSTEM.md` with comprehensive "Visual Regression Testing" section documenting test strategy, coverage, and rationale.
+
+## 8. Create Component Blueprint Layer (structural consistency)
+
+- [x] 8.1 Create `COMPONENT_BLUEPRINTS.md` as the official component architecture specification defining standard DOM structures, zones, and inheritance patterns.
+- [x] 8.2 Define Window component hierarchy (BaseWindow → AppWindow → FinderWindow/TextEditorWindow/etc.) with standard DOM patterns that all windowed UI must follow.
+- [x] 8.3 Define standard zone system (Title Bar, Toolbar, Content, Status Bar) with explicit heights, spacing rules, and zone order requirements to prevent structural drift.
+- [x] 8.4 Document composite component patterns (buttons, menus, grids) with required SCSS mixins and forbidden structural variations.
+- [x] 8.5 Document anti-patterns (custom window structures, single-layer content, reordered zones, manual bevel logic) with correct alternatives.
+- [x] 8.6 Update `DESIGN_SYSTEM.md` to reference `COMPONENT_BLUEPRINTS.md` for structural patterns (DOM, zones, inheritance) vs styling patterns (tokens, mixins).

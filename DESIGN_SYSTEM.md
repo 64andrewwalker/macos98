@@ -7,6 +7,8 @@
 
 This document is the **single source of truth** for all visual design decisions in the macOS 98 project. It defines the rules, constraints, and APIs that all components must follow.
 
+**⚠️ IMPORTANT**: This document defines **how to style** components. For **how to structure** components (DOM patterns, zones, inheritance), see **[Component Blueprints](COMPONENT_BLUEPRINTS.md)**.
+
 ---
 
 ## Table of Contents
@@ -1150,6 +1152,8 @@ color: $color-text;
 
 ## Component Patterns
 
+**⚠️ IMPORTANT**: This section shows basic styling patterns. For complete component architecture (DOM structure, zones, inheritance chain, composite components), see **[Component Blueprints](COMPONENT_BLUEPRINTS.md)**.
+
 ### Window Component Structure
 
 **Standard JSX Hierarchy**:
@@ -1489,6 +1493,7 @@ npm test
 
 ## Related Documentation
 
+- **Component Blueprints** (PRIMARY): `COMPONENT_BLUEPRINTS.md` — Standard DOM structures, zones, inheritance
 - **Implementation**: `src/styles/_tokens.scss`, `src/styles/_mixins.scss`
 - **Linting Guide**: `SCSS_LINTING.md`
 - **Proposal**: `openspec/changes/refactor-scss-design-system/proposal.md`
