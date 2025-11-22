@@ -1,10 +1,10 @@
 @use '../../styles/tokens';
 
 .about {
-  padding: 20px;
+  padding: tokens.$space-20;
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: tokens.$space-20;
   align-items: flex-start;
   background-color: tokens.$color-window-bg;
   font-family: tokens.$font-system;
@@ -12,7 +12,7 @@
 
   .logo {
     img {
-      width: 64px;
+      width: tokens.$size-64;
       image-rendering: pixelated;
     }
   }
@@ -21,25 +21,25 @@
     flex: 1;
 
     h2 {
-      margin: 0 0 10px 0;
-      font-size: 18px;
+      margin: 0 0 tokens.$space-10 0;
+      font-size: tokens.$font-size-18;
     }
 
     p {
-      margin: 5px 0;
-      font-size: tokens.$font-size-sm;
+      margin: tokens.$space-5 0;
+      font-size: tokens.$font-size-12;
     }
   }
 
   .copyright {
-    font-size: 10px;
+    font-size: tokens.$font-size-10;
     color: tokens.$color-text;
-    margin-top: 10px;
+    margin-top: tokens.$space-10;
   }
 
   .memory {
-    margin-top: 15px;
-    border-top: 1px solid tokens.$color-text-disabled;
-    padding-top: 5px;
+    margin-top: tokens.$space-15;
+    border-top: tokens.$space-1 solid tokens.$color-text-disabled;
+    padding-top: tokens.$space-5;
   }
 }

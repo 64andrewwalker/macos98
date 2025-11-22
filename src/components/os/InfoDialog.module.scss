@@ -16,58 +16,58 @@
 
 .dialog {
   background-color: tokens.$color-surface;
-  border: 2px solid tokens.$color-border-dark;
-  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5);
-  min-width: 300px;
-  max-width: 400px;
+  border: tokens.$space-2 solid tokens.$color-border-dark;
+  box-shadow: tokens.$space-3 tokens.$space-3 0px rgba(0, 0, 0, 0.5);
+  min-width: tokens.$size-300;
+  max-width: tokens.$size-400;
   font-family: tokens.$font-system;
 
   .titleBar {
     background-color: tokens.$color-border-dark;
     color: tokens.$color-surface;
-    padding: 3px 8px;
+    padding: tokens.$space-3 tokens.$space-8;
     font-weight: bold;
-    font-size: tokens.$font-size-sm;
+    font-size: tokens.$font-size-12;
   }
 
   .content {
-    padding: 15px;
-    min-height: 150px;
+    padding: tokens.$space-15;
+    min-height: tokens.$size-150;
   }
 
   .iconPreview {
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: tokens.$space-15;
 
     img {
-      width: 48px;
-      height: 48px;
+      width: tokens.$size-48;
+      height: tokens.$size-48;
       image-rendering: pixelated;
     }
 
     .placeholder {
-      width: 48px;
-      height: 48px;
-      border: 1px solid tokens.$gray-2;
-      background-color: tokens.$color-surface;
+      width: tokens.$size-48;
+      height: tokens.$size-48;
+      border: tokens.$space-1 solid tokens.$gray-3;
+      background-color: tokens.$gray-4;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       color: tokens.$gray-1;
-      font-size: 18px;
+      font-size: tokens.$font-size-18;
     }
   }
 
   .infoRow {
-    margin-bottom: 8px;
+    margin-bottom: tokens.$space-8;
     display: flex;
-    gap: 8px;
-    font-size: tokens.$font-size-sm;
+    gap: tokens.$space-8;
+    font-size: tokens.$font-size-12;
     color: tokens.$color-text;
 
     label {
       font-weight: bold;
-      min-width: 60px;
+      min-width: tokens.$size-60;
     }
 
     span {
@@ -76,17 +76,17 @@
   }
 
   .buttonBar {
-    padding: 10px;
+    padding: tokens.$space-10;
     text-align: center;
-    border-top: 1px solid tokens.$color-border-gray;
+    border-top: tokens.$space-1 solid tokens.$color-border-gray;
   }
 
   .button {
     background-color: tokens.$color-toolbar-bg;
-    border: 2px outset tokens.$color-border-light;
-    padding: 3px 20px;
+    border: tokens.$space-2 outset tokens.$color-border-light;
+    padding: tokens.$space-3 tokens.$space-20;
     font-family: tokens.$font-system;
-    font-size: tokens.$font-size-sm;
+    font-size: tokens.$font-size-12;
     font-weight: bold;
     color: tokens.$color-text;
     cursor: pointer;
@@ -96,7 +96,7 @@
     }
 
     &:hover {
-      filter: brightness(1.05);
+      background-color: tokens.$gray-3;
     }
   }
 }

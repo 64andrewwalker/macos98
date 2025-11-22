@@ -5,14 +5,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90px;
+  width: tokens.$size-90;
   cursor: default;
 
   .iconWrapper {
     position: relative;
-    width: 48px;
-    height: 48px;
-    margin-bottom: 4px;
+    width: tokens.$size-48;
+    height: tokens.$size-48;
+    margin-bottom: tokens.$space-4;
 
     img {
       width: 100%;
@@ -35,13 +35,13 @@
 
   .label {
     font-family: tokens.$font-system;
-    font-size: tokens.$font-size-sm;
+    font-size: tokens.$font-size-12;
     text-align: center;
-    padding: 2px 4px;
+    padding: tokens.$space-2 tokens.$space-4;
     color: tokens.$color-text;
     background-color: rgba(255, 255, 255, 0.8);
-    border: 1px dotted transparent;
-    border-radius: 2px;
+    border: tokens.$space-1 dotted transparent;
+    border-radius: tokens.$space-2;
     text-shadow: none;
   }
 
@@ -53,7 +53,7 @@
     .label {
       background-color: tokens.$color-selection-bg;
       color: tokens.$color-surface;
-      border: 1px dotted tokens.$color-surface;
+      border: tokens.$space-1 dotted tokens.$color-surface;
     }
   }
 }

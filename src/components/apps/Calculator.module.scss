@@ -2,23 +2,23 @@
 @use '../../styles/mixins';
 
 .calculator {
-  padding: tokens.$space-lg;
+  padding: tokens.$space-10;
   background-color: tokens.$color-window-bg;
   display: flex;
   flex-direction: column;
-  gap: tokens.$space-lg;
+  gap: tokens.$space-10;
 
   .display {
     background-color: tokens.$color-surface;
-    border: 1px solid tokens.$color-border-gray;
+    border: tokens.$space-1 solid tokens.$color-border-gray;
     border-bottom-color: tokens.$color-surface;
     border-right-color: tokens.$color-surface;
-    padding: tokens.$space-sm;
+    padding: tokens.$space-5;
     text-align: right;
     font-family: tokens.$font-mono;
-    font-size: tokens.$font-size-lg;
-    height: 30px;
-    line-height: 30px;
+    font-size: tokens.$font-size-18;
+    height: tokens.$size-30;
+    line-height: tokens.$size-30;
     color: tokens.$color-text;
     box-shadow: tokens.$shadow-display-inset;
     overflow: hidden;
@@ -29,12 +29,12 @@
   .keypad {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: tokens.$space-sm;
+    gap: tokens.$space-5;
   }
 
   button {
-    width: 30px;
-    height: 30px;
+    width: tokens.$size-30;
+    height: tokens.$size-30;
     @include mixins.retro-button;
   }
 
@@ -45,17 +45,17 @@
 
   .plus {
     grid-row: span 2;
-    height: 65px;
+    height: tokens.$size-65;
   }
 
   .equals {
     grid-row: span 2;
-    height: 65px;
+    height: tokens.$size-65;
     background-color: tokens.$color-button-equals;
   }
 
   .zero {
     grid-column: span 2;
-    width: 65px;
+    width: tokens.$size-65;
   }
 }
