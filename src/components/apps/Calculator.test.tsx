@@ -241,7 +241,8 @@ describe('Calculator', () => {
 
                 const display = screen.getByTestId('display').textContent || '';
                 expect(display.length).toBeLessThanOrEqual(10);
-                expect(display).toMatch(/^0\.6+$/); // Should start with 0.6...
+                // toFixed rounds, so 0.66666666... becomes 0.66666667
+                expect(display).toBe('0.66666667');
             });
         });
     });
