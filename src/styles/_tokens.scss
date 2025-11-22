@@ -41,17 +41,6 @@ $color-text-selection: var(--accent-selection);  // Text selection (cream)
 // Special (legacy - minimize usage)
 $color-stripe-alt: #aaaaaa;  // Title bar stripe pattern
 
-// Legacy gray scale compatibility tokens (map to new semantic tokens)
-$color-gray-light: $color-toolbar-bg;      // Toolbar gray (same as toolbar-bg)
-$color-gray-lighter: #d0d0d0;              // Lighter toolbar elements
-$color-gray-button: #d4d4d4;               // Button active state
-$color-gray-lightest: #e0e0e0;             // Very light backgrounds
-$color-gray-pale: #eeeeee;                 // Pale backgrounds
-$color-gray-ultralight: #f0f0f0;           // Ultra-light backgrounds
-$color-gray-medium: #606060;               // Medium gray text
-$color-gray-dark: #333333;                 // Dark text/borders
-$color-disabled-text: $color-text-disabled; // Alias for disabled text
-
 // ============================================================================
 // SPACING (comprehensive scale, no literals allowed)
 // ============================================================================

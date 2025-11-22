@@ -3,7 +3,7 @@
 
 .backgroundSwitcher {
   padding: tokens.$space-16;
-  background-color: tokens.$color-gray-light;
+  background-color: tokens.$color-toolbar-bg;
   font-family: tokens.$font-system;
   height: 100%;
   display: flex;
@@ -66,15 +66,13 @@
     align-items: center;
     padding: tokens.$space-8;
     cursor: pointer;
-    background-color: tokens.$color-gray-light;
+    background-color: tokens.$color-toolbar-bg;
     border-top: tokens.$space-2 solid tokens.$color-border-light;
     border-left: tokens.$space-2 solid tokens.$color-border-light;
     border-right: tokens.$space-2 solid tokens.$color-border-gray;
     border-bottom: tokens.$space-2 solid tokens.$color-border-gray;
 
-    &:hover {
-      background-color: tokens.$color-gray-button;
-    }
+    @include mixins.hover-brighten;
 
     &:active {
       border-top: tokens.$space-2 solid tokens.$color-border-gray;

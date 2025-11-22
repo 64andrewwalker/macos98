@@ -53,7 +53,7 @@
   .saveButton {
     padding: tokens.$space-3 tokens.$space-12;
     border: tokens.$space-2 outset tokens.$color-border-light;
-    background-color: tokens.$color-gray-light;
+    background-color: tokens.$color-toolbar-bg;
     cursor: pointer;
     font-family: tokens.$font-system;
     font-size: tokens.$font-size-11;
@@ -61,7 +61,7 @@
     color: tokens.$color-text;
 
     &:hover {
-      background-color: tokens.$color-gray-lighter;
+      background-color: tokens.$gray-3;
     }
 
     &:active {
@@ -77,7 +77,7 @@
     width: tokens.$size-24;
     height: tokens.$size-24;
     border: tokens.$space-2 outset tokens.$color-border-light;
-    background-color: tokens.$color-gray-light;
+    background-color: tokens.$color-toolbar-bg;
     cursor: pointer;
     font-family: tokens.$font-system;
     font-size: tokens.$font-size-14;
@@ -86,7 +86,7 @@
     margin-left: tokens.$space-4;
 
     &:hover {
-      background-color: tokens.$color-gray-lighter;
+      background-color: tokens.$gray-3;
     }
 
     &:active {
@@ -98,12 +98,12 @@
   .ruler {
     display: flex;
     height: tokens.$size-20;
-    background-color: tokens.$color-gray-ultralight;
+    background-color: tokens.$gray-4;
     border-bottom: tokens.$space-1 solid tokens.$color-border-gray;
     padding: 0 tokens.$space-10;
     font-size: tokens.$font-size-9;
     font-family: tokens.$font-mono;
-    color: tokens.$color-gray-medium;
+    color: tokens.$gray-1;
     align-items: center;
     position: relative;
     overflow: hidden;
@@ -258,7 +258,7 @@
   .okButton {
     padding: tokens.$space-4 tokens.$space-20;
     border: tokens.$space-2 outset tokens.$color-border-light;
-    background-color: tokens.$color-gray-light;
+    background-color: tokens.$color-toolbar-bg;
     cursor: pointer;
     font-family: tokens.$font-system;
     font-size: tokens.$font-size-11;
@@ -266,7 +266,7 @@
     color: tokens.$color-text;
 
     &:hover {
-      background-color: tokens.$color-gray-lighter;
+      background-color: tokens.$gray-3;
     }
 
     &:active {

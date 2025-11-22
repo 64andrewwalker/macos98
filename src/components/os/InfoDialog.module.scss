@@ -48,12 +48,12 @@
     .placeholder {
       width: tokens.$size-48;
       height: tokens.$size-48;
-      border: tokens.$space-1 solid tokens.$color-gray-lighter;
-      background-color: tokens.$color-gray-ultralight;
+      border: tokens.$space-1 solid tokens.$gray-3;
+      background-color: tokens.$gray-4;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      color: tokens.$color-gray-medium;
+      color: tokens.$gray-1;
       font-size: tokens.$font-size-18;
     }
   }
@@ -82,7 +82,7 @@
   }
 
   .button {
-    background-color: tokens.$color-gray-light;
+    background-color: tokens.$color-toolbar-bg;
     border: tokens.$space-2 outset tokens.$color-border-light;
     padding: tokens.$space-3 tokens.$space-20;
     font-family: tokens.$font-system;
@@ -96,7 +96,7 @@
     }
 
     &:hover {
-      background-color: tokens.$color-gray-lighter;
+      background-color: tokens.$gray-3;
     }
   }
 }
