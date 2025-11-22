@@ -34,3 +34,14 @@
 - [x] 5.3 Add npm scripts (`lint:css`, `lint:all`) for running SCSS linting and combined JS+CSS linting.
 - [x] 5.4 Auto-fix formatting issues across all SCSS files to ensure compliance with linting rules.
 - [x] 5.5 Create `SCSS_LINTING.md` documentation explaining the linting setup, rules, and integration options.
+
+## 6. Create comprehensive visual specification (Design System v2)
+
+- [x] 6.1 Create `DESIGN_SYSTEM.md` as the official visual specification and single source of truth for design decisions.
+- [x] 6.2 Document all visual physics rules (shadow rules, border rules, inset depth rules, stripe pattern rules).
+- [x] 6.3 Document bevel system with direction matrix, usage scenarios, and complete API reference for all bevel mixins.
+- [x] 6.4 Document typography rules with font size mapping table, line height standards, and usage scenarios for each size.
+- [x] 6.5 Document layout rules including spacing distribution, grid vs flex principles, Finder layout standards, and Desktop icon label wrapping.
+- [x] 6.6 Document complete mixin API reference for all 17 mixins (window system, button system, menu system, toolbar/status bar) with signatures, parameters, output, usage rules, and examples.
+- [x] 6.7 Document component patterns (window structure, nesting rules) and forbidden patterns (literal values, duplicated logic, modern CSS).
+- [x] 6.8 Update `SCSS_LINTING.md` to reference `DESIGN_SYSTEM.md` as the primary visual specification.
