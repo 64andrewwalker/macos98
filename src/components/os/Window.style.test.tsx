@@ -7,7 +7,7 @@ describe('Window styles', () => {
     const result = sass.compile(new URL('./Window.module.scss', import.meta.url).pathname)
 
     // Window background should be driven by the system background token/variable
-    expect(result.css).toMatch(/background-color:\s*var\(--sys-bg-color\)/)
+    expect(result.css).toMatch(/background-color:\s*var\(--surface-window\)/)
 
     // Window border should use the dark border token/variable
     expect(result.css).toMatch(/border:\s*1px solid var\(--sys-border-dark\)/)
