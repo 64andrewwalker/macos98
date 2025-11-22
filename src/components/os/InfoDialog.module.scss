@@ -48,12 +48,12 @@
     .placeholder {
       width: 48px;
       height: 48px;
-      border: 1px solid tokens.$color-gray-lighter;
-      background-color: tokens.$color-gray-ultralight;
+      border: 1px solid tokens.$gray-2;
+      background-color: tokens.$color-surface;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      color: tokens.$color-gray-medium;
+      color: tokens.$gray-1;
       font-size: 18px;
     }
   }
@@ -82,7 +82,7 @@
   }
 
   .button {
-    background-color: tokens.$color-gray-light;
+    background-color: tokens.$color-toolbar-bg;
     border: 2px outset tokens.$color-border-light;
     padding: 3px 20px;
     font-family: tokens.$font-system;
@@ -96,7 +96,7 @@
     }
 
     &:hover {
-      background-color: tokens.$color-gray-lighter;
+      filter: brightness(1.05);
     }
   }
 }

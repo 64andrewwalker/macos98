@@ -42,22 +42,6 @@ $color-text-selection: var(--accent-selection);  // Text selection (cream)
 $color-stripe-alt: #aaaaaa;  // Title bar stripe pattern
 
 // ============================================================================
-// BACKWARDS COMPATIBILITY ALIASES (DEPRECATED - DO NOT USE IN NEW CODE)
-// These map old bloated token names to the core 5-gray system
-// Will be removed once components are migrated
-// ============================================================================
-$color-gray-dark: $gray-0;        // #333 → #000 (use $gray-0 or $color-text)
-$color-gray-medium: $gray-1;      // #606060 → #808080 (use $gray-1)
-$color-gray-mid: $gray-1;         // Already #808080 (use $gray-1)
-$color-gray-light: $gray-2;       // Already #c0c0c0 (use $gray-2 or $color-toolbar-bg)
-$color-gray-lighter: $gray-2;     // #d0d0d0 → #c0c0c0 (use $gray-2)
-$color-gray-button: $gray-2;      // #d4d4d4 → #c0c0c0 (use $gray-2 with filter:brightness)
-$color-gray-lightest: $gray-3;    // #e0e0e0 → #dddddd (use $gray-3)
-$color-gray-pale: $gray-3;        // #eeeeee → #dddddd (use $gray-3)
-$color-gray-ultralight: $gray-4;  // #f0f0f0 → #ffffff (use $gray-4 or $color-surface)
-$color-disabled-text: $color-text-disabled;  // Old name → new name
-
-// ============================================================================
 // SHADOWS
 // ============================================================================
 $shadow-window: 2px 2px 0px rgba(0, 0, 0, 0.2);

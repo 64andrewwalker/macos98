@@ -53,7 +53,7 @@
   .saveButton {
     padding: 3px 12px;
     border: 2px outset tokens.$color-border-light;
-    background-color: tokens.$color-gray-light;
+    background-color: tokens.$color-toolbar-bg;
     cursor: pointer;
     font-family: tokens.$font-system;
     font-size: tokens.$font-size-xs;
@@ -61,7 +61,7 @@
     color: tokens.$color-text;
 
     &:hover {
-      background-color: tokens.$color-gray-lighter;
+      filter: brightness(1.05);
     }
 
     &:active {
@@ -77,7 +77,7 @@
     width: 24px;
     height: 24px;
     border: 2px outset tokens.$color-border-light;
-    background-color: tokens.$color-gray-light;
+    background-color: tokens.$color-toolbar-bg;
     cursor: pointer;
     font-family: tokens.$font-system;
     font-size: 14px;
@@ -86,7 +86,7 @@
     margin-left: 4px;
 
     &:hover {
-      background-color: tokens.$color-gray-lighter;
+      filter: brightness(1.05);
     }
 
     &:active {
@@ -98,12 +98,12 @@
   .ruler {
     display: flex;
     height: 20px;
-    background-color: tokens.$color-gray-ultralight;
+    background-color: tokens.$color-surface;
     border-bottom: 1px solid tokens.$color-border-gray;
     padding: 0 10px;
     font-size: 9px;
     font-family: tokens.$font-mono;
-    color: tokens.$color-gray-medium;
+    color: tokens.$gray-1;
     align-items: center;
     position: relative;
     overflow: hidden;
@@ -258,7 +258,7 @@
   .okButton {
     padding: 4px 20px;
     border: 2px outset tokens.$color-border-light;
-    background-color: tokens.$color-gray-light;
+    background-color: tokens.$color-toolbar-bg;
     cursor: pointer;
     font-family: tokens.$font-system;
     font-size: tokens.$font-size-xs;
@@ -266,7 +266,7 @@
     color: tokens.$color-text;
 
     &:hover {
-      background-color: tokens.$color-gray-lighter;
+      filter: brightness(1.05);
     }
 
     &:active {
