@@ -3,11 +3,11 @@
   --sys-font: 'Chicago', 'Geneva', sans-serif;
 
   /* Core OS9 Gray Scale - Only 5 values */
-  --gray-0: #000000;  /* Black - text, dark borders */
+  --gray-0: #000;  /* Black - text, dark borders */
   --gray-1: #808080;  /* Mid gray - disabled text, medium borders */
   --gray-2: #c0c0c0;  /* Toolbar gray - toolbars, dialogs */
-  --gray-3: #dddddd;  /* Window gray - main window surface */
-  --gray-4: #ffffff;  /* White - input fields, highlights */
+  --gray-3: #ddd;  /* Window gray - main window surface */
+  --gray-4: #fff;  /* White - input fields, highlights */
 
   /* Semantic color mappings */
   --sys-bg-color: var(--gray-3);
@@ -26,9 +26,12 @@
   --text-disabled: var(--gray-1);
 
   /* Accent colors */
-  --accent-clear: #ffcccc;
-  --accent-equals: #ccffcc;
+  --accent-clear: #fcc;
+  --accent-equals: #cfc;
   --accent-selection: #ffe4b5;
+
+  /* Stripe pattern */
+  --stripe-alt: #aaa;  /* Inactive window title bar stripe */
 }
 
 @font-face {

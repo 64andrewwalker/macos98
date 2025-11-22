@@ -3,11 +3,8 @@
 
 .overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+  inset: 0;
+  background-color: rgb(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,7 +14,7 @@
 .dialog {
   background-color: tokens.$color-surface;
   border: tokens.$space-2 solid tokens.$color-border-dark;
-  box-shadow: tokens.$space-3 tokens.$space-3 0px rgba(0, 0, 0, 0.5);
+  box-shadow: tokens.$space-3 tokens.$space-3 0 rgb(0, 0, 0, 0.5);
   min-width: tokens.$size-300;
   max-width: tokens.$size-400;
   font-family: tokens.$font-system;

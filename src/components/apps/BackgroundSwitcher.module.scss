@@ -46,6 +46,7 @@
 
   .modeButton {
     padding: tokens.$space-4 tokens.$space-12;
+
     @include mixins.toolbar-toggle-button;
     font-family: tokens.$font-system;
     font-size: tokens.$font-size-11;
@@ -119,7 +120,7 @@
     font-size: tokens.$font-size-11;
     text-align: center;
     color: tokens.$color-text;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
     max-width: 100%;
   }
 }
