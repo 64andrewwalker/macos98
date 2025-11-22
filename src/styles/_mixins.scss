@@ -79,7 +79,7 @@
 @mixin toolbar-toggle-button {
   font-family: tokens.$font-system;
   font-size: tokens.$font-size-xs;
-  background-color: #c0c0c0;
+  background-color: tokens.$color-gray-light;
   border-top: 2px solid tokens.$color-border-light;
   border-left: 2px solid tokens.$color-border-light;
   border-right: 2px solid tokens.$color-border-gray;
@@ -92,12 +92,12 @@
     border-left: 2px solid tokens.$color-border-gray;
     border-right: 2px solid tokens.$color-border-light;
     border-bottom: 2px solid tokens.$color-border-light;
-    background-color: #d4d4d4;
+    background-color: tokens.$color-gray-button;
     font-weight: bold;
   }
 
   &.active {
-    background-color: #e0e0e0;
+    background-color: tokens.$color-gray-lightest;
     box-shadow: inset 1px 1px 0 tokens.$color-border-dark;
   }
 }
@@ -107,7 +107,7 @@
   display: flex;
   align-items: center;
   padding: 4px 8px;
-  background-color: #c0c0c0;
+  background-color: tokens.$color-gray-light;
   border-bottom: 1px solid tokens.$color-border-gray;
 }
 
@@ -115,7 +115,7 @@
 @mixin status-bar {
   font-family: tokens.$font-system;
   font-size: tokens.$font-size-xs;
-  background-color: #c0c0c0;
+  background-color: tokens.$color-gray-light;
   border-top: 1px solid tokens.$color-border-gray;
   color: tokens.$color-text;
 }

@@ -17,6 +17,22 @@ $color-selection-bg: $color-sys-highlight;
 // Additional accent colors used in retro chrome
 $color-stripe-alt: #aaaaaa;
 
+// Gray scale for UI elements
+$color-gray-dark: #333333;           // Dark text/borders
+$color-gray-medium: #606060;         // Medium gray text
+$color-gray-mid: #808080;            // Mid-tone gray (already in border-gray)
+$color-gray-light: #c0c0c0;          // Toolbar/dialog background
+$color-gray-lighter: #d0d0d0;        // Lighter toolbar elements
+$color-gray-button: #d4d4d4;         // Button active state
+$color-gray-lightest: #e0e0e0;       // Very light backgrounds
+$color-gray-pale: #eeeeee;           // Pale backgrounds
+$color-gray-ultralight: #f0f0f0;     // Ultra-light backgrounds
+
+// Button accent colors
+$color-button-clear: #ffcccc;        // Calculator clear button
+$color-button-equals: #ccffcc;       // Calculator equals button
+$color-text-selection: #ffe4b5;      // Text selection highlight
+
 // Shadows
 $shadow-window: 2px 2px 0px rgba(0, 0, 0, 0.2);
 $shadow-menu: 2px 2px 0px rgba(0, 0, 0, 0.2);

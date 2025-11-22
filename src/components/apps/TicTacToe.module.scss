@@ -20,8 +20,8 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2px;
-    background-color: #000000;
-    border: 2px solid #000000;
+    background-color: tokens.$color-border-dark;
+    border: 2px solid tokens.$color-border-dark;
   }
 
   .square {
@@ -39,7 +39,7 @@
     align-items: center;
 
     &:hover {
-      background-color: #eeeeee;
+      background-color: tokens.$color-gray-pale;
     }
   }
 
