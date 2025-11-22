@@ -1,15 +1,30 @@
 ## Why
 
 The current styling for the macOS 98 desktop is largely implemented with duplicated literals inside individual `*.module.scss` files (e.g., `#dddddd`, `#000000`, repeated border/shadow definitions) and a thin layer of global CSS variables in `src/styles/global.scss`.
-This makes it difficult to:
-- Keep the retro OS 9 aesthetic perfectly consistent across windows, buttons, menus, and apps
-- Evolve or tweak colors, spacing, or shadow treatments in one place
-- Onboard new components into the same “system look” without copying and slightly modifying existing styles
 
-You explicitly called out three pain points:
-- P1: A missing global SCSS variable system (colors, shadow, border, spacing) to anchor the retro UI
-- P2: Lack of shared mixins for windows, buttons, menus, causing repeated styling logic
-- P3: SCSS not consistently structured/nested to mirror component structure, making it harder to reason about
+### Current Problems
+
+**Inconsistency & Duplication:**
+- Window chrome, 3D bevels, and shadow logic are reimplemented in each component
+- Menu hover states, button pressed states, and titlebar stripes are hand-coded multiple times
+- Small visual differences emerge between Calculator buttons, Finder toolbars, and TextEditor controls
+
+**Maintenance Burden:**
+- Changing a border color requires hunting through 10+ SCSS files
+- Adding a new spacing value means manually updating individual components
+- Refactoring is risky—no single source of truth for "what is a window" or "what is a button"
+
+**Developer Experience:**
+- New contributors must reverse-engineer the retro aesthetic from scattered examples
+- No clear API for "how to make a window" or "how to style a menu"
+- SCSS structure doesn't match component JSX hierarchy, making code hard to navigate
+
+### Technical Pain Points
+
+Three critical architectural gaps:
+- **P1**: Missing global SCSS token system for colors, shadows, borders, spacing, and typography
+- **P2**: Lack of shared mixins for windows, buttons, and menus, leading to repeated bevel/shadow/state logic
+- **P3**: SCSS not consistently structured/nested to mirror component structure, making it harder to reason about and maintain
 
 ## What Changes
 
