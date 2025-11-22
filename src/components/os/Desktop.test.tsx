@@ -393,6 +393,18 @@ describe('Desktop', () => {
             expect(hdWindows).toHaveLength(1);
         });
 
+        describe('Background Modes', () => {
+            it('applies fill mode styles by default', () => {
+                renderDesktop();
+                const desktop = document.querySelector('[class*="desktop"]');
+                expect(desktop).toHaveStyle({
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center'
+                });
+            });
+        });
+
         it('can open different types of windows', () => {
             renderDesktop();
 

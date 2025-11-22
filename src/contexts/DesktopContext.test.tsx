@@ -10,12 +10,16 @@ afterEach(() => {
 
 // Test component to access context
 const TestComponent = () => {
-    const { backgroundImage, setBackgroundImage } = useDesktop();
+    const { backgroundImage, setBackgroundImage, backgroundMode, setBackgroundMode } = useDesktop();
     return (
         <div>
             <div data-testid="background">{backgroundImage}</div>
+            <div data-testid="mode">{backgroundMode}</div>
             <button onClick={() => setBackgroundImage('test-bg.png')}>
                 Change Background
+            </button>
+            <button onClick={() => setBackgroundMode('tile')}>
+                Change Mode
             </button>
         </div>
     );
@@ -39,6 +43,7 @@ describe('DesktopContext', () => {
                 </DesktopProvider>
             );
             expect(screen.getByTestId('background')).toHaveTextContent(patternBg);
+            expect(screen.getByTestId('mode')).toHaveTextContent('fill');
         });
 
         it('allows background state to be updated', () => {
@@ -57,6 +62,24 @@ describe('DesktopContext', () => {
             });
 
             expect(background).toHaveTextContent('test-bg.png');
+        });
+
+        it('allows background mode to be updated', () => {
+            render(
+                <DesktopProvider>
+                    <TestComponent />
+                </DesktopProvider>
+            );
+
+            const mode = screen.getByTestId('mode');
+            expect(mode).toHaveTextContent('fill');
+
+            const button = screen.getByText('Change Mode');
+            act(() => {
+                button.click();
+            });
+
+            expect(mode).toHaveTextContent('tile');
         });
     });
 

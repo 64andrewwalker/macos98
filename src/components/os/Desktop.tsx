@@ -67,7 +67,7 @@ const generateId = (prefix: string) => {
 };
 
 const Desktop: React.FC = () => {
-    const { backgroundImage } = useDesktop();
+    const { backgroundImage, backgroundMode } = useDesktop();
     const [windows, setWindows] = useState<WindowData[]>([]);
     const [activeWindowId, setActiveWindowId] = useState<string | null>(null);
     const [selectedIconId, setSelectedIconId] = useState<string | null>(null);
@@ -422,10 +422,27 @@ const Desktop: React.FC = () => {
         }
     ];
 
+    const getBackgroundStyle = () => {
+        const baseStyle: React.CSSProperties = {
+            backgroundImage: `url(${backgroundImage})`
+        };
+
+        switch (backgroundMode) {
+            case 'fill':
+                return { ...baseStyle, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' };
+            case 'fit':
+                return { ...baseStyle, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundColor: '#000' };
+            case 'tile':
+                return { ...baseStyle, backgroundSize: 'auto', backgroundRepeat: 'repeat' };
+            default:
+                return baseStyle;
+        }
+    };
+
     return (
         <div
             className={styles.desktop}
-            style={{ backgroundImage: `url(${backgroundImage})` }}
+            style={getBackgroundStyle()}
             onClick={() => setActiveWindowId(null)}
             onMouseDown={(e) => {
                 // Only deselect if clicking directly on the desktop background

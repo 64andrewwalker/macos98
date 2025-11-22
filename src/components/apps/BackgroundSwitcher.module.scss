@@ -20,6 +20,56 @@
     }
 }
 
+.controls {
+    padding: 8px 4px;
+    border-bottom: 1px solid #808080;
+    margin-bottom: 8px;
+}
+
+.modeGroup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    label {
+        font-size: 12px;
+        font-weight: bold;
+    }
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 4px;
+}
+
+.modeButton {
+    padding: 4px 12px;
+    font-family: var(--sys-font);
+    font-size: 11px;
+    background-color: #c0c0c0;
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    cursor: pointer;
+    min-width: 60px;
+
+    &:active,
+    &.active {
+        border-top: 2px solid #808080;
+        border-left: 2px solid #808080;
+        border-right: 2px solid #ffffff;
+        border-bottom: 2px solid #ffffff;
+        background-color: #d4d4d4;
+        font-weight: bold;
+    }
+
+    &.active {
+        background-color: #e0e0e0;
+        box-shadow: inset 1px 1px 0 #000000;
+    }
+}
+
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

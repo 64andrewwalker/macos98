@@ -99,6 +99,30 @@ describe('BackgroundSwitcher', () => {
         });
     });
 
+    describe('Background Mode Selection', () => {
+        it('renders mode selection controls', () => {
+            renderWithProvider(<BackgroundSwitcher />);
+            expect(screen.getByText('Fill')).toBeInTheDocument();
+            expect(screen.getByText('Fit')).toBeInTheDocument();
+            expect(screen.getByText('Tile')).toBeInTheDocument();
+        });
+
+        it('highlights current mode', () => {
+            renderWithProvider(<BackgroundSwitcher />);
+            const fillButton = screen.getByText('Fill').closest('button');
+            expect(fillButton).toHaveClass(/active|selected/);
+        });
+
+        it('updates mode when clicked', () => {
+            renderWithProvider(<BackgroundSwitcher />);
+            const tileButton = screen.getByText('Tile').closest('button');
+
+            fireEvent.click(tileButton!);
+
+            expect(tileButton).toHaveClass(/active|selected/);
+        });
+    });
+
     describe('Integration with Desktop Context', () => {
         it('updates desktop background when preview is clicked', () => {
             renderWithProvider(<BackgroundSwitcher />);

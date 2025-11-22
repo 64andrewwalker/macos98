@@ -12,18 +12,36 @@ const BackgroundSwitcher: React.FC = () => {
         setSelectedId(id);
     };
 
+    const { backgroundMode, setBackgroundMode } = useDesktop();
+
     return (
         <div className={styles.backgroundSwitcher}>
             <div className={styles.header}>
                 <h3>Choose a Desktop Background</h3>
+            </div>
+            <div className={styles.controls}>
+                <div className={styles.modeGroup}>
+                    <label>Mode:</label>
+                    <div className={styles.buttonGroup}>
+                        {(['fill', 'fit', 'tile'] as const).map((mode) => (
+                            <button
+                                key={mode}
+                                className={`${styles.modeButton} ${backgroundMode === mode ? styles.active : ''}`}
+                                onClick={() => setBackgroundMode(mode)}
+                            >
+                                {mode.charAt(0).toUpperCase() + mode.slice(1)}
+                            </button>
+                        ))}
+                    </div>
+                </div>
             </div>
             <div className={styles.grid}>
                 {backgroundAssets.map((bg) => (
                     <div
                         key={bg.id}
                         className={`${styles.preview} ${selectedId === bg.id || backgroundImage === bg.image
-                                ? styles.selected
-                                : ''
+                            ? styles.selected
+                            : ''
                             }`}
                         onClick={() => handleSelectBackground(bg.image, bg.id)}
                     >
