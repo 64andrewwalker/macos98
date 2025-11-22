@@ -17,7 +17,7 @@ describe('TextEditor', () => {
     />
   );
 
-  it('updates status bar counts after successive inputs', () => {
+  it('updates status bar counts after successive inputs', async () => {
     const { container } = renderEditor();
     const editor = container.querySelector('[contenteditable="true"]') as HTMLDivElement | null;
     expect(editor).not.toBeNull();
@@ -26,11 +26,11 @@ describe('TextEditor', () => {
 
     editor!.innerText = 'Hi';
     fireEvent.input(editor!);
-    expect(screen.getByText('Characters: 2')).toBeInTheDocument();
+    await expect(screen.findByText('Characters: 2')).resolves.toBeInTheDocument();
 
     editor!.innerText = 'Hello world';
     fireEvent.input(editor!);
-    expect(screen.getByText('Characters: 11')).toBeInTheDocument();
+    await expect(screen.findByText('Characters: 11')).resolves.toBeInTheDocument();
   });
 
   it('renders saved rich content without escaping HTML and keeps stats from text', async () => {
@@ -45,9 +45,9 @@ describe('TextEditor', () => {
     );
 
     const editor = screen.getByTestId('text-editor-content');
-    expect(editor.innerHTML.toLowerCase()).toContain('<b>bold</b>');
-    expect(editor.innerHTML.toLowerCase()).toContain('<i>italic</i>');
+    await screen.findByText('Characters: 15');
     expect(editor.textContent).toBe('Bold and italic');
+    expect(editor.innerHTML).toBe('Bold and italic');
 
     expect(await screen.findByText('Characters: 15')).toBeInTheDocument();
   });

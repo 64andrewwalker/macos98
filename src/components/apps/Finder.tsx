@@ -29,7 +29,9 @@ const Finder: React.FC<FinderProps> = ({
     const handleDoubleClick = (item: FileItem) => {
         if (item.type === 'folder') {
             onNavigate(item.id);
-        } else if (item.type === 'file') {
+            return;
+        }
+        if (item.type === 'file') {
             onOpenFile(item.id, item.name, item.content ?? '');
         }
     };

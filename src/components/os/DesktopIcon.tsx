@@ -13,16 +13,22 @@ interface DesktopIconProps {
 }
 
 const DesktopIcon: React.FC<DesktopIconProps> = ({ icon, label, x, y, onDoubleClick, selected, onSelect, onMove }) => {
+    const [isDragging, setIsDragging] = useState(false);
     const [position, setPosition] = useState({ x, y });
     const positionRef = useRef({ x, y });
-    const [isDragging, setIsDragging] = useState(false);
+    const prevPropsRef = useRef({ x, y });
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
 
-    useEffect(() => {
-        const syncedPosition = { x, y };
-        setPosition(syncedPosition);
-        positionRef.current = syncedPosition;
-    }, [x, y]);
+    // Sync props to state when not dragging and props changed
+    // Using useLayoutEffect to update before paint
+    React.useLayoutEffect(() => {
+        if (!isDragging && (prevPropsRef.current.x !== x || prevPropsRef.current.y !== y)) {
+            const newPosition = { x, y };
+            setPosition(newPosition);
+            positionRef.current = newPosition;
+            prevPropsRef.current = newPosition;
+        }
+    }, [x, y, isDragging]);
 
     const handleMouseDown = (e: React.MouseEvent) => {
         onSelect();

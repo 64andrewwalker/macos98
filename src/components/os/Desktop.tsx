@@ -55,6 +55,13 @@ type HistoryAction =
     | { type: 'paste'; data: DesktopIconData }
     | { type: 'cut_paste'; data: { original: DesktopIconData; newIcon: DesktopIconData } };
 
+// Generate unique IDs using a counter (outside component to avoid re-creation)
+let idCounter = 0;
+const generateId = () => {
+    idCounter += 1;
+    return idCounter;
+};
+
 const Desktop: React.FC = () => {
     const [windows, setWindows] = useState<WindowData[]>([]);
     const [activeWindowId, setActiveWindowId] = useState<string | null>(null);
@@ -164,7 +171,7 @@ const Desktop: React.FC = () => {
     const createNewFolder = (position?: { x?: number; y?: number }) => {
         const baseX = 150 + (icons.length % 5) * 100;
         const baseY = 50 + Math.floor(icons.length / 5) * 100;
-        const newId = `folder_${Date.now()}`;
+        const newId = `folder_${generateId()}`;
         const newFolder: DesktopIconData = {
             id: newId,
             label: 'New Folder',
@@ -310,7 +317,7 @@ const Desktop: React.FC = () => {
         const { _cut, ...clipboardData } = clipboard;
         const newIcon: DesktopIconData = {
             ...clipboardData,
-            id: `${clipboard.id}_copy_${Date.now()}`,
+            id: `${clipboard.id}_copy_${generateId()}`,
             x: clipboard.x + 20,
             y: clipboard.y + 20,
             label: clipboard.label.includes('copy') ? clipboard.label : `${clipboard.label} copy`

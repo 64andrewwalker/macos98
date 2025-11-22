@@ -184,7 +184,8 @@ describe('InfoDialog', () => {
         });
 
         it('handles missing icon property', () => {
-            const { icon: _icon, ...noIconData } = mockIconData;
+            const { icon, ...noIconData } = mockIconData;
+            expect(icon).toBeDefined();
             expect(() => render(<InfoDialog iconData={noIconData} onClose={mockOnClose} />)).not.toThrow();
         });
     });
