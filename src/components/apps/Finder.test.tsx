@@ -376,8 +376,8 @@ describe('Finder', () => {
 
             render(<Finder {...defaultProps} items={itemsWithoutIcons} />);
 
-            const icon = screen.getByAltText('Test Item');
-            expect(icon).toBeInTheDocument();
+            expect(screen.getByText('Test Item')).toBeInTheDocument();
+            expect(screen.queryByAltText('Test Item')).not.toBeInTheDocument();
         });
 
         it('handles file content of various lengths', () => {

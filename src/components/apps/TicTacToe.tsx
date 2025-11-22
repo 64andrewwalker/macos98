@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import styles from './TicTacToe.module.scss';
 
+type PlayerSymbol = 'X' | 'O';
+type SquareValue = PlayerSymbol | null;
+
+const createEmptyBoard = (): SquareValue[] => Array.from({ length: 9 }, () => null);
+
 const TicTacToe: React.FC = () => {
-    const [board, setBoard] = useState(Array(9).fill(null));
+    const [board, setBoard] = useState<SquareValue[]>(createEmptyBoard());
     const [xIsNext, setXIsNext] = useState(true);
 
-    const calculateWinner = (squares: any[]) => {
+    const calculateWinner = (squares: SquareValue[]): PlayerSymbol | null => {
         const lines = [
             [0, 1, 2], [3, 4, 5], [6, 7, 8],
             [0, 3, 6], [1, 4, 7], [2, 5, 8],
@@ -32,7 +37,7 @@ const TicTacToe: React.FC = () => {
     const status = winner ? `Winner: ${winner}` : `Next player: ${xIsNext ? 'X' : 'O'}`;
 
     const resetGame = () => {
-        setBoard(Array(9).fill(null));
+        setBoard(createEmptyBoard());
         setXIsNext(true);
     };
 

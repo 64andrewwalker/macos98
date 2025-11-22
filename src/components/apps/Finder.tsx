@@ -40,6 +40,29 @@ const Finder: React.FC<FinderProps> = ({
         console.log('Navigate to breadcrumb index:', index);
     };
 
+    const renderIconVisual = (item: FileItem, size: 'large' | 'small') => {
+        const placeholderLabel = `${item.name} icon placeholder`;
+        if (item.icon) {
+            const className = size === 'large' ? styles.icon : styles.smallIcon;
+            const altText = size === 'large' ? item.name : '';
+            return <img src={item.icon} alt={altText} className={className} />;
+        }
+
+        if (size === 'small') {
+            return (
+                <span className={styles.smallIconPlaceholder} role="img" aria-label={placeholderLabel}>
+                    ?
+                </span>
+            );
+        }
+
+        return (
+            <div className={styles.iconPlaceholder} role="img" aria-label={placeholderLabel}>
+                ?
+            </div>
+        );
+    };
+
     return (
         <div className={styles.finder}>
             {/* Toolbar */}
@@ -86,7 +109,7 @@ const Finder: React.FC<FinderProps> = ({
                                 onClick={() => setSelectedId(item.id)}
                                 onDoubleClick={() => handleDoubleClick(item)}
                             >
-                                <img src={item.icon} alt={item.name} className={styles.icon} />
+                                {renderIconVisual(item, 'large')}
                                 <span className={styles.label}>{item.name}</span>
                             </div>
                         ))}
@@ -110,7 +133,7 @@ const Finder: React.FC<FinderProps> = ({
                                         onDoubleClick={() => handleDoubleClick(item)}
                                     >
                                         <td>
-                                            <img src={item.icon} alt="" className={styles.smallIcon} />
+                                            {renderIconVisual(item, 'small')}
                                             {item.name}
                                         </td>
                                         <td>{item.type === 'folder' ? 'Folder' : 'File'}</td>

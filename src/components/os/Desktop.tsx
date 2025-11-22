@@ -48,6 +48,13 @@ interface DesktopIconData {
     onDoubleClick: () => void;
 }
 
+type ClipboardData = DesktopIconData & { _cut?: boolean };
+
+type HistoryAction =
+    | { type: 'create_folder'; data: DesktopIconData }
+    | { type: 'paste'; data: DesktopIconData }
+    | { type: 'cut_paste'; data: { original: DesktopIconData; newIcon: DesktopIconData } };
+
 const Desktop: React.FC = () => {
     const [windows, setWindows] = useState<WindowData[]>([]);
     const [activeWindowId, setActiveWindowId] = useState<string | null>(null);
@@ -57,8 +64,8 @@ const Desktop: React.FC = () => {
         y: 0,
         visible: false
     });
-    const [clipboard, setClipboard] = useState<DesktopIconData | null>(null);
-    const [history, setHistory] = useState<{ type: string; data: any }[]>([]);
+    const [clipboard, setClipboard] = useState<ClipboardData | null>(null);
+    const [history, setHistory] = useState<HistoryAction[]>([]);
     const [showInfoDialog, setShowInfoDialog] = useState(false);
 
     const [icons, setIcons] = useState<DesktopIconData[]>([
@@ -150,6 +157,24 @@ const Desktop: React.FC = () => {
         return null;
     };
 
+    const createNewFolder = (position?: { x?: number; y?: number }) => {
+        const baseX = 150 + (icons.length % 5) * 100;
+        const baseY = 50 + Math.floor(icons.length / 5) * 100;
+        const newId = `folder_${Date.now()}`;
+        const newFolder: DesktopIconData = {
+            id: newId,
+            label: 'New Folder',
+            icon: folderIcon,
+            x: position?.x ?? baseX,
+            y: position?.y ?? baseY,
+            onDoubleClick: () => openWindow(newId, 'New Folder', <div><p>Empty folder</p></div>)
+        };
+
+        setIcons([...icons, newFolder]);
+        setHistory([...history, { type: 'create_folder', data: newFolder }]);
+        setSelectedIconId(newId);
+    };
+
     const openFinder = (folderId: string, folderName: string, items: FileItem[], path: string[]) => {
         const windowId = `finder_${folderId}`;
 
@@ -218,22 +243,7 @@ const Desktop: React.FC = () => {
             height = 200;
             content = <About />;
         } else if (id === 'new_folder') {
-            // Create a new folder icon
-            const newId = `folder_${Date.now()}`;
-
-            // Simple offset logic: find a spot that isn't taken, or just stack with offset
-            // For now, let's just cascade them
-            const startX = 150;
-            const startY = 50;
-
-            setIcons([...icons, {
-                id: newId,
-                label: 'New Folder',
-                icon: folderIcon,
-                x: startX + (icons.length % 5) * 100, // Grid-like placement
-                y: startY + Math.floor(icons.length / 5) * 100,
-                onDoubleClick: () => openWindow(newId, 'New Folder', <div><p>Empty folder</p></div>)
-            }]);
+            createNewFolder();
             return;
         }
 
@@ -283,16 +293,16 @@ const Desktop: React.FC = () => {
         if (!selectedIconId) return;
         const icon = icons.find(i => i.id === selectedIconId);
         if (icon) {
-            setClipboard({ ...icon, _cut: true } as any);
-            // Mark visually or handle differently if needed
+            setClipboard({ ...icon, _cut: true });
         }
     };
 
     const handlePaste = () => {
         if (!clipboard) return;
 
+        const { _cut, ...clipboardData } = clipboard;
         const newIcon: DesktopIconData = {
-            ...clipboard,
+            ...clipboardData,
             id: `${clipboard.id}_copy_${Date.now()}`,
             x: clipboard.x + 20,
             y: clipboard.y + 20,
@@ -300,9 +310,9 @@ const Desktop: React.FC = () => {
         };
 
         // If this was a cut operation, remove the original
-        if ((clipboard as any)._cut) {
+        if (_cut) {
             const filteredIcons = icons.filter(i => i.id !== clipboard.id);
-            setHistory([...history, { type: 'cut_paste', data: { original: clipboard, new: newIcon } }]);
+            setHistory([...history, { type: 'cut_paste', data: { original: clipboardData, newIcon } }]);
             setIcons([...filteredIcons, newIcon]);
             setClipboard(null);
         } else {
@@ -323,7 +333,7 @@ const Desktop: React.FC = () => {
         } else if (lastAction.type === 'cut_paste') {
             // Restore original, remove the pasted copy
             setIcons([
-                ...icons.filter(i => i.id !== lastAction.data.new.id),
+                ...icons.filter(i => i.id !== lastAction.data.newIcon.id),
                 lastAction.data.original
             ]);
         }
@@ -348,17 +358,10 @@ const Desktop: React.FC = () => {
         {
             label: 'New Folder',
             action: () => {
-                const newId = `folder_${Date.now()}`;
-                const newFolder: DesktopIconData = {
-                    id: newId,
-                    label: 'New Folder',
-                    icon: folderIcon,
+                createNewFolder({
                     x: 150 + (icons.length * 10),
-                    y: 50 + (icons.length * 10),
-                    onDoubleClick: () => openWindow(newId, 'New Folder', <div><p>Empty folder</p></div>)
-                };
-                setIcons([...icons, newFolder]);
-                setHistory([...history, { type: 'create_folder', data: newFolder }]);
+                    y: 50 + (icons.length * 10)
+                });
             }
         },
         {

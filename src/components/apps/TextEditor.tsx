@@ -15,6 +15,7 @@ type Alignment = 'left' | 'center' | 'right' | 'justify';
 const TextEditor: React.FC<TextEditorProps> = ({ fileId, fileName, initialContent, onSave }) => {
     const editorRef = useRef<HTMLDivElement>(null);
     const [isDirty, setIsDirty] = useState(false);
+    const [content, setContent] = useState(initialContent);
     const [fontFamily, setFontFamily] = useState<FontFamily>('Geneva');
     const [fontSize, setFontSize] = useState<FontSize>(12);
     const [isBold, setIsBold] = useState(false);
@@ -26,12 +27,16 @@ const TextEditor: React.FC<TextEditorProps> = ({ fileId, fileName, initialConten
     const [showHelp, setShowHelp] = useState(false);
 
     useEffect(() => {
-        if (editorRef.current && !editorRef.current.innerHTML) {
+        if (editorRef.current) {
             editorRef.current.innerText = initialContent;
         }
+        setContent(initialContent);
     }, [initialContent]);
 
     const handleInput = () => {
+        if (editorRef.current) {
+            setContent(editorRef.current.innerText);
+        }
         setIsDirty(true);
     };
 
@@ -78,9 +83,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ fileId, fileName, initialConten
     };
 
     const getStats = () => {
-        const text = editorRef.current?.innerText || '';
-        const lines = text.split('\n').length;
-        const chars = text.length;
+        const lines = content.split('\n').length;
+        const chars = content.length;
         return { lines, chars };
     };
 

@@ -42,6 +42,18 @@
         height: 48px;
         image-rendering: pixelated;
     }
+
+    .placeholder {
+        width: 48px;
+        height: 48px;
+        border: 1px solid #d0d0d0;
+        background-color: #f0f0f0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #606060;
+        font-size: 18px;
+    }
 }
 
 .infoRow {

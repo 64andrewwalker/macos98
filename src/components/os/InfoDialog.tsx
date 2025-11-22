@@ -1,14 +1,16 @@
 import React from 'react';
 import styles from './InfoDialog.module.scss';
 
+interface IconData {
+    label: string;
+    icon?: string;
+    x: number;
+    y: number;
+    id: string;
+}
+
 interface InfoDialogProps {
-    iconData?: {
-        label: string;
-        icon: string;
-        x: number;
-        y: number;
-        id: string;
-    };
+    iconData?: IconData;
     onClose: () => void;
 }
 
@@ -23,7 +25,11 @@ const InfoDialog: React.FC<InfoDialogProps> = ({ iconData, onClose }) => {
                     {iconData ? (
                         <>
                             <div className={styles.iconPreview}>
-                                <img src={iconData.icon} alt={iconData.label} />
+                                {iconData.icon ? (
+                                    <img src={iconData.icon} alt={iconData.label} />
+                                ) : (
+                                    <div className={styles.placeholder} role="img" aria-label={`${iconData.label} icon placeholder`}>?</div>
+                                )}
                             </div>
                             <div className={styles.infoRow}>
                                 <label>Name:</label>

@@ -56,7 +56,7 @@ const DesktopIcon: React.FC<DesktopIconProps> = ({ icon, label, x, y, onDoubleCl
             style={{ left: position.x, top: position.y }}
             onMouseDown={handleMouseDown}
             onClick={(e) => { e.stopPropagation(); onSelect(); }}
-            onDoubleClick={(e) => { e.stopPropagation(); onDoubleClick && onDoubleClick(); }}
+            onDoubleClick={(e) => { e.stopPropagation(); onDoubleClick?.(); }}
         >
             <div className={styles.iconWrapper}>
                 <img src={icon} alt={label} />

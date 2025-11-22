@@ -1,7 +1,9 @@
 // @vitest-environment jsdom
+import type { ReactNode } from 'react';
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import Desktop from './Desktop';
+import type { ContextMenuItem } from './ContextMenu';
 
 // Mock the imported images and components
 vi.mock('../../assets/pattern_bg.png', () => ({ default: 'pattern-bg.png' }));
@@ -14,15 +16,33 @@ vi.mock('../../assets/apple_logo.png', () => ({ default: 'apple-logo.png' }));
 
 // Mock child components
 vi.mock('./MenuBar', () => ({
-    default: ({ onOpenWindow }: { onOpenWindow: Function }) => (
+    default: ({
+        onOpenWindow,
+        onUndo
+    }: {
+        onOpenWindow: (id: string, title: string, content: unknown, width?: number, height?: number) => void;
+        onUndo: () => void;
+    }) => (
         <div data-testid="menubar">
             <button data-testid="menubar-about" onClick={() => onOpenWindow('about', 'About', null)}>About</button>
+            <button data-testid="menubar-new-folder" onClick={() => onOpenWindow('new_folder', 'New Folder', null)}>New Folder</button>
+            <button data-testid="menubar-undo" onClick={() => onUndo()}>Undo</button>
         </div>
     )
 }));
 
 vi.mock('./DesktopIcon', () => ({
-    default: ({ label, onDoubleClick, selected, onSelect }: any) => (
+    default: ({
+        label,
+        onDoubleClick,
+        selected,
+        onSelect
+    }: {
+        label: string;
+        onDoubleClick?: () => void;
+        selected: boolean;
+        onSelect: () => void;
+    }) => (
         <div
             data-testid={`desktop-icon-${label.toLowerCase().replace(/\s+/g, '-')}`}
             onClick={onSelect}
@@ -35,7 +55,17 @@ vi.mock('./DesktopIcon', () => ({
 }));
 
 vi.mock('./Window', () => ({
-    default: ({ title, onClose, isActive, children }: any) => (
+    default: ({
+        title,
+        onClose,
+        isActive,
+        children
+    }: {
+        title: string;
+        onClose: () => void;
+        isActive: boolean;
+        children: ReactNode;
+    }) => (
         <div data-testid={`window-${title.toLowerCase().replace(/\s+/g, '-')}`} data-active={isActive}>
             <div data-testid={`window-title-${title.toLowerCase().replace(/\s+/g, '-')}`}>{title}</div>
             <button data-testid={`window-close-${title.toLowerCase().replace(/\s+/g, '-')}`} onClick={onClose}>
@@ -47,10 +77,18 @@ vi.mock('./Window', () => ({
 }));
 
 vi.mock('./ContextMenu', () => ({
-    default: ({ visible, items, onClose }: any) => (
+    default: ({
+        visible,
+        items,
+        onClose
+    }: {
+        visible: boolean;
+        items: ContextMenuItem[];
+        onClose: () => void;
+    }) => (
         visible ? (
             <div data-testid="context-menu">
-                {items.map((item: any, index: number) => (
+                {items.map((item: ContextMenuItem, index: number) => (
                     item.label ? (
                         <div
                             key={index}
@@ -231,6 +269,16 @@ describe('Desktop', () => {
 
             expect(screen.getByTestId('window-about')).toBeInTheDocument();
             expect(screen.getByTestId('about-app')).toBeInTheDocument();
+        });
+
+        it('undo removes a new folder created from the File menu', () => {
+            render(<Desktop />);
+
+            fireEvent.click(screen.getByTestId('menubar-new-folder'));
+            expect(screen.getByTestId('desktop-icon-new-folder')).toBeInTheDocument();
+
+            fireEvent.click(screen.getByTestId('menubar-undo'));
+            expect(screen.queryByTestId('desktop-icon-new-folder')).not.toBeInTheDocument();
         });
     });
 
