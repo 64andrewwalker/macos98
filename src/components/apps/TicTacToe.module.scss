@@ -1,59 +1,62 @@
-.tictactoe {
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
+@use '../../styles/tokens';
+@use '../../styles/mixins';
 
-.status {
-    font-family: var(--sys-font);
+.tictactoe {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  .status {
+    font-family: tokens.$font-system;
     font-size: 14px;
     font-weight: bold;
-    color: #000000;
+    color: tokens.$color-text;
     margin-bottom: 5px;
-}
+  }
 
-.board {
+  .board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2px;
     background-color: #000000;
     border: 2px solid #000000;
-}
+  }
 
-.square {
+  .square {
     width: 40px;
     height: 40px;
-    background-color: #ffffff;
+    background-color: tokens.$color-surface;
     border: none;
-    font-family: var(--sys-font);
+    font-family: tokens.$font-system;
     font-size: 24px;
     font-weight: bold;
-    color: #000000;
+    color: tokens.$color-text;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
 
     &:hover {
-        background-color: #eeeeee;
+      background-color: #eeeeee;
     }
-}
+  }
 
-.reset {
+  .reset {
     margin-top: 10px;
     padding: 5px 10px;
-    font-family: var(--sys-font);
+    font-family: tokens.$font-system;
     font-weight: bold;
-    color: #000000;
-    background-color: #dddddd;
-    border: 1px solid #000000;
-    box-shadow: 1px 1px 0px #000000;
+    color: tokens.$color-text;
+    background-color: tokens.$color-window-bg;
+    border: 1px solid tokens.$color-border-dark;
+    box-shadow: 1px 1px 0px tokens.$color-border-dark;
     cursor: pointer;
 
     &:active {
-        box-shadow: none;
-        transform: translate(1px, 1px);
+      box-shadow: none;
+      transform: translate(1px, 1px);
     }
+  }
 }

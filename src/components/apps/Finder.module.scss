@@ -1,89 +1,75 @@
+@use '../../styles/tokens';
+@use '../../styles/mixins';
+
 .finder {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    background-color: #ffffff;
-    font-family: var(--sys-font);
-}
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: tokens.$color-surface;
+  font-family: tokens.$font-system;
 
-/* Toolbar */
-.toolbar {
-    display: flex;
+  /* Toolbar */
+  .toolbar {
+    @include mixins.toolbar-strip;
     justify-content: space-between;
-    align-items: center;
-    padding: 4px 8px;
-    border-bottom: 1px solid #808080;
-    background-color: #c0c0c0;
     min-height: 28px;
-}
+  }
 
-.breadcrumb {
+  .breadcrumb {
     display: flex;
     align-items: center;
     gap: 4px;
-    font-size: 12px;
-    color: #000000;
-}
+    font-size: tokens.$font-size-sm;
+    color: tokens.$color-text;
+  }
 
-.breadcrumbItem {
+  .breadcrumbItem {
     cursor: pointer;
     padding: 2px 4px;
 
     &:hover {
-        background-color: #000080;
-        color: #ffffff;
+      background-color: tokens.$color-selection-bg;
+      color: tokens.$color-surface;
     }
-}
+  }
 
-.separator {
-    color: #808080;
+  .separator {
+    color: tokens.$color-border-gray;
     user-select: none;
-}
+  }
 
-.viewToggle {
+  .viewToggle {
     display: flex;
     gap: 2px;
-}
+  }
 
-.viewButton {
+  .viewButton {
     width: 24px;
     height: 24px;
-    background-color: #c0c0c0;
-    border: 2px outset #ffffff;
-    cursor: pointer;
+    @include mixins.toolbar-toggle-button;
     font-size: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #000000;
+  }
 
-    &:active {
-        border-style: inset;
-    }
-
-    &.active {
-        border-style: inset;
-        background-color: #808080;
-    }
-}
-
-/* Content Area */
-.content {
+  /* Content Area */
+  .content {
     flex: 1;
     overflow: auto;
     padding: 8px;
-    background-color: #ffffff;
-}
+    background-color: tokens.$color-surface;
+  }
 
-/* Icon View */
-.iconView {
+  /* Icon View */
+  .iconView {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
     gap: 16px;
     padding: 8px;
-}
+  }
 
-.iconItem {
+  .iconItem {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -93,25 +79,25 @@
     user-select: none;
 
     &.selected {
-        background-color: #000080;
+      background-color: tokens.$color-selection-bg;
 
-        .label {
-            color: #ffffff;
-        }
+      .label {
+        color: tokens.$color-surface;
+      }
     }
 
     &:hover:not(.selected) {
-        background-color: #e0e0e0;
+      background-color: #e0e0e0;
     }
-}
+  }
 
-.icon {
+  .icon {
     width: 48px;
     height: 48px;
     image-rendering: pixelated;
-}
+  }
 
-.iconPlaceholder {
+  .iconPlaceholder {
     width: 48px;
     height: 48px;
     border: 1px solid #d0d0d0;
@@ -121,73 +107,73 @@
     justify-content: center;
     color: #606060;
     font-size: 18px;
-}
+  }
 
-.label {
+  .label {
     font-size: 11px;
     text-align: center;
     word-break: break-word;
     max-width: 80px;
-    color: #000000;
-}
+    color: tokens.$color-text;
+  }
 
-/* List View */
-.listView {
+  /* List View */
+  .listView {
     width: 100%;
-}
+  }
 
-.table {
+  .table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 12px;
-    color: #000000;
+    font-size: tokens.$font-size-sm;
+    color: tokens.$color-text;
 
     thead {
-        background-color: #c0c0c0;
-        border-bottom: 2px solid #808080;
+      background-color: #c0c0c0;
+      border-bottom: 2px solid tokens.$color-border-gray;
 
-        th {
-            text-align: left;
-            padding: 4px 8px;
-            font-weight: bold;
-            border-right: 1px solid #808080;
+      th {
+        text-align: left;
+        padding: 4px 8px;
+        font-weight: bold;
+        border-right: 1px solid tokens.$color-border-gray;
 
-            &:last-child {
-                border-right: none;
-            }
+        &:last-child {
+          border-right: none;
         }
+      }
     }
 
     tbody {
-        tr {
-            cursor: default;
+      tr {
+        cursor: default;
 
-            &:hover:not(.selected) {
-                background-color: #e0e0e0;
-            }
-
-            &.selected {
-                background-color: #000080;
-                color: #ffffff;
-            }
-
-            td {
-                padding: 4px 8px;
-                border-bottom: 1px solid #d0d0d0;
-            }
+        &:hover:not(.selected) {
+          background-color: #e0e0e0;
         }
-    }
-}
 
-.smallIcon {
+        &.selected {
+          background-color: tokens.$color-selection-bg;
+          color: tokens.$color-surface;
+        }
+
+        td {
+          padding: 4px 8px;
+          border-bottom: 1px solid #d0d0d0;
+        }
+      }
+    }
+  }
+
+  .smallIcon {
     width: 16px;
     height: 16px;
     margin-right: 4px;
     vertical-align: middle;
     image-rendering: pixelated;
-}
+  }
 
-.smallIconPlaceholder {
+  .smallIconPlaceholder {
     width: 16px;
     height: 16px;
     margin-right: 4px;
@@ -199,14 +185,12 @@
     color: #606060;
     font-size: 10px;
     vertical-align: middle;
-}
+  }
 
-/* Status Bar */
-.statusBar {
+  /* Status Bar */
+  .statusBar {
     padding: 4px 8px;
-    border-top: 1px solid #808080;
-    background-color: #c0c0c0;
-    font-size: 11px;
-    color: #000000;
+    @include mixins.status-bar;
     min-height: 20px;
+  }
 }

@@ -1,60 +1,59 @@
-.desktopIcon {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 90px;
-    cursor: default;
-}
+@use '../../styles/tokens';
 
-.iconWrapper {
+.desktopIcon {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90px;
+  cursor: default;
+
+  .iconWrapper {
     position: relative;
     width: 48px;
     height: 48px;
     margin-bottom: 4px;
 
     img {
-        width: 100%;
-        height: 100%;
-        image-rendering: pixelated;
-        object-fit: contain;
+      width: 100%;
+      height: 100%;
+      image-rendering: pixelated;
+      object-fit: contain;
     }
-}
 
-.ditherOverlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 128, 0.5);
-    mix-blend-mode: multiply;
-    mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=);
-    /* Fallback mask if needed, but mix-blend-mode usually works */
-}
+    .ditherOverlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 128, 0.5);
+      mix-blend-mode: multiply;
+      mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=);
+    }
+  }
 
-.label {
-    font-family: var(--sys-font);
-    font-size: 12px;
+  .label {
+    font-family: tokens.$font-system;
+    font-size: tokens.$font-size-sm;
     text-align: center;
     padding: 2px 4px;
-    color: #000000;
+    color: tokens.$color-text;
     background-color: rgba(255, 255, 255, 0.8);
-    /* Semi-transparent white for readability */
     border: 1px dotted transparent;
     border-radius: 2px;
     text-shadow: none;
-}
+  }
 
-.selected {
+  &.selected {
     .iconWrapper img {
-        filter: brightness(0.7);
+      filter: brightness(0.7);
     }
 
     .label {
-        background-color: #000080;
-        /* System highlight blue */
-        color: #ffffff;
-        border: 1px dotted #ffffff;
+      background-color: tokens.$color-selection-bg;
+      color: tokens.$color-surface;
+      border: 1px dotted tokens.$color-surface;
     }
+  }
 }

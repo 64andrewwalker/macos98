@@ -1,43 +1,45 @@
+@use '../../styles/tokens';
+
 .about {
-    padding: 20px;
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    align-items: flex-start;
-    background-color: #dddddd;
-    font-family: var(--sys-font);
-    color: #000000;
-}
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: flex-start;
+  background-color: tokens.$color-window-bg;
+  font-family: tokens.$font-system;
+  color: tokens.$color-text;
 
-.logo {
+  .logo {
     img {
-        width: 64px;
-        image-rendering: pixelated;
+      width: 64px;
+      image-rendering: pixelated;
     }
-}
+  }
 
-.info {
+  .info {
     flex: 1;
 
     h2 {
-        margin: 0 0 10px 0;
-        font-size: 18px;
+      margin: 0 0 10px 0;
+      font-size: 18px;
     }
 
     p {
-        margin: 5px 0;
-        font-size: 12px;
+      margin: 5px 0;
+      font-size: tokens.$font-size-sm;
     }
-}
+  }
 
-.copyright {
+  .copyright {
     font-size: 10px;
     color: #333333;
     margin-top: 10px;
-}
+  }
 
-.memory {
+  .memory {
     margin-top: 15px;
     border-top: 1px solid #888888;
     padding-top: 5px;
+  }
 }

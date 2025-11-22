@@ -1,0 +1,40 @@
+// SCSS design tokens for the retro macOS 98 UI
+
+// Base system colors from CSS custom properties
+$color-sys-bg: var(--sys-bg-color);
+$color-sys-highlight: var(--sys-highlight);
+$color-border-light: var(--sys-border-light);
+$color-border-dark: var(--sys-border-dark);
+$color-border-gray: var(--sys-border-gray);
+
+// Semantic surface and text colors
+$color-window-bg: $color-sys-bg;
+$color-surface: #ffffff;
+$color-text: #000000;
+$color-disabled-text: #888888;
+$color-selection-bg: $color-sys-highlight;
+
+// Additional accent colors used in retro chrome
+$color-stripe-alt: #aaaaaa;
+
+// Shadows
+$shadow-window: 2px 2px 0px rgba(0, 0, 0, 0.2);
+$shadow-menu: 2px 2px 0px rgba(0, 0, 0, 0.2);
+$shadow-dialog: 4px 4px 0px rgba(0, 0, 0, 0.5);
+$shadow-display-inset: inset 1px 1px 2px rgba(0, 0, 0, 0.2);
+
+// Spacing
+$space-xxs: 2px;
+$space-xs: 4px;
+$space-sm: 5px;
+$space-md: 8px;
+$space-lg: 10px;
+
+// Typography
+$font-system: var(--sys-font);
+$font-mono: 'Courier New', monospace;
+$font-size-xs: 11px;
+$font-size-sm: 12px;
+$font-size-md: 14px;
+$font-size-lg: 18px;
+

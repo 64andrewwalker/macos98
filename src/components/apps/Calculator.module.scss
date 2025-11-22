@@ -1,76 +1,61 @@
-.calculator {
-    padding: 10px;
-    background-color: #dddddd;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+@use '../../styles/tokens';
+@use '../../styles/mixins';
 
-.display {
-    background-color: #ffffff;
-    border: 1px solid #808080;
-    border-bottom-color: #ffffff;
-    border-right-color: #ffffff;
-    padding: 5px;
+.calculator {
+  padding: tokens.$space-lg;
+  background-color: tokens.$color-window-bg;
+  display: flex;
+  flex-direction: column;
+  gap: tokens.$space-lg;
+
+  .display {
+    background-color: tokens.$color-surface;
+    border: 1px solid tokens.$color-border-gray;
+    border-bottom-color: tokens.$color-surface;
+    border-right-color: tokens.$color-surface;
+    padding: tokens.$space-sm;
     text-align: right;
-    font-family: 'Courier New', monospace;
-    font-size: 18px;
+    font-family: tokens.$font-mono;
+    font-size: tokens.$font-size-lg;
     height: 30px;
     line-height: 30px;
-    color: #000000;
-    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.2);
+    color: tokens.$color-text;
+    box-shadow: tokens.$shadow-display-inset;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-}
+  }
 
-.keypad {
+  .keypad {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 5px;
-}
+    gap: tokens.$space-sm;
+  }
 
-button {
+  button {
     width: 30px;
     height: 30px;
-    font-family: var(--sys-font);
-    font-size: 14px;
-    font-weight: bold;
-    color: #000000;
-    background-color: #dddddd;
-    border: 1px solid #000000;
-    border-top-color: #ffffff;
-    border-left-color: #ffffff;
-    box-shadow: 1px 1px 0px #000000;
-    cursor: pointer;
+    @include mixins.retro-button;
+  }
 
-    &:active {
-        border-top-color: #000000;
-        border-left-color: #000000;
-        border-bottom-color: #ffffff;
-        border-right-color: #ffffff;
-        box-shadow: none;
-        transform: translate(1px, 1px);
-    }
-}
-
-.clear {
+  .clear {
     grid-column: span 1;
     background-color: #ffcccc;
-}
+  }
 
-.plus {
+  .plus {
     grid-row: span 2;
     height: 65px;
-}
+  }
 
-.equals {
+  .equals {
     grid-row: span 2;
     height: 65px;
     background-color: #ccffcc;
-}
+  }
 
-.zero {
+  .zero {
     grid-column: span 2;
     width: 65px;
+  }
 }

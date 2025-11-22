@@ -1,0 +1,192 @@
+@use './tokens';
+
+// Window chrome (outer container)
+@mixin window-chrome {
+  position: absolute;
+  background-color: tokens.$color-window-bg;
+  border: 1px solid tokens.$color-border-dark;
+  box-shadow: tokens.$shadow-window;
+  display: flex;
+  flex-direction: column;
+  padding: 1px;
+}
+
+// Window title bar (active/inactive)
+@mixin window-title-bar($active: false) {
+  height: 18px;
+  border-bottom: 1px solid tokens.$color-border-dark;
+  display: flex;
+  align-items: center;
+  padding: 0 tokens.$space-xs;
+  cursor: default;
+  user-select: none;
+
+  @if $active {
+    background: repeating-linear-gradient(
+      90deg,
+      tokens.$color-window-bg,
+      tokens.$color-window-bg 2px,
+      tokens.$color-border-dark 2px,
+      tokens.$color-border-dark 4px
+    );
+  } @else {
+    background: repeating-linear-gradient(
+      90deg,
+      tokens.$color-window-bg,
+      tokens.$color-window-bg 2px,
+      tokens.$color-stripe-alt 2px,
+      tokens.$color-stripe-alt 4px
+    );
+  }
+}
+
+// Window inner content frame
+@mixin window-content-frame {
+  flex: 1;
+  border: 1px solid tokens.$color-border-light;
+  border-right-color: tokens.$color-border-gray;
+  border-bottom-color: tokens.$color-border-gray;
+  margin: tokens.$space-xxs;
+  background-color: tokens.$color-surface;
+  overflow: hidden;
+  position: relative;
+}
+
+// Retro button with beveled edges
+@mixin retro-button {
+  font-family: tokens.$font-system;
+  font-size: tokens.$font-size-md;
+  font-weight: bold;
+  color: tokens.$color-text;
+  background-color: tokens.$color-window-bg;
+  border: 1px solid tokens.$color-border-dark;
+  border-top-color: tokens.$color-border-light;
+  border-left-color: tokens.$color-border-light;
+  box-shadow: 1px 1px 0 tokens.$color-border-dark;
+  cursor: pointer;
+
+  &:active {
+    border-top-color: tokens.$color-border-dark;
+    border-left-color: tokens.$color-border-dark;
+    border-bottom-color: tokens.$color-border-light;
+    border-right-color: tokens.$color-border-light;
+    box-shadow: none;
+    transform: translate(1px, 1px);
+  }
+}
+
+// Outset / inset 2px toolbar-style button (for mode toggles, etc.)
+@mixin toolbar-toggle-button {
+  font-family: tokens.$font-system;
+  font-size: tokens.$font-size-xs;
+  background-color: #c0c0c0;
+  border-top: 2px solid tokens.$color-border-light;
+  border-left: 2px solid tokens.$color-border-light;
+  border-right: 2px solid tokens.$color-border-gray;
+  border-bottom: 2px solid tokens.$color-border-gray;
+  cursor: pointer;
+
+  &:active,
+  &.active {
+    border-top: 2px solid tokens.$color-border-gray;
+    border-left: 2px solid tokens.$color-border-gray;
+    border-right: 2px solid tokens.$color-border-light;
+    border-bottom: 2px solid tokens.$color-border-light;
+    background-color: #d4d4d4;
+    font-weight: bold;
+  }
+
+  &.active {
+    background-color: #e0e0e0;
+    box-shadow: inset 1px 1px 0 tokens.$color-border-dark;
+  }
+}
+
+// Generic toolbar stripe (Finder/TextEditor header bars)
+@mixin toolbar-strip {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  background-color: #c0c0c0;
+  border-bottom: 1px solid tokens.$color-border-gray;
+}
+
+// Generic status bar (Finder/TextEditor status rows)
+@mixin status-bar {
+  font-family: tokens.$font-system;
+  font-size: tokens.$font-size-xs;
+  background-color: #c0c0c0;
+  border-top: 1px solid tokens.$color-border-gray;
+  color: tokens.$color-text;
+}
+
+// Menu bar container
+@mixin menu-bar {
+  height: 22px;
+  background-color: tokens.$color-surface !important;
+  color: tokens.$color-text !important;
+  border-bottom: 1px solid tokens.$color-border-dark;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 tokens.$space-md;
+  font-size: tokens.$font-size-sm;
+  font-family: tokens.$font-system;
+  z-index: 1000;
+  position: relative;
+}
+
+// Menu bar item
+@mixin menu-item {
+  padding: 0 12px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  cursor: default;
+  position: relative;
+  color: tokens.$color-text;
+
+  &:hover,
+  &.active {
+    background-color: tokens.$color-border-dark !important;
+    color: tokens.$color-surface !important;
+  }
+}
+
+// Dropdown menu container
+@mixin menu-dropdown {
+  position: absolute;
+  top: 22px;
+  left: 0;
+  background-color: tokens.$color-surface;
+  border: 1px solid tokens.$color-border-dark;
+  box-shadow: tokens.$shadow-menu;
+  min-width: 200px;
+  z-index: 2000;
+  padding: 2px 0;
+  color: tokens.$color-text;
+}
+
+// Dropdown menu item
+@mixin menu-dropdown-item {
+  padding: 3px 15px;
+  cursor: default;
+  font-family: tokens.$font-system;
+  font-size: tokens.$font-size-sm;
+  color: tokens.$color-text;
+
+  &:hover {
+    background-color: tokens.$color-sys-highlight;
+    color: tokens.$color-surface;
+  }
+
+  &.disabled {
+    color: tokens.$color-disabled-text;
+    cursor: default;
+
+    &:hover {
+      background-color: transparent;
+      color: tokens.$color-disabled-text;
+    }
+  }
+}
