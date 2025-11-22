@@ -12,10 +12,16 @@ type FontFamily = 'Geneva' | 'Times' | 'Courier' | 'Helvetica';
 type FontSize = 9 | 10 | 12 | 14 | 18 | 24;
 type Alignment = 'left' | 'center' | 'right' | 'justify';
 
+const extractPlainText = (html: string) => {
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = html;
+    return wrapper.textContent ?? '';
+};
+
 const TextEditor: React.FC<TextEditorProps> = ({ fileId, fileName, initialContent, onSave }) => {
     const editorRef = useRef<HTMLDivElement>(null);
     const [isDirty, setIsDirty] = useState(false);
-    const [content, setContent] = useState(initialContent);
+    const [content, setContent] = useState(() => extractPlainText(initialContent));
     const [fontFamily, setFontFamily] = useState<FontFamily>('Geneva');
     const [fontSize, setFontSize] = useState<FontSize>(12);
     const [isBold, setIsBold] = useState(false);
@@ -26,17 +32,22 @@ const TextEditor: React.FC<TextEditorProps> = ({ fileId, fileName, initialConten
     const [showRuler, setShowRuler] = useState(false);
     const [showHelp, setShowHelp] = useState(false);
 
+    const getEditorText = () => {
+        if (!editorRef.current) return '';
+        return editorRef.current.innerText || editorRef.current.textContent || '';
+    };
+
     useEffect(() => {
         if (editorRef.current) {
-            editorRef.current.innerText = initialContent;
+            editorRef.current.innerHTML = initialContent;
+            setContent(getEditorText());
+        } else {
+            setContent(extractPlainText(initialContent));
         }
-        setContent(initialContent);
     }, [initialContent]);
 
     const handleInput = () => {
-        if (editorRef.current) {
-            setContent(editorRef.current.innerText);
-        }
+        setContent(getEditorText());
         setIsDirty(true);
     };
 
@@ -83,8 +94,9 @@ const TextEditor: React.FC<TextEditorProps> = ({ fileId, fileName, initialConten
     };
 
     const getStats = () => {
-        const lines = content.split('\n').length;
-        const chars = content.length;
+        const currentContent = content ?? '';
+        const lines = currentContent.split('\n').length;
+        const chars = currentContent.length;
         return { lines, chars };
     };
 

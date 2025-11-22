@@ -157,6 +157,10 @@ const Desktop: React.FC = () => {
         return null;
     };
 
+    const updateIconPosition = (id: string, position: { x: number; y: number }) => {
+        setIcons(prevIcons => prevIcons.map(icon => icon.id === id ? { ...icon, x: position.x, y: position.y } : icon));
+    };
+
     const createNewFolder = (position?: { x?: number; y?: number }) => {
         const baseX = 150 + (icons.length % 5) * 100;
         const baseY = 50 + Math.floor(icons.length / 5) * 100;
@@ -229,7 +233,7 @@ const Desktop: React.FC = () => {
             });
         };
 
-        setIcons(icons.map(icon => {
+        setIcons(prevIcons => prevIcons.map(icon => {
             if (icon.children) {
                 return { ...icon, children: updateInArray(icon.children) };
             }
@@ -247,21 +251,24 @@ const Desktop: React.FC = () => {
             return;
         }
 
-        if (windows.find(w => w.id === id)) {
+        setWindows(prevWindows => {
+            if (prevWindows.find(w => w.id === id)) {
+                setActiveWindowId(id);
+                return prevWindows;
+            }
+
+            const newWindow: WindowData = {
+                id,
+                title,
+                x: 100 + prevWindows.length * 20,
+                y: 100 + prevWindows.length * 20,
+                width,
+                height,
+                content
+            };
             setActiveWindowId(id);
-            return;
-        }
-        const newWindow: WindowData = {
-            id,
-            title,
-            x: 100 + windows.length * 20,
-            y: 100 + windows.length * 20,
-            width,
-            height,
-            content
-        };
-        setWindows([...windows, newWindow]);
-        setActiveWindowId(id);
+            return [...prevWindows, newWindow];
+        });
     };
 
     const closeWindow = (id: string) => {
@@ -414,6 +421,7 @@ const Desktop: React.FC = () => {
                         onDoubleClick={icon.onDoubleClick}
                         selected={selectedIconId === icon.id}
                         onSelect={() => setSelectedIconId(icon.id)}
+                        onMove={(position) => updateIconPosition(icon.id, position)}
                     />
                 ))}
             </div>

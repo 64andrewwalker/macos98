@@ -32,4 +32,23 @@ describe('TextEditor', () => {
     fireEvent.input(editor!);
     expect(screen.getByText('Characters: 11')).toBeInTheDocument();
   });
+
+  it('renders saved rich content without escaping HTML and keeps stats from text', async () => {
+    const richContent = '<b>Bold</b> and <i>italic</i>';
+    render(
+      <TextEditor
+        fileId="2"
+        fileName="Rich.txt"
+        initialContent={richContent}
+        onSave={() => {}}
+      />
+    );
+
+    const editor = screen.getByTestId('text-editor-content');
+    expect(editor.innerHTML.toLowerCase()).toContain('<b>bold</b>');
+    expect(editor.innerHTML.toLowerCase()).toContain('<i>italic</i>');
+    expect(editor.textContent).toBe('Bold and italic');
+
+    expect(await screen.findByText('Characters: 15')).toBeInTheDocument();
+  });
 });

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './DesktopIcon.module.scss';
 
 interface DesktopIconProps {
@@ -9,34 +9,47 @@ interface DesktopIconProps {
     onDoubleClick?: () => void;
     selected: boolean;
     onSelect: () => void;
+    onMove?: (position: { x: number; y: number }) => void;
 }
 
-const DesktopIcon: React.FC<DesktopIconProps> = ({ icon, label, x, y, onDoubleClick, selected, onSelect }) => {
+const DesktopIcon: React.FC<DesktopIconProps> = ({ icon, label, x, y, onDoubleClick, selected, onSelect, onMove }) => {
     const [position, setPosition] = useState({ x, y });
+    const positionRef = useRef({ x, y });
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+
+    useEffect(() => {
+        const syncedPosition = { x, y };
+        setPosition(syncedPosition);
+        positionRef.current = syncedPosition;
+    }, [x, y]);
 
     const handleMouseDown = (e: React.MouseEvent) => {
         onSelect();
         setIsDragging(true);
         setDragOffset({
-            x: e.clientX - position.x,
-            y: e.clientY - position.y
+            x: e.clientX - positionRef.current.x,
+            y: e.clientY - positionRef.current.y
         });
     };
 
     useEffect(() => {
         const handleGlobalMouseMove = (e: MouseEvent) => {
             if (isDragging) {
-                setPosition({
+                const newPosition = {
                     x: e.clientX - dragOffset.x,
                     y: e.clientY - dragOffset.y
-                });
+                };
+                positionRef.current = newPosition;
+                setPosition(newPosition);
             }
         };
 
         const handleGlobalMouseUp = () => {
             setIsDragging(false);
+            if (isDragging) {
+                onMove?.(positionRef.current);
+            }
         };
 
         if (isDragging) {
@@ -48,7 +61,7 @@ const DesktopIcon: React.FC<DesktopIconProps> = ({ icon, label, x, y, onDoubleCl
             window.removeEventListener('mousemove', handleGlobalMouseMove);
             window.removeEventListener('mouseup', handleGlobalMouseUp);
         };
-    }, [isDragging, dragOffset]);
+    }, [isDragging, dragOffset, onMove]);
 
     return (
         <div

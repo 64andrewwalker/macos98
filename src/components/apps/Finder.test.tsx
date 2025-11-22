@@ -227,22 +227,23 @@ describe('Finder', () => {
             expect(mockOnOpenFile).toHaveBeenCalledWith('file1', 'readme.txt', 'This is a test file content.');
         });
 
-        it('does not call onOpenFile when file has no content', () => {
-            const itemsWithoutContent = [
+        it('calls onOpenFile when file is empty', () => {
+            const itemsWithEmptyContent = [
                 {
                     id: 'file2',
                     name: 'empty.txt',
                     type: 'file' as const,
-                    icon: '/file-icon.png'
+                    icon: '/file-icon.png',
+                    content: ''
                 }
             ];
 
-            render(<Finder {...defaultProps} items={itemsWithoutContent} />);
+            render(<Finder {...defaultProps} items={itemsWithEmptyContent} />);
 
             const fileItem = screen.getByText('empty.txt').closest('[class*="iconItem"]') as HTMLElement;
             fireEvent.doubleClick(fileItem);
 
-            expect(mockOnOpenFile).not.toHaveBeenCalled();
+            expect(mockOnOpenFile).toHaveBeenCalledWith('file2', 'empty.txt', '');
         });
 
         it('does not call navigation callbacks for app items', () => {
