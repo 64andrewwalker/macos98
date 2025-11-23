@@ -1,8 +1,8 @@
 ## 1. Scaffold interaction runtime layer
 
-- [ ] 1.1 Create `src/runtime/interaction/` with an index file and placeholders for `titleBar`, `buttonState`, `windowManager`, `menuMode`, and `finderSelection` modules.
-- [ ] 1.2 Add high‑level unit tests that describe the expected behavior for each module, based on `INTERACTION_BLUEPRINT.md` (title bar drag zone, menu mode, selection, keyboard navigation).
-- [ ] 1.3 Ensure new runtime modules are tree‑shakable and have no React/UI dependencies beyond hooks and context.
+- [x] 1.1 Create `src/runtime/interaction/` with an index file and placeholders for `titleBar`, `buttonState`, `windowManager`, `menuMode`, and `finderSelection` modules.
+- [x] 1.2 Add high‑level unit tests that describe the expected behavior for each module, based on `INTERACTION_BLUEPRINT.md` (title bar drag zone, menu mode, selection, keyboard navigation).
+- [x] 1.3 Ensure new runtime modules are tree‑shakable and have no React/UI dependencies beyond hooks and context.
 
 ## 2. Implement TitleBar Interaction Engine
 
