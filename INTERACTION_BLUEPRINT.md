@@ -38,6 +38,12 @@ DRAG ZONE = Left empty space (between closeBox and title)
 NOT DRAG  = Title text, control buttons, right empty space
 ```
 
+**Requirements:**
+- `INT-TB-001`: Only left drag zone initiates window dragging
+- `INT-TB-002`: Title text is NOT draggable
+- `INT-TB-003`: Control buttons (close, zoom) do NOT initiate drag
+- `INT-TB-004`: Right empty space is NOT draggable
+
 ### 1.2 Implementation Pattern
 
 ```tsx
@@ -80,15 +86,20 @@ const handleTitleBarMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
 }
 
 .dragZone {
-  cursor: move; // Only on drag zone
+  cursor: move; // Only on drag zone  [INT-TB-005]
   flex: 1; // Fill space before title
 }
 
 .titleText {
-  cursor: default; // NOT draggable
-  user-select: none; // Cannot select text
+  cursor: default; // NOT draggable  [INT-TB-006]
+  user-select: none; // Cannot select text  [INT-TB-007]
 }
 ```
+
+**Requirements:**
+- `INT-TB-005`: Drag zone cursor shows `move`
+- `INT-TB-006`: Title text cursor shows `default` (not move)
+- `INT-TB-007`: Title text has `user-select: none`
 
 ### 1.4 Anti-Patterns
 
@@ -119,12 +130,20 @@ const handleTitleBarMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
 
 **State Priority (highest to lowest):**
 
-1. **`:active`** (mouse down on button) → **bevel-inset** (pressed)
-2. **`:hover`** (mouse over button) → **bevel-outset** + slight highlight
-3. **`:focus`** (keyboard focus) → **dotted outline** (OS9 focus ring)
-4. **default** → **bevel-outset** (raised)
+1. **`:active`** (mouse down on button) → **bevel-inset** (pressed) [`INT-BTN-004`]
+2. **`:hover`** (mouse over button) → **bevel-outset** + slight highlight [`INT-BTN-005`]
+3. **`:focus`** (keyboard focus) → **dotted outline** (OS9 focus ring) [`INT-BTN-006`]
+4. **default** → **bevel-outset** (raised) [`INT-BTN-003`]
 
-**Critical Rule:** `:active` **ALWAYS overrides** `:hover`. When mouse is down, button MUST show pressed state even if hover would normally apply.
+**Critical Rule:** `:active` **ALWAYS overrides** `:hover`. When mouse is down, button MUST show pressed state even if hover would normally apply. [`INT-BTN-001`, `INT-BTN-002`]
+
+**Requirements:**
+- `INT-BTN-001`: State priority: `:active` > `:hover` > `:focus` > default
+- `INT-BTN-002`: Pressed state ALWAYS overrides hover state
+- `INT-BTN-003`: Default state uses `bevel-outset`
+- `INT-BTN-004`: Pressed state uses `bevel-inset` (complete flip)
+- `INT-BTN-005`: Hover state shows subtle highlight (no bevel change)
+- `INT-BTN-006`: Focus state shows 1px dotted outline, -3px offset
 
 ### 2.2 Bevel Flip Rule
 
@@ -257,16 +276,25 @@ const handleTitleBarMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
 ### 3.1 Focus States
 
 **Focused Window (Active):**
-- Title bar: **Full color** (striped pattern visible)
+- Title bar: **Full color** (striped pattern visible) [`INT-WIN-001`]
 - Control buttons: **Enabled** (clickable, colored)
 - Bevel: **Full contrast** (light/gray borders)
 - Content: **Normal** (full opacity)
 
 **Inactive Window:**
-- Title bar: **Dimmed** (stripe pattern desaturated)
-- Control buttons: **Visible but dimmed** (NOT disabled, just desaturated)
-- Bevel: **Reduced contrast** (softer borders)
-- Content: **Slightly dimmed** (90% opacity)
+- Title bar: **Dimmed** (stripe pattern desaturated) [`INT-WIN-101`]
+- Control buttons: **Visible but dimmed** (NOT disabled, just desaturated) [`INT-WIN-102`]
+- Bevel: **Reduced contrast** (softer borders) [`INT-WIN-103`]
+- Content: **Slightly dimmed** (90% opacity) [`INT-WIN-104`]
+
+**Requirements:**
+- `INT-WIN-001`: Exactly one window is active at a time
+- `INT-WIN-002`: Clicking window brings to front and activates
+- `INT-WIN-003`: Z-index increases with focus order
+- `INT-WIN-101`: Inactive title bar: dimmed stripe pattern
+- `INT-WIN-102`: Inactive controls: dimmed but clickable
+- `INT-WIN-103`: Inactive bevel: reduced contrast
+- `INT-WIN-104`: Inactive content: 90% opacity
 
 ### 3.2 Title Bar Dimming
 
@@ -409,16 +437,23 @@ return (
 **Menu Interaction Flow:**
 
 1. **Hover on Menu Bar Item** → Highlight (no open)
-2. **Click on Menu Bar Item** → Open dropdown, **enter "menu mode"**
+2. **Click on Menu Bar Item** → Open dropdown, **enter "menu mode"** [`INT-MENU-001`]
 3. **In "menu mode":**
-   - Hover over other menu bar items → **Auto-switch** to that menu
+   - Hover over other menu bar items → **Auto-switch** to that menu [`INT-MENU-002`]
    - Hover over menu items → Highlight
-   - Click menu item → Execute action, **exit "menu mode"**
-   - Click outside → **Exit "menu mode"**, close all menus
+   - Click menu item → Execute action, **exit "menu mode"** [`INT-MENU-005`]
+   - Click outside → **Exit "menu mode"**, close all menus [`INT-MENU-003`]
 
 **Critical Difference from Modern UI:**
 - Modern: Hover opens menus immediately
 - OS9: **Click to enter menu mode**, then hover switches menus
+
+**Requirements:**
+- `INT-MENU-001`: Click menu title enters "menu mode"
+- `INT-MENU-002`: Hover switches menus ONLY while in menu mode
+- `INT-MENU-003`: Click outside exits menu mode
+- `INT-MENU-004`: Esc key exits menu mode
+- `INT-MENU-005`: Click menu item executes action and exits menu mode
 
 ### 4.2 State Machine
 
@@ -593,9 +628,14 @@ const handleKeyDown = (e: KeyboardEvent) => {
 **Critical Distinction:**
 
 - **Button Press**: `bevel-outset` → `bevel-inset` (complete bevel flip)
-- **Finder Selection**: `background: transparent` → `background: blue + inner-inset` (blue fill + sunken inner frame)
+- **Finder Selection**: `background: transparent` → `background: blue + inner-inset` (blue fill + sunken inner frame) [`INT-FIND-101`]
 
 **Finder selection is NOT a button press.** It's a visual highlight with a subtle inner inset.
+
+**Requirements:**
+- `INT-FIND-101`: Selection uses blue background (not button bevel)
+- `INT-FIND-102`: Selected text is white
+- `INT-FIND-103`: Selection has subtle inner shadow (inset 1px)
 
 ### 5.2 Selection Visual Pattern
 
@@ -657,10 +697,16 @@ const handleKeyDown = (e: KeyboardEvent) => {
 
 **OS9 Multi-Selection Rules:**
 
-- **Click**: Select single item (clear previous)
-- **Cmd+Click**: Toggle selection (add/remove)
-- **Shift+Click**: Range selection (select from last to current)
-- **Cmd+A**: Select all
+- **Click**: Select single item (clear previous) [`INT-FIND-001`]
+- **Cmd+Click**: Toggle selection (add/remove) [`INT-FIND-002`]
+- **Shift+Click**: Range selection (select from last to current) [`INT-FIND-003`]
+- **Cmd+A**: Select all [`INT-FIND-004`]
+
+**Requirements:**
+- `INT-FIND-001`: Click selects single item (clears previous)
+- `INT-FIND-002`: Cmd+Click toggles item selection
+- `INT-FIND-003`: Shift+Click selects range from anchor to current
+- `INT-FIND-004`: Cmd+A selects all items
 
 ```tsx
 const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
