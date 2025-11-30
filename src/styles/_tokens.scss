@@ -41,6 +41,14 @@ $color-text-selection: var(--accent-selection);  // Text selection (cream)
 // Special
 $color-stripe-alt: var(--stripe-alt);  // Title bar stripe pattern (inactive window)
 
+// Overlays & Shadows
+$color-overlay-dim: rgb(0, 0, 0, 0.5);
+$color-overlay-light: rgb(0, 0, 0, 0.3);
+
+// Desktop Icons
+$color-icon-dither: rgb(0, 0, 128, 0.5);
+$color-icon-label-bg: rgb(255, 255, 255, 0.8);
+
 // ============================================================================
 // SPACING (comprehensive scale, no literals allowed)
 // ============================================================================
@@ -62,9 +70,9 @@ $space-20: 20px;
 // ============================================================================
 // SHADOWS (using spacing tokens for consistency)
 // ============================================================================
-$shadow-window: $space-2 $space-2 0px rgb(0, 0, 0, 0.2);
-$shadow-menu: $space-2 $space-2 0px rgb(0, 0, 0, 0.2);
-$shadow-dialog: $space-4 $space-4 0px rgb(0, 0, 0, 0.5);
+$shadow-window: $space-2 $space-2 0 rgb(0, 0, 0, 0.2);
+$shadow-menu: $space-2 $space-2 0 rgb(0, 0, 0, 0.2);
+$shadow-dialog: $space-4 $space-4 0 rgb(0, 0, 0, 0.5);
 $shadow-display-inset: inset $space-1 $space-1 $space-2 rgb(0, 0, 0, 0.2);
 
 // ============================================================================
