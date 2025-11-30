@@ -29,7 +29,7 @@
       height: 100%;
       background-color: tokens.$color-icon-dither;
       mix-blend-mode: multiply;
-      mask-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=");
+      mask-image: tokens.$pattern-dither-mask;
     }
   }
 
