@@ -88,7 +88,7 @@ const Window: React.FC<WindowProps> = ({ title, x, y, width, height, onClose, on
                 top: position.y,
                 width: isZoomed ? '100vw' : width,
                 height: isCollapsed ? 'auto' : (isZoomed ? 'calc(100vh - 22px)' : height),
-                zIndex: isActive ? 100 : 1
+                zIndex: isActive ? 'var(--z-window-active)' : 'var(--z-window-inactive)'
             }}
             onMouseDown={() => onFocus()}
         >

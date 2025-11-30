@@ -55,7 +55,7 @@
     height: 100%;
     overflow: auto;
     padding: tokens.$space-5;
-    font-family: 'Geneva', sans-serif;
+    font-family: tokens.$font-geneva;
     font-size: tokens.$font-size-12;
     color: tokens.$color-text;
   }

@@ -93,13 +93,13 @@ describe('Window', () => {
     it('sets correct z-index when active', () => {
       render(<Window {...defaultProps} isActive={true} />);
       const windowElement = screen.getByText('Test Content').parentElement?.parentElement?.parentElement;
-      expect(windowElement).toHaveStyle({ zIndex: '100' });
+      expect(windowElement).toHaveStyle({ zIndex: 'var(--z-window-active)' });
     });
 
     it('sets correct z-index when inactive', () => {
       render(<Window {...defaultProps} isActive={false} />);
       const windowElement = screen.getByText('Test Content').parentElement?.parentElement?.parentElement;
-      expect(windowElement).toHaveStyle({ zIndex: '1' });
+      expect(windowElement).toHaveStyle({ zIndex: 'var(--z-window-inactive)' });
     });
   });
 

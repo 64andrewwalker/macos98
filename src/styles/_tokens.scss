@@ -88,7 +88,11 @@ $border-style: solid;
 
 // Font Families
 $font-system: var(--sys-font);
-$font-mono: 'Courier New', monospace;
+$font-geneva: var(--font-geneva);
+$font-times: var(--font-times);
+$font-courier: var(--font-courier);
+$font-helvetica: var(--font-helvetica);
+$font-mono: var(--font-courier);
 
 // Font size scale (comprehensive, no literals allowed)
 $font-size-8: 8px;
@@ -155,9 +159,10 @@ $ruler-pos-10: 460px;
 // ============================================================================
 // Z-INDEX SCALE
 // ============================================================================
-$z-desktop: 0;
-$z-window: 100;
-$z-menubar: 1000;
-$z-dropdown: 2000;
-$z-dialog: 10000;
-$z-overlay: 10001;
+$z-desktop: var(--z-desktop);
+$z-window: var(--z-window-active);
+$z-window-inactive: var(--z-window-inactive);
+$z-menubar: var(--z-menubar);
+$z-dropdown: var(--z-dropdown);
+$z-dialog: var(--z-dialog);
+$z-overlay: var(--z-overlay);
