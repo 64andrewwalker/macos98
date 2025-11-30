@@ -27,7 +27,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgb(0, 0, 128, 0.5);
+      background-color: tokens.$color-icon-dither;
       mix-blend-mode: multiply;
       mask-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=");
     }
@@ -39,7 +39,7 @@
     text-align: center;
     padding: tokens.$space-2 tokens.$space-4;
     color: tokens.$color-text;
-    background-color: rgb(255, 255, 255, 0.8);
+    background-color: tokens.$color-icon-label-bg;
     border: tokens.$space-1 dotted transparent;
     border-radius: tokens.$space-2;
     text-shadow: none;

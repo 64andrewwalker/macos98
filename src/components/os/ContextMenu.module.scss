@@ -4,7 +4,7 @@
 .contextMenu {
   @include mixins.menu-dropdown;
   min-width: tokens.$size-150;
-  z-index: 10000;
+  z-index: tokens.$z-dialog;
   font-family: tokens.$font-system;
   font-size: tokens.$font-size-12;
 }
