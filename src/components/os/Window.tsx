@@ -30,7 +30,7 @@ const Window: React.FC<WindowProps> = ({ title, x, y, width, height, onClose, on
     const handleZoom = () => {
         if (!isZoomed) {
             setPreZoomState({ x: position.x, y: position.y, width, height });
-            setPosition({ x: 0, y: 22 }); // Below menu bar
+            setPosition({ x: 0, y: 22 }); // Below menu bar (matches --dim-menubar-height)
             // Ideally we'd pass window size or use 100vw/vh, but for now let's just make it big
             // We can't easily change props 'width'/'height' from here without callback, 
             // so we'll handle style overrides in render.
@@ -87,7 +87,7 @@ const Window: React.FC<WindowProps> = ({ title, x, y, width, height, onClose, on
                 left: position.x,
                 top: position.y,
                 width: isZoomed ? '100vw' : width,
-                height: isCollapsed ? 'auto' : (isZoomed ? 'calc(100vh - 22px)' : height),
+                height: isCollapsed ? 'auto' : (isZoomed ? 'calc(100vh - var(--dim-menubar-height))' : height),
                 zIndex: isActive ? 'var(--z-window-active)' : 'var(--z-window-inactive)'
             }}
             onMouseDown={() => onFocus()}

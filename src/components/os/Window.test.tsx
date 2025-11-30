@@ -243,7 +243,7 @@ describe('Window', () => {
         left: '0px',
         top: '22px', // Below menu bar
         width: '100vw',
-        height: 'calc(100vh - 22px)'
+        height: 'calc(100vh - var(--dim-menubar-height))'
       });
 
       // Click to unzoom
@@ -307,7 +307,7 @@ describe('Window', () => {
         left: '0px',
         top: '22px',
         width: '100vw',
-        height: 'calc(100vh - 22px)'
+        height: 'calc(100vh - var(--dim-menubar-height))'
       });
 
       // Unzoom
@@ -677,7 +677,7 @@ describe('Window', () => {
       const windowElement = screen.getByText('Test Content').parentElement?.parentElement?.parentElement;
       expect(windowElement).toHaveStyle({
         width: '100vw',
-        height: 'calc(100vh - 22px)'
+        height: 'calc(100vh - var(--dim-menubar-height))'
       });
     });
   });
