@@ -45,12 +45,12 @@
     .placeholder {
       width: tokens.$size-48;
       height: tokens.$size-48;
-      border: tokens.$space-1 solid tokens.$gray-3;
-      background-color: tokens.$gray-4;
+      border: tokens.$space-1 solid tokens.$color-window-bg;
+      background-color: tokens.$color-surface;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      color: tokens.$gray-1;
+      color: tokens.$color-text-disabled;
       font-size: tokens.$font-size-18;
     }
   }

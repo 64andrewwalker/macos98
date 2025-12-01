@@ -39,24 +39,13 @@
     align-items: center;
 
     &:hover {
-      background-color: tokens.$gray-3;
+      background-color: tokens.$color-window-bg;
     }
   }
 
   .reset {
     margin-top: tokens.$space-10;
     padding: tokens.$space-5 tokens.$space-10;
-    font-family: tokens.$font-system;
-    font-weight: bold;
-    color: tokens.$color-text;
-    background-color: tokens.$color-window-bg;
-    border: tokens.$space-1 solid tokens.$color-border-dark;
-    box-shadow: tokens.$space-1 tokens.$space-1 0 tokens.$color-border-dark;
-    cursor: pointer;
-
-    &:active {
-      box-shadow: none;
-      transform: translate(tokens.$space-1, tokens.$space-1);
-    }
+    @include mixins.retro-button;
   }
 }
