@@ -431,7 +431,7 @@ const Desktop: React.FC = () => {
             case 'fill':
                 return { ...baseStyle, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' };
             case 'fit':
-                return { ...baseStyle, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundColor: '#000' };
+                return { ...baseStyle, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundColor: 'var(--gray-0)' };
             case 'tile':
                 return { ...baseStyle, backgroundSize: 'auto', backgroundRepeat: 'repeat' };
             default:

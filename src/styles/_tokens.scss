@@ -41,6 +41,14 @@ $color-text-selection: var(--accent-selection);  // Text selection (cream)
 // Special
 $color-stripe-alt: var(--stripe-alt);  // Title bar stripe pattern (inactive window)
 
+// Overlays & Shadows
+$color-overlay-dim: rgb(0, 0, 0, 0.5);
+$color-overlay-light: rgb(0, 0, 0, 0.3);
+
+// Desktop Icons
+$color-icon-dither: rgb(0, 0, 128, 0.5);
+$color-icon-label-bg: rgb(255, 255, 255, 0.8);
+
 // ============================================================================
 // SPACING (comprehensive scale, no literals allowed)
 // ============================================================================
@@ -62,9 +70,9 @@ $space-20: 20px;
 // ============================================================================
 // SHADOWS (using spacing tokens for consistency)
 // ============================================================================
-$shadow-window: $space-2 $space-2 0px rgb(0, 0, 0, 0.2);
-$shadow-menu: $space-2 $space-2 0px rgb(0, 0, 0, 0.2);
-$shadow-dialog: $space-4 $space-4 0px rgb(0, 0, 0, 0.5);
+$shadow-window: $space-2 $space-2 0 rgb(0, 0, 0, 0.2);
+$shadow-menu: $space-2 $space-2 0 rgb(0, 0, 0, 0.2);
+$shadow-dialog: $space-4 $space-4 0 rgb(0, 0, 0, 0.5);
 $shadow-display-inset: inset $space-1 $space-1 $space-2 rgb(0, 0, 0, 0.2);
 
 // ============================================================================
@@ -80,7 +88,11 @@ $border-style: solid;
 
 // Font Families
 $font-system: var(--sys-font);
-$font-mono: 'Courier New', monospace;
+$font-geneva: var(--font-geneva);
+$font-times: var(--font-times);
+$font-courier: var(--font-courier);
+$font-helvetica: var(--font-helvetica);
+$font-mono: var(--font-courier);
 
 // Font size scale (comprehensive, no literals allowed)
 $font-size-8: 8px;
@@ -131,6 +143,11 @@ $size-400: 400px;
 $size-500: 500px;
 
 // ============================================================================
+// LAYOUT DIMENSIONS
+// ============================================================================
+$dim-menubar-height: var(--dim-menubar-height);
+
+// ============================================================================
 // RULER POSITIONS (for TextEditor ruler marks)
 // ============================================================================
 $ruler-pos-1: 10px;
@@ -147,9 +164,15 @@ $ruler-pos-10: 460px;
 // ============================================================================
 // Z-INDEX SCALE
 // ============================================================================
-$z-desktop: 0;
-$z-window: 100;
-$z-menubar: 1000;
-$z-dropdown: 2000;
-$z-dialog: 10000;
-$z-overlay: 10001;
+$z-desktop: var(--z-desktop);
+$z-window: var(--z-window-active);
+$z-window-inactive: var(--z-window-inactive);
+$z-menubar: var(--z-menubar);
+$z-dropdown: var(--z-dropdown);
+$z-dialog: var(--z-dialog);
+$z-overlay: var(--z-overlay);
+
+// ============================================================================
+// ASSETS
+// ============================================================================
+$pattern-dither-mask: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=");

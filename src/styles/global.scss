@@ -32,6 +32,24 @@
 
   /* Stripe pattern */
   --stripe-alt: #aaa;  /* Inactive window title bar stripe */
+
+  /* Application Fonts */
+  --font-geneva: 'Geneva', 'Tahoma', sans-serif;
+  --font-times: 'Times New Roman', 'Times', serif;
+  --font-courier: 'Courier New', 'Courier', monospace;
+  --font-helvetica: 'Helvetica', 'Arial', sans-serif;
+
+  /* Z-Index Scale */
+  --z-desktop: 0;
+  --z-window-inactive: 10;
+  --z-window-active: 100;
+  --z-menubar: 1000;
+  --z-dropdown: 2000;
+  --z-dialog: 10000;
+  --z-overlay: 10001;
+
+  /* Dimensions */
+  --dim-menubar-height: 22px;
 }
 
 @font-face {
