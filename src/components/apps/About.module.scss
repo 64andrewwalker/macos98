@@ -1,10 +1,10 @@
 @use '../../styles/tokens';
 
 .about {
-  padding: tokens.$space-20;
+  padding: tokens.$space-16;
   display: flex;
   flex-direction: row;
-  gap: tokens.$space-20;
+  gap: tokens.$space-16;
   align-items: flex-start;
   background-color: tokens.$color-window-bg;
   font-family: tokens.$font-system;
@@ -21,12 +21,12 @@
     flex: 1;
 
     h2 {
-      margin: 0 0 tokens.$space-10 0;
+      margin: 0 0 tokens.$space-8 0;
       font-size: tokens.$font-size-18;
     }
 
     p {
-      margin: tokens.$space-5 0;
+      margin: tokens.$space-4 0;
       font-size: tokens.$font-size-12;
     }
   }
@@ -34,12 +34,12 @@
   .copyright {
     font-size: tokens.$font-size-10;
     color: tokens.$color-text;
-    margin-top: tokens.$space-10;
+    margin-top: tokens.$space-8;
   }
 
   .memory {
-    margin-top: tokens.$space-15;
+    margin-top: tokens.$space-16;
     border-top: tokens.$space-1 solid tokens.$color-text-disabled;
-    padding-top: tokens.$space-5;
+    padding-top: tokens.$space-4;
   }
 }

@@ -14,7 +14,7 @@
 .dialog {
   background-color: tokens.$color-surface;
   border: tokens.$space-2 solid tokens.$color-border-dark;
-  box-shadow: tokens.$space-3 tokens.$space-3 0 tokens.$color-overlay-dim;
+  box-shadow: tokens.$shadow-dialog;
   min-width: tokens.$size-300;
   max-width: tokens.$size-400;
   font-family: tokens.$font-system;
@@ -22,19 +22,19 @@
   .titleBar {
     background-color: tokens.$color-border-dark;
     color: tokens.$color-surface;
-    padding: tokens.$space-3 tokens.$space-8;
+    padding: tokens.$space-4 tokens.$space-8;
     font-weight: bold;
     font-size: tokens.$font-size-12;
   }
 
   .content {
-    padding: tokens.$space-15;
+    padding: tokens.$space-16;
     min-height: tokens.$size-150;
   }
 
   .iconPreview {
     text-align: center;
-    margin-bottom: tokens.$space-15;
+    margin-bottom: tokens.$space-16;
 
     img {
       width: tokens.$size-48;
@@ -45,12 +45,12 @@
     .placeholder {
       width: tokens.$size-48;
       height: tokens.$size-48;
-      border: tokens.$space-1 solid tokens.$gray-3;
-      background-color: tokens.$gray-4;
+      border: tokens.$space-1 solid tokens.$color-window-bg;
+      background-color: tokens.$color-surface;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      color: tokens.$gray-1;
+      color: tokens.$color-text-disabled;
       font-size: tokens.$font-size-18;
     }
   }
@@ -73,27 +73,12 @@
   }
 
   .buttonBar {
-    padding: tokens.$space-10;
+    padding: tokens.$space-8;
     text-align: center;
     border-top: tokens.$space-1 solid tokens.$color-border-gray;
   }
 
   .button {
-    background-color: tokens.$color-toolbar-bg;
-    border: tokens.$space-2 outset tokens.$color-border-light;
-    padding: tokens.$space-3 tokens.$space-20;
-    font-family: tokens.$font-system;
-    font-size: tokens.$font-size-12;
-    font-weight: bold;
-    color: tokens.$color-text;
-    cursor: pointer;
-
-    &:active {
-      border-style: inset;
-    }
-
-    &:hover {
-      background-color: tokens.$gray-3;
-    }
+    @include mixins.dialog-button;
   }
 }
