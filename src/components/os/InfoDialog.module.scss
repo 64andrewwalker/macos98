@@ -79,21 +79,6 @@
   }
 
   .button {
-    background-color: tokens.$color-toolbar-bg;
-    border: tokens.$space-2 outset tokens.$color-border-light;
-    padding: tokens.$space-3 tokens.$space-20;
-    font-family: tokens.$font-system;
-    font-size: tokens.$font-size-12;
-    font-weight: bold;
-    color: tokens.$color-text;
-    cursor: pointer;
-
-    &:active {
-      border-style: inset;
-    }
-
-    &:hover {
-      background-color: tokens.$gray-3;
-    }
+    @include mixins.dialog-button;
   }
 }

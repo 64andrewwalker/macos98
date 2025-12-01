@@ -68,18 +68,12 @@
     padding: tokens.$space-8;
     cursor: pointer;
     background-color: tokens.$color-toolbar-bg;
-    border-top: tokens.$space-2 solid tokens.$color-border-light;
-    border-left: tokens.$space-2 solid tokens.$color-border-light;
-    border-right: tokens.$space-2 solid tokens.$color-border-gray;
-    border-bottom: tokens.$space-2 solid tokens.$color-border-gray;
+    @include mixins.bevel-outset(tokens.$border-width-thick);
 
     @include mixins.hover-brighten;
 
     &:active {
-      border-top: tokens.$space-2 solid tokens.$color-border-gray;
-      border-left: tokens.$space-2 solid tokens.$color-border-gray;
-      border-right: tokens.$space-2 solid tokens.$color-border-light;
-      border-bottom: tokens.$space-2 solid tokens.$color-border-light;
+      @include mixins.bevel-inset(tokens.$border-width-thick);
     }
 
     &.selected {
@@ -102,10 +96,7 @@
     overflow: hidden;
     background-color: tokens.$color-border-dark;
     margin-bottom: tokens.$space-6;
-    border-top: tokens.$space-2 solid tokens.$color-border-gray;
-    border-left: tokens.$space-2 solid tokens.$color-border-gray;
-    border-right: tokens.$space-2 solid tokens.$color-border-light;
-    border-bottom: tokens.$space-2 solid tokens.$color-border-light;
+    @include mixins.bevel-inset(tokens.$border-width-thick);
 
     img {
       width: 100%;
