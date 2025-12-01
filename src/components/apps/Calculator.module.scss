@@ -2,18 +2,18 @@
 @use '../../styles/mixins';
 
 .calculator {
-  padding: tokens.$space-10;
+  padding: tokens.$space-8;
   background-color: tokens.$color-window-bg;
   display: flex;
   flex-direction: column;
-  gap: tokens.$space-10;
+  gap: tokens.$space-8;
 
   .display {
     background-color: tokens.$color-surface;
     border: tokens.$space-1 solid tokens.$color-border-gray;
     border-bottom-color: tokens.$color-surface;
     border-right-color: tokens.$color-surface;
-    padding: tokens.$space-5;
+    padding: tokens.$space-4;
     text-align: right;
     font-family: tokens.$font-mono;
     font-size: tokens.$font-size-18;
@@ -29,7 +29,7 @@
   .keypad {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: tokens.$space-5;
+    gap: tokens.$space-4;
   }
 
   button {
@@ -46,17 +46,17 @@
 
   .plus {
     grid-row: span 2;
-    height: tokens.$size-65;
+    height: tokens.$size-64;
   }
 
   .equals {
     grid-row: span 2;
-    height: tokens.$size-65;
+    height: tokens.$size-64;
     background-color: tokens.$color-button-equals;
   }
 
   .zero {
     grid-column: span 2;
-    width: tokens.$size-65;
+    width: tokens.$size-64;
   }
 }

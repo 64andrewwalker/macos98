@@ -88,7 +88,7 @@
     }
 
     &:hover:not(.selected) {
-      background-color: tokens.$gray-3;
+      background-color: tokens.$color-window-bg;
     }
   }
 
@@ -101,12 +101,12 @@
   .iconPlaceholder {
     width: tokens.$size-48;
     height: tokens.$size-48;
-    border: tokens.$space-1 solid tokens.$gray-3;
-    background-color: tokens.$gray-4;
+    border: tokens.$space-1 solid tokens.$color-window-bg;
+    background-color: tokens.$color-surface;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: tokens.$gray-1;
+    color: tokens.$color-text-disabled;
     font-size: tokens.$font-size-18;
   }
 
@@ -150,7 +150,7 @@
         cursor: default;
 
         &:hover:not(.selected) {
-          background-color: tokens.$gray-3;
+          background-color: tokens.$color-window-bg;
         }
 
         &.selected {
@@ -160,7 +160,7 @@
 
         td {
           padding: tokens.$space-4 tokens.$space-8;
-          border-bottom: tokens.$space-1 solid tokens.$gray-3;
+          border-bottom: tokens.$space-1 solid tokens.$color-window-bg;
         }
       }
     }
@@ -178,12 +178,12 @@
     width: tokens.$size-16;
     height: tokens.$size-16;
     margin-right: tokens.$space-4;
-    border: tokens.$space-1 solid tokens.$gray-3;
-    background-color: tokens.$gray-4;
+    border: tokens.$space-1 solid tokens.$color-window-bg;
+    background-color: tokens.$color-surface;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: tokens.$gray-1;
+    color: tokens.$color-text-disabled;
     font-size: tokens.$font-size-10;
     vertical-align: middle;
   }
