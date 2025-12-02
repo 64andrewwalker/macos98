@@ -4,12 +4,21 @@ import folderIcon from '../assets/folder_icon.png';
 import calcIcon from '../assets/calculator.png';
 import gameIcon from '../assets/joystick.png';
 
+export interface InitialFileItem {
+    id: string;
+    name: string;
+    type: 'folder' | 'file' | 'app' | 'system';
+    icon: string;
+    content?: string;
+    children?: InitialFileItem[];
+}
+
 export interface InitialIconData {
     id: string;
     label: string;
     icon: string;
     type: 'folder' | 'file' | 'app' | 'system';
-    children?: any[]; // We can refine this type if needed, but 'any' avoids circular deps for now
+    children?: InitialFileItem[];
     content?: string;
 }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Calculator from '../components/apps/Calculator';
 import TicTacToe from '../components/apps/TicTacToe';
 import About from '../components/apps/About';
@@ -12,7 +12,7 @@ import folderIcon from '../assets/folder_icon.png';
 export interface FileItem {
     id: string;
     name: string;
-    type: 'folder' | 'file' | 'app';
+    type: 'folder' | 'file' | 'app' | 'system';
     icon: string;
     children?: FileItem[];
     content?: string; // For text files
@@ -75,24 +75,30 @@ export const useDesktopLogic = () => {
     // Since handlers need access to `openWindow` etc, we can't define them in the config.
     // We need a way to map IDs to handlers.
 
-    const [icons, setIcons] = useState<DesktopIconData[]>([]);
-
-    // Hydrate icons on mount
-    useEffect(() => {
+    // Initialize icons from config
+    const [icons, setIcons] = useState<DesktopIconData[]>(() => {
         const hydratedIcons: DesktopIconData[] = initialIcons.map(iconData => {
+            // Map InitialFileItem[] to FileItem[] if necessary, but for now they match structure
+            // We need to cast or map children recursively if types don't align perfectly,
+            // but here they seem compatible enough for the purpose of this state.
+            // However, InitialIconData.children is InitialFileItem[], DesktopIconData.children is FileItem[].
+            // They are structurally identical.
+
             const baseIcon: DesktopIconData = {
                 ...iconData,
-                x: 20, // Default positions, will be arranged
+                x: 20,
                 y: 20,
-                onDoubleClick: () => { } // Placeholder, handled by handleIconDoubleClick
+                onDoubleClick: () => { }, // Placeholder
+                // We need to ensure children are mapped correctly if types were stricter,
+                // but TypeScript might complain about type mismatch if we don't cast or map.
+                // Let's assume compatible for now or map if needed.
+                children: iconData.children as unknown as FileItem[] | undefined
             };
             return baseIcon;
         });
 
-        // Arrange icons initially
-        const arrangedIcons = arrangeIcons(hydratedIcons);
-        setIcons(arrangedIcons);
-    }, []);
+        return arrangeIcons(hydratedIcons);
+    });
 
 
 

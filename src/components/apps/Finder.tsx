@@ -4,7 +4,7 @@ import styles from './Finder.module.scss';
 export interface FileItem {
     id: string;
     name: string;
-    type: 'folder' | 'file' | 'app';
+    type: 'folder' | 'file' | 'app' | 'system';
     icon: string;
     children?: FileItem[];
     content?: string;
