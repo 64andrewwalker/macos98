@@ -1,7 +1,7 @@
 # Interaction Blueprint
 
 > **Layer 7: Interaction Patterns**
-> This document defines the **interaction model** for macOS 9.8 UI components. It complements [Component Blueprints](./COMPONENT_BLUEPRINTS.md) (static structure) and [Design System](./DESIGN_SYSTEM.md) (visual styling).
+> This document defines the **interaction model** for macOS 9.8 UI components. It complements [Component Blueprints](component-blueprints.md) (static structure) and [Design System](design-system.md) (visual styling).
 
 **Problem Solved:**
 Visual consistency ≠ Experience consistency. A component can have perfect DOM structure and styling, but still feel wrong if its interaction behavior (hover, pressed, focus, drag) doesn't match the authentic OS9 model.
@@ -987,9 +987,9 @@ Use this checklist when reviewing interaction implementations:
 
 ## Related Documentation
 
-- [Component Blueprints](./COMPONENT_BLUEPRINTS.md) - Static structure patterns (DOM, zones, inheritance)
-- [Design System](./DESIGN_SYSTEM.md) - Visual styling patterns (tokens, mixins, bevel rules)
-- [SCSS Linting](./SCSS_LINTING.md) - Automated enforcement of design tokens
+- [Component Blueprints](component-blueprints.md) - Static structure patterns (DOM, zones, inheritance)
+- [Design System](design-system.md) - Visual styling patterns (tokens, mixins, bevel rules)
+- [SCSS Linting](scss-linting.md) - Automated enforcement of design tokens
 
 ---
 

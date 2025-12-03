@@ -8,7 +8,7 @@
 This document defines the **standard DOM structures and component patterns** for all UI components in the macOS 98 project. It prevents structural drift and ensures consistent zone spacing across all applications.
 
 > **⚠️ Important**: This document defines **how to structure** components (DOM, zones, inheritance).
-> For **how components behave** (hover, pressed, drag, focus), see [Interaction Blueprint](./INTERACTION_BLUEPRINT.md).
+> For **how components behave** (hover, pressed, drag, focus), see [Interaction Blueprint](interaction-blueprint.md).
 
 ---
 
@@ -945,7 +945,7 @@ export function FinderWindow({ path, view, onNavigate, children }) {
 
 ## Related Documentation
 
-- **Interaction Blueprint**: `INTERACTION_BLUEPRINT.md` - How components behave (hover, pressed, drag, focus)
-- **Design System**: `DESIGN_SYSTEM.md` - How components look (tokens, mixins, visual rules)
-- **Mixin API**: `DESIGN_SYSTEM.md#mixin-api-reference`
+- **Interaction Blueprint**: `interaction-blueprint.md` - How components behave (hover, pressed, drag, focus)
+- **Design System**: `design-system.md` - How components look (tokens, mixins, visual rules)
+- **Mixin API**: `design-system.md#mixin-api-reference`
 - **Token Reference**: `src/styles/_tokens.scss`

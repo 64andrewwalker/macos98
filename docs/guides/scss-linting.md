@@ -156,7 +156,7 @@ npm run lint:css -- --fix
 ## Design System Reference
 
 For the complete design system documentation, see:
-- **📘 Design System v2** (PRIMARY): `DESIGN_SYSTEM.md` — Official visual specification with mixin API reference
+- **📘 Design System v2** (PRIMARY): `design-system.md` — Official visual specification with mixin API reference
 - **Proposal**: `openspec/changes/refactor-scss-design-system/proposal.md`
 - **Design Document**: `openspec/changes/refactor-scss-design-system/design.md`
 - **Token Reference**: `src/styles/_tokens.scss`

@@ -7,7 +7,7 @@
 
 This document is the **single source of truth** for all visual design decisions in the macOS 98 project. It defines the rules, constraints, and APIs that all components must follow.
 
-**⚠️ IMPORTANT**: This document defines **how to style** components. For **how to structure** components (DOM patterns, zones, inheritance), see **[Component Blueprints](COMPONENT_BLUEPRINTS.md)**.
+**⚠️ IMPORTANT**: This document defines **how to style** components. For **how to structure** components (DOM patterns, zones, inheritance), see **[Component Blueprints](component-blueprints.md)**.
 
 ---
 
@@ -1493,10 +1493,10 @@ npm test
 
 ## Related Documentation
 
-- **Component Blueprints**: `COMPONENT_BLUEPRINTS.md` — Standard DOM structures, zones, inheritance
-- **Interaction Blueprint**: `INTERACTION_BLUEPRINT.md` — Component behavior (hover, pressed, drag, focus)
+- **Component Blueprints**: `component-blueprints.md` — Standard DOM structures, zones, inheritance
+- **Interaction Blueprint**: `interaction-blueprint.md` — Component behavior (hover, pressed, drag, focus)
 - **Implementation**: `src/styles/_tokens.scss`, `src/styles/_mixins.scss`
-- **Linting Guide**: `SCSS_LINTING.md`
+- **Linting Guide**: `scss-linting.md`
 - **Proposal**: `openspec/changes/refactor-scss-design-system/proposal.md`
 - **Technical Design**: `openspec/changes/refactor-scss-design-system/design.md`
 
