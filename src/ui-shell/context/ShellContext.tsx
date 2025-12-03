@@ -2,10 +2,11 @@
  * Shell Context - UI Shell Layer
  *
  * Provides UI Shell services to the React component tree.
- * Creates singleton instances of WindowManager and DesktopService.
+ * Uses the WindowManager from SystemProvider if available,
+ * otherwise creates its own instance.
  */
 
-import React, { useMemo } from 'react'
+import React, { useMemo, useContext } from 'react'
 import { createWindowManager } from '../window-manager'
 import { createDesktopService } from '../desktop'
 import { useWindowManager } from '../hooks/useWindowManager'
@@ -20,6 +21,7 @@ import { initialIcons } from '../../config/initialState'
 import { arrangeIcons as arrangeIconPositions } from '../../utils/iconLayout'
 import type { IconTarget } from '../desktop/types'
 import { iconMetadata } from './iconMetadata'
+import { SystemContext } from '../../system/context'
 
 export interface ShellProviderProps {
   children: React.ReactNode
@@ -93,15 +95,22 @@ function initializeDesktopWithIcons() {
 
 /**
  * Provider component that creates and provides UI Shell services
+ * Uses the WindowManager from SystemContext if available for consistency
+ * with apps launched via AppRuntime.
  */
 export function ShellProvider({ children }: ShellProviderProps) {
+  // Try to get WindowManager from SystemContext (if inside SystemProvider)
+  const systemContext = useContext(SystemContext)
+  
   // Create singleton service instances
+  // IMPORTANT: Use the system's windowManager if available so that
+  // apps launched via AppRuntime and legacy windows use the same instance
   const services = useMemo<ShellServices>(
     () => ({
-      windowManager: createWindowManager(),
+      windowManager: systemContext?.windowManager ?? createWindowManager(),
       desktopService: initializeDesktopWithIcons()
     }),
-    []
+    [systemContext?.windowManager]
   )
 
   return (
