@@ -1,0 +1,47 @@
+/**
+ * SystemOverlay Styles
+ */
+
+.overlayContainer {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+
+  // Only capture pointer events when there are modal overlays
+  &:has(.modal) {
+    pointer-events: auto;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
+.overlayItem {
+  position: absolute;
+  pointer-events: auto;
+}
+
+// Modal overlays are centered
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// Positioned overlays (dropdown, tooltip, contextMenu)
+.dropdown,
+.tooltip,
+.contextMenu {
+  // Position is set via inline style
+}
+
+// Notifications stack in corner
+.notification {
+  position: fixed;
+  top: auto;
+  right: 20px;
+  bottom: 20px;
+  left: auto;
+  transform: none;
+}
+

@@ -1,115 +1,206 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styles from './TextEditor.module.scss';
+import React, { useEffect, useRef, useState, useCallback, useContext } from 'react'
+import styles from './TextEditor.module.scss'
+import { SystemContext } from '../../system/context'
 
 interface TextEditorProps {
-    fileId: string;
-    fileName: string;
-    initialContent: string;
-    onSave: (fileId: string, content: string) => void;
+    fileId: string
+    fileName: string
+    initialContent: string
+    onSave: (fileId: string, content: string) => void
 }
 
-type FontFamily = 'Geneva' | 'Times' | 'Courier' | 'Helvetica';
-type FontSize = 9 | 10 | 12 | 14 | 18 | 24;
-type Alignment = 'left' | 'center' | 'right' | 'justify';
+type FontFamily = 'Geneva' | 'Times' | 'Courier' | 'Helvetica'
+type FontSize = 9 | 10 | 12 | 14 | 18 | 24
+type Alignment = 'left' | 'center' | 'right' | 'justify'
 
-const sanitizeContent = (html: string) => {
-    if (!html) return '';
+/**
+ * Sanitize HTML content for display in contenteditable.
+ * Preserves safe formatting tags (b, i, u, strong, em, div, span, br, p)
+ * while removing dangerous elements (script, style) and event handlers.
+ */
+const sanitizeHtml = (html: string): string => {
+    if (!html) return ''
 
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(html, 'text/html')
 
-    doc.querySelectorAll('script, style').forEach(node => node.remove());
+    // Remove dangerous elements
+    doc.querySelectorAll('script, style, iframe, object, embed, form, input, textarea, button').forEach(node => node.remove())
+    
+    // Remove event handlers from all elements
     doc.querySelectorAll<HTMLElement>('*').forEach(el => {
         Array.from(el.attributes).forEach(attr => {
-            if (attr.name.toLowerCase().startsWith('on')) {
-                el.removeAttribute(attr.name);
+            const name = attr.name.toLowerCase()
+            // Remove event handlers and javascript: URLs
+            if (name.startsWith('on') || (name === 'href' && attr.value.toLowerCase().startsWith('javascript:'))) {
+                el.removeAttribute(attr.name)
             }
-        });
-    });
+        })
+    })
 
-    return doc.body.textContent ?? '';
-};
+    return doc.body.innerHTML
+}
+
+/**
+ * Get plain text from HTML (for character counting and legacy compatibility)
+ */
+const getPlainText = (html: string): string => {
+    if (!html) return ''
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(html, 'text/html')
+    return doc.body.textContent ?? ''
+}
 
 const TextEditor: React.FC<TextEditorProps> = ({ fileId, fileName, initialContent, onSave }) => {
-    const normalizedInitialContent = initialContent ?? '';
-    const editorRef = useRef<HTMLDivElement>(null);
-    const initializedRef = useRef(false);
-    const [isDirty, setIsDirty] = useState(false);
-    const [content, setContent] = useState(() => sanitizeContent(normalizedInitialContent));
-    const [fontFamily, setFontFamily] = useState<FontFamily>('Geneva');
-    const [fontSize, setFontSize] = useState<FontSize>(12);
-    const [isBold, setIsBold] = useState(false);
-    const [isItalic, setIsItalic] = useState(false);
-    const [isUnderline, setIsUnderline] = useState(false);
-    const [alignment, setAlignment] = useState<Alignment>('left');
-    const [wordWrap, setWordWrap] = useState(true);
-    const [showRuler, setShowRuler] = useState(false);
-    const [showHelp, setShowHelp] = useState(false);
+    // Try to get VFS from context (optional - for persistence)
+    const systemContext = useContext(SystemContext)
+    const vfs = systemContext?.vfs
+
+    const normalizedInitialContent = initialContent ?? ''
+    const editorRef = useRef<HTMLDivElement>(null)
+    const initializedRef = useRef(false)
+    const loadedFromVfsRef = useRef(false)
+    const [isDirty, setIsDirty] = useState(false)
+    // Store HTML content for formatting preservation
+    const [content, setContent] = useState(() => sanitizeHtml(normalizedInitialContent))
+    const [fontFamily, setFontFamily] = useState<FontFamily>('Geneva')
+    const [fontSize, setFontSize] = useState<FontSize>(12)
+    const [isBold, setIsBold] = useState(false)
+    const [isItalic, setIsItalic] = useState(false)
+    const [isUnderline, setIsUnderline] = useState(false)
+    const [alignment, setAlignment] = useState<Alignment>('left')
+    const [wordWrap, setWordWrap] = useState(true)
+    const [showRuler, setShowRuler] = useState(false)
+    const [showHelp, setShowHelp] = useState(false)
+    const [isSaving, setIsSaving] = useState(false)
+
+    // File path in VFS
+    const filePath = `/Users/default/Documents/${fileId}.txt`
+
+    // File path in VFS - use .html extension to indicate rich content
+    const richFilePath = `/Users/default/Documents/${fileId}.html`
+
+    // Load content from VFS on mount (if VFS is available)
+    useEffect(() => {
+        if (!vfs || loadedFromVfsRef.current) return
+
+        const loadFromVfs = async () => {
+            try {
+                // Try to load rich HTML content first
+                const richExists = await vfs.exists(richFilePath)
+                if (richExists) {
+                    const savedContent = await vfs.readTextFile(richFilePath)
+                    const sanitized = sanitizeHtml(savedContent)
+                    loadedFromVfsRef.current = true
+                    setContent(sanitized)
+                    if (editorRef.current) {
+                        editorRef.current.innerHTML = sanitized
+                    }
+                    return
+                }
+                
+                // Fallback to plain text file
+                const plainExists = await vfs.exists(filePath)
+                if (plainExists) {
+                    const savedContent = await vfs.readTextFile(filePath)
+                    loadedFromVfsRef.current = true
+                    setContent(savedContent)
+                    if (editorRef.current) {
+                        editorRef.current.innerHTML = savedContent
+                    }
+                }
+            } catch (err) {
+                console.error('Failed to load from VFS:', err)
+            }
+        }
+        loadFromVfs()
+    }, [vfs, filePath, richFilePath])
 
     useEffect(() => {
         if (initializedRef.current) {
-            return;
+            return
         }
         if (editorRef.current) {
-            editorRef.current.textContent = content;
+            // Use innerHTML to preserve formatting
+            editorRef.current.innerHTML = content
         }
-        initializedRef.current = true;
-    }, [content]);
+        initializedRef.current = true
+    }, [content])
 
     const handleInput = () => {
-        const text = editorRef.current?.innerText ?? '';
-        setContent(text);
-        setIsDirty(true);
-    };
+        // Use innerHTML to preserve formatting, textContent as fallback for jsdom
+        const htmlContent = editorRef.current?.innerHTML ?? ''
+        setContent(htmlContent)
+        setIsDirty(true)
+    }
 
-    const handleSave = () => {
-        const textContent = editorRef.current?.innerText ?? '';
-        setContent(textContent);
-        onSave(fileId, textContent);
-        setIsDirty(false);
-    };
+    const handleSave = useCallback(async () => {
+        // Read current HTML content from DOM (preserves formatting)
+        const htmlContent = editorRef.current?.innerHTML ?? ''
+        setContent(htmlContent)
+        setIsSaving(true)
+
+        try {
+            // Save to VFS (persisted to IndexedDB) if available
+            if (vfs) {
+                // Save as HTML to preserve formatting
+                await vfs.writeFile(richFilePath, htmlContent)
+            }
+            
+            // Also call the original callback for state sync (with plain text for compatibility)
+            const plainText = getPlainText(htmlContent)
+            onSave(fileId, plainText)
+            setIsDirty(false)
+        } catch (err) {
+            console.error('Failed to save:', err)
+        } finally {
+            setIsSaving(false)
+        }
+    }, [vfs, richFilePath, fileId, onSave])
 
     const applyBold = () => {
-        document.execCommand('bold');
-        setIsBold(!isBold);
-    };
+        document.execCommand('bold')
+        setIsBold(!isBold)
+    }
 
     const applyItalic = () => {
-        document.execCommand('italic');
-        setIsItalic(!isItalic);
-    };
+        document.execCommand('italic')
+        setIsItalic(!isItalic)
+    }
 
     const applyUnderline = () => {
-        document.execCommand('underline');
-        setIsUnderline(!isUnderline);
-    };
+        document.execCommand('underline')
+        setIsUnderline(!isUnderline)
+    }
 
     const applyAlignment = (align: Alignment) => {
-        const command = `justify${align.charAt(0).toUpperCase() + align.slice(1)}`;
-        document.execCommand(command);
-        setAlignment(align);
-    };
+        const command = `justify${align.charAt(0).toUpperCase() + align.slice(1)}`
+        document.execCommand(command)
+        setAlignment(align)
+    }
 
     const changeFontFamily = (font: FontFamily) => {
-        setFontFamily(font);
-        document.execCommand('fontName', false, font);
-    };
+        setFontFamily(font)
+        document.execCommand('fontName', false, font)
+    }
 
     const changeFontSize = (size: FontSize) => {
-        setFontSize(size);
+        setFontSize(size)
         // execCommand uses 1-7 scale, we'll use CSS instead
         if (editorRef.current) {
-            editorRef.current.style.fontSize = `${size}px`;
+            editorRef.current.style.fontSize = `${size}px`
         }
-    };
+    }
 
-    const getStats = (text: string) => {
-        const lines = text.split('\n').length;
-        const chars = text.length;
-        return { lines, chars };
-    };
+    const getStats = (htmlContent: string) => {
+        // Get plain text for accurate counting
+        const plainText = getPlainText(htmlContent)
+        const lines = plainText.split('\n').length
+        const chars = plainText.length
+        return { lines, chars }
+    }
 
-    const stats = getStats(content || '');
+    const stats = getStats(content || '')
 
     return (
         <div className={styles.textEditor}>
@@ -217,9 +308,10 @@ const TextEditor: React.FC<TextEditorProps> = ({ fileId, fileName, initialConten
                 <button
                     className={`${styles.saveButton} ${isDirty ? styles.dirty : ''}`}
                     onClick={handleSave}
+                    disabled={isSaving}
                     title="Save (保存)"
                 >
-                    💾 Save{isDirty ? ' *' : ''}
+                    💾 {isSaving ? 'Saving...' : 'Save'}{isDirty && !isSaving ? ' *' : ''}
                 </button>
 
                 {/* Help Button */}
@@ -267,6 +359,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ fileId, fileName, initialConten
                 <span>Characters: {stats.chars}</span>
                 <span className={styles.divider}>|</span>
                 <span>{fileName}</span>
+                {isDirty && <span className={styles.divider}>|</span>}
+                {isDirty && <span>Modified</span>}
             </div>
 
             {/* Help Dialog */}
@@ -303,7 +397,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ fileId, fileName, initialConten
                 </div>
             )}
         </div>
-    );
-};
+    )
+}
 
-export default TextEditor;
+export default TextEditor

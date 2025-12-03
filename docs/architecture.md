@@ -1,39 +1,93 @@
 # Architecture Overview
 
+macOS 98 uses a **5-layer architecture** designed for maintainability, testability, and separation of concerns.
+
+## Layer Diagram
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        Applications                          │
+│   Calculator │ TextEditor │ Finder │ TicTacToe │ About      │
+├─────────────────────────────────────────────────────────────┤
+│                      App Framework                           │
+│         AppManifest │ AppContext │ AppRuntime               │
+├─────────────────────────────────────────────────────────────┤
+│                        UI Shell                              │
+│      WindowManager │ DesktopService │ SystemOverlay         │
+├─────────────────────────────────────────────────────────────┤
+│                         Kernel                               │
+│   VirtualFileSystem │ EventBus │ TaskManager │ Permissions  │
+├─────────────────────────────────────────────────────────────┤
+│                        Platform                              │
+│        StorageAdapter │ TimerManager │ SystemInfo           │
+└─────────────────────────────────────────────────────────────┘
+```
+
 ## Tech Stack
-- **Runtime**: React 19, TypeScript (ES2022 target, strict mode)
-- **Build Tools**: Vite with esbuild and HMR, pnpm package manager
-- **Styling**: SCSS/Sass with CSS modules, CSS variables for theming
-- **Testing**: Vitest, @testing-library/react, jsdom
-- **Quality**: ESLint with flat config, typescript-eslint
+
+| Category | Technology |
+|----------|------------|
+| Runtime | React 19, TypeScript (ES2022, strict mode) |
+| Build | Vite with esbuild and HMR |
+| Package Manager | pnpm |
+| Styling | SCSS modules, CSS variables |
+| Testing | Vitest, @testing-library/react, jsdom |
+| Quality | ESLint (flat config), typescript-eslint |
 
 ## Project Structure
-- **Entry Points**: `src/main.tsx`, `src/App.tsx`
-- **OS Shell**: `src/components/os/` (Desktop, MenuBar, Window, dialogs)
-- **Applications**: `src/components/apps/` (Finder, Calculator, TicTacToe, About, TextEditor)
-- **Styles**: `src/styles/` (Global styles, tokens, mixins)
-- **Assets**: `src/assets/` (Images, icons)
-- **Tests**: Colocated `*.test.tsx` files
 
-## Architecture Patterns
+```
+src/
+├── platform/          # Browser API abstractions
+│   ├── storage/       # IndexedDB wrapper
+│   ├── timer/         # Managed timers
+│   └── system/        # Capability detection
+├── kernel/            # OS-like services
+│   ├── vfs/           # Virtual file system
+│   ├── event-bus/     # Pub/sub messaging
+│   ├── task-manager/  # Process lifecycle
+│   └── permissions/   # Access control
+├── ui-shell/          # Desktop services
+│   ├── window-manager/
+│   ├── desktop/
+│   └── system-overlay/
+├── app-framework/     # App lifecycle
+│   ├── manifest/
+│   ├── context/
+│   └── runtime/
+├── apps/              # Migrated applications
+├── components/        # React components
+│   ├── os/            # Shell UI (Desktop, MenuBar, Window)
+│   └── apps/          # App UI (legacy location)
+├── system/            # Bootstrap & providers
+└── styles/            # Global SCSS
+```
 
-### Component Hierarchy
-- **Shell vs Apps**: OS shell components are separated from application components.
-- **Window Management**: Z-index based stacking with active window tracking.
-- **File System**: In-memory simulation with recursive structures.
+## Key Patterns
+
+### Layered Dependencies
+- Each layer only depends on layers below it
+- Platform has no internal dependencies
+- Apps use App Framework APIs, not kernel directly
 
 ### State Management
-- **Local State**: `useState` for component-specific concerns.
-- **Global State**: Context API (`DesktopContext`) for shared concerns like background settings.
-- **No External Libraries**: No Redux or Zustand; simple React state primitives.
+- **Local**: `useState` for component state
+- **Services**: Singleton services initialized at bootstrap
+- **Context**: React Context for service injection
 
-### Data Flow
-- **Prop Drilling**: Parent-to-child callbacks for state updates.
-- **Event Handling**: Mouse events for dragging, proper cleanup in `useEffect`.
+### Persistence
+- VFS backed by IndexedDB via Platform StorageAdapter
+- In-memory mode for testing
+
+## Detailed Documentation
+
+- [Full Architecture Redesign](./architecture-redesign.md) - Complete migration proposal
+- [Design Specifications](./design-docs/index.md) - Layer-by-layer specs
+- [API Review](./reports/api-review.md) - Internal service audit
 
 ## Domain Context
-The project simulates the classic macOS user interface with authentic retro aesthetics:
-- **Retro Visual Design**: 3D beveled borders, system fonts (Chicago/Geneva), pixelated images.
-- **Window Chrome**: Classic Mac OS window styling.
-- **Desktop Paradigm**: Icons, draggable windows, context menus.
-- **System Apps**: Functional Calculator, Finder, TextEditor.
+
+The project simulates classic Mac OS (OS 9 era):
+- **Visual Design**: 3D beveled borders, Chicago/Geneva fonts
+- **Desktop Paradigm**: Icons, draggable windows, menus
+- **System Apps**: Calculator, Finder, TextEditor, TicTacToe
