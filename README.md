@@ -2,76 +2,53 @@
 
 A late-90s Mac OS desktop simulator built with React 19, TypeScript, Vite, and SCSS modules.
 
-## Development Approach
+## Quick Start
 
-**Test-Driven Development (TDD)**: This project follows a test-driven development methodology. For all new features and bug fixes, write test cases first, then implement the code.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm install
+pnpm dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+See [Getting Started](docs/getting-started.md) for full setup instructions.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Documentation
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Core Documentation
+
+| Document | Description |
+|----------|-------------|
+| [Getting Started](docs/getting-started.md) | Installation, setup, and commands |
+| [Architecture](docs/architecture.md) | 5-layer architecture overview |
+| [Contributing](docs/contributing/guidelines.md) | Coding standards and workflow |
+
+### Design Specifications
+
+| Document | Description |
+|----------|-------------|
+| [Design Docs Index](docs/design-docs/index.md) | Layer specifications |
+| [Architecture Redesign](docs/architecture-redesign.md) | Full migration proposal |
+
+### Guides
+
+| Document | Description |
+|----------|-------------|
+| [Design System](docs/guides/design-system.md) | Visual specs and tokens |
+| [Component Blueprints](docs/guides/component-blueprints.md) | Component architecture |
+| [Interaction Blueprint](docs/guides/interaction-blueprint.md) | User interaction patterns |
+| [SCSS Linting](docs/guides/scss-linting.md) | Style linting rules |
+
+### Reports
+
+| Document | Description |
+|----------|-------------|
+| [Analysis Report](docs/reports/analysis-report.md) | Initial codebase analysis |
+| [Sync Audit](docs/reports/sync-audit-report.md) | Doc-code alignment audit |
+| [API Review](docs/reports/api-review.md) | Internal service API review |
+
+## Project Status
+
+See [TODO.md](TODO.md) for current progress and [CHANGELOG.md](CHANGELOG.md) for release notes.
+
+## License
+
+MIT

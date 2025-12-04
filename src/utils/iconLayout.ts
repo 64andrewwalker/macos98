@@ -1,20 +1,26 @@
-import type { DesktopIconData } from '../hooks/useDesktopLogic';
+/**
+ * Icon layout utilities for desktop icon arrangement.
+ */
+
+export interface IconLayoutData {
+  id: string
+  label: string
+  icon: string
+  x: number
+  y: number
+  type?: 'folder' | 'file' | 'app' | 'system'
+  onDoubleClick?: () => void
+}
 
 export const arrangeIcons = (
-    icons: DesktopIconData[],
+    icons: IconLayoutData[],
     startX: number = 20,
     startY: number = 40,
     gapY: number = 90, // Vertical gap between icons
     gapX: number = 100, // Horizontal gap between columns
     direction: 'column' | 'row' = 'column',
     maxHeight: number = 600 // Approximate desktop height to wrap columns
-): DesktopIconData[] => {
-    // Sort icons? Maybe by type then name? Or just keep current order but fix positions?
-    // Let's keep current order for now, or maybe sort by ID/Label if desired.
-    // For "Clean Up", usually it just snaps to grid.
-    // But if we want to "Arrange", we might sort.
-    // Let's just re-position them in their current array order to a grid.
-
+): IconLayoutData[] => {
     // We'll place them in columns starting from left.
 
     let currentX = startX;

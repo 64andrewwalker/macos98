@@ -36,16 +36,17 @@ describe('TextEditor', () => {
 
     expect(screen.getByText('Characters: 0')).toBeInTheDocument();
 
-    editor!.innerText = 'Hi';
+    // Use textContent for jsdom compatibility
+    editor!.textContent = 'Hi';
     fireEvent.input(editor!);
     await expect(screen.findByText('Characters: 2')).resolves.toBeInTheDocument();
 
-    editor!.innerText = 'Hello world';
+    editor!.textContent = 'Hello world';
     fireEvent.input(editor!);
     await expect(screen.findByText('Characters: 11')).resolves.toBeInTheDocument();
   });
 
-  it('renders saved rich content without escaping HTML and keeps stats from text', async () => {
+  it('renders saved rich content preserving HTML formatting', async () => {
     const richContent = '<b>Bold</b> and <i>italic</i>';
     render(
       <TextEditor
@@ -57,9 +58,13 @@ describe('TextEditor', () => {
     );
 
     const editor = screen.getByTestId('text-editor-content');
+    // Should count plain text characters
     await screen.findByText('Characters: 15');
+    // textContent returns plain text
     expect(editor.textContent).toBe('Bold and italic');
-    expect(editor.innerHTML).toBe('Bold and italic');
+    // innerHTML preserves formatting
+    expect(editor.innerHTML).toContain('<b>Bold</b>');
+    expect(editor.innerHTML).toContain('<i>italic</i>');
 
     expect(await screen.findByText('Characters: 15')).toBeInTheDocument();
   });

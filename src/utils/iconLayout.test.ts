@@ -1,9 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { arrangeIcons } from './iconLayout';
-import type { DesktopIconData } from '../hooks/useDesktopLogic';
+import { arrangeIcons, type IconLayoutData } from './iconLayout';
 
 describe('arrangeIcons', () => {
-    const mockIcons: DesktopIconData[] = [
+    const mockIcons: IconLayoutData[] = [
         { id: '1', label: 'Icon 1', icon: '', x: 0, y: 0, onDoubleClick: () => { } },
         { id: '2', label: 'Icon 2', icon: '', x: 0, y: 0, onDoubleClick: () => { } },
         { id: '3', label: 'Icon 3', icon: '', x: 0, y: 0, onDoubleClick: () => { } },

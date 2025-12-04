@@ -1,23 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import styles from './MenuBar.module.scss';
-import appleLogo from '../../assets/apple_logo.png';
+import React, { useState, useEffect, useContext } from 'react'
+import styles from './MenuBar.module.scss'
+import appleLogo from '../../assets/apple_logo.png'
+import { SystemContext } from '../../system/context'
 
 interface MenuBarProps {
-    onOpenWindow: (id: string, title: string, content: React.ReactNode, width?: number, height?: number) => void;
-    onCloseActiveWindow: () => void;
-    onUndo: () => void;
-    onCut: () => void;
-    onCopy: () => void;
-    onPaste: () => void;
-    onClear: () => void;
-    hasSelection: boolean;
-    hasClipboard: boolean;
-    canUndo: boolean;
+    onOpenWindow: (id: string, title: string, content: React.ReactNode, width?: number, height?: number) => void
+    onCloseActiveWindow: () => void
+    onOpenDialog: () => void
+    onUndo: () => void
+    onCut: () => void
+    onCopy: () => void
+    onPaste: () => void
+    onClear: () => void
+    hasSelection: boolean
+    hasClipboard: boolean
+    canUndo: boolean
 }
 
 const MenuBar: React.FC<MenuBarProps> = ({
     onOpenWindow,
     onCloseActiveWindow,
+    onOpenDialog,
     onUndo,
     onCut,
     onCopy,
@@ -27,84 +30,118 @@ const MenuBar: React.FC<MenuBarProps> = ({
     hasClipboard,
     canUndo
 }) => {
-    const [time, setTime] = useState(new Date());
-    const [activeMenu, setActiveMenu] = useState<string | null>(null);
+    // Try to get AppRuntime from context (optional)
+    const systemContext = useContext(SystemContext)
+    const appRuntime = systemContext?.appRuntime
+
+    const [time, setTime] = useState(new Date())
+    const [activeMenu, setActiveMenu] = useState<string | null>(null)
 
     useEffect(() => {
-        const timer = setInterval(() => setTime(new Date()), 1000);
+        const timer = setInterval(() => setTime(new Date()), 1000)
 
         const handleClickOutside = (e: MouseEvent) => {
-            const target = e.target as HTMLElement;
-            const menuBar = document.querySelector(`.${styles.menuBar}`);
+            const target = e.target as HTMLElement
+            const menuBar = document.querySelector(`.${styles.menuBar}`)
 
             // Only close menu if click is outside the menuBar
             if (menuBar && !menuBar.contains(target)) {
-                setActiveMenu(null);
+                setActiveMenu(null)
             }
-        };
+        }
 
-        window.addEventListener('click', handleClickOutside);
+        window.addEventListener('click', handleClickOutside)
 
         return () => {
-            clearInterval(timer);
-            window.removeEventListener('click', handleClickOutside);
-        };
-    }, []);
+            clearInterval(timer)
+            window.removeEventListener('click', handleClickOutside)
+        }
+    }, [])
 
     const formatTime = (date: Date) => {
-        return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-    };
+        return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
+    }
 
     const handleMenuClick = (menu: string) => {
-        setActiveMenu(activeMenu === menu ? null : menu);
-    };
+        setActiveMenu(activeMenu === menu ? null : menu)
+    }
 
     const handleMenuHover = (menu: string) => {
         if (activeMenu) {
-            setActiveMenu(menu);
+            setActiveMenu(menu)
         }
-    };
+    }
+
+    // Launch About via AppRuntime if available, otherwise use legacy
+    const handleAboutClick = () => {
+        if (appRuntime) {
+            const installedApps = appRuntime.getInstalledApps()
+            if (installedApps.some(app => app.id === 'about')) {
+                appRuntime.launchApp('about').catch(() => {
+                    // Fallback to legacy
+                    onOpenWindow('about', 'About This Computer', null)
+                })
+                setActiveMenu(null)
+                return
+            }
+        }
+        onOpenWindow('about', 'About This Computer', null)
+        setActiveMenu(null)
+    }
 
     return (
         <div className={styles.menuBar}>
             <div className={styles.left}>
                 <div
                     className={`${styles.menuItem} ${styles.appleLogo} ${activeMenu === 'apple' ? styles.active : ''} `}
-                    onClick={(e) => { e.stopPropagation(); handleMenuClick('apple'); }}
+                    onClick={(e) => { e.stopPropagation(); handleMenuClick('apple') }}
                     onMouseEnter={() => handleMenuHover('apple')}
                 >
                     <img src={appleLogo} alt="Apple" />
                     {activeMenu === 'apple' && (
                         <div className={styles.dropdown}>
-                            <div className={styles.dropdownItem} onClick={(e) => { e.stopPropagation(); onOpenWindow('about', 'About This Computer', null); setActiveMenu(null); }}>About This Computer...</div>
+                            <div 
+                                className={styles.dropdownItem} 
+                                onClick={(e) => { e.stopPropagation(); handleAboutClick() }}
+                            >
+                                About This Computer...
+                            </div>
                         </div>
                     )}
                 </div>
                 <div
                     className={`${styles.menuItem} ${activeMenu === 'file' ? styles.active : ''}`}
-                    onClick={(e) => { e.stopPropagation(); handleMenuClick('file'); }}
+                    onClick={(e) => { e.stopPropagation(); handleMenuClick('file') }}
                     onMouseEnter={() => handleMenuHover('file')}
                 >
                     File
                     {activeMenu === 'file' && (
                         <div className={styles.dropdown}>
                             <div className={styles.dropdownItem} onClick={(e) => {
-                                e.stopPropagation();
+                                e.stopPropagation()
                                 // New Folder is handled in Desktop via openWindow
-                                onOpenWindow('new_folder', 'New Folder', null);
-                                setActiveMenu(null);
+                                onOpenWindow('new_folder', 'New Folder', null)
+                                setActiveMenu(null)
                             }}>New Folder</div>
-                            <div className={styles.dropdownItem} onClick={(e) => { e.stopPropagation(); alert('Open feature not implemented yet.'); setActiveMenu(null); }}>Open</div>
-                            <div className={styles.dropdownItem} onClick={(e) => { e.stopPropagation(); alert('Print feature not implemented yet.'); setActiveMenu(null); }}>Print</div>
+                            <div className={styles.dropdownItem} onClick={(e) => { 
+                                e.stopPropagation()
+                                onOpenDialog()
+                                setActiveMenu(null) 
+                            }}>Open</div>
+                            <div className={styles.dropdownItem} onClick={(e) => { 
+                                e.stopPropagation()
+                                window.print()
+                                setActiveMenu(null) 
+                            }}>Print</div>
                             <div className={styles.separator}></div>
-                            <div className={styles.dropdownItem} onClick={(e) => { e.stopPropagation(); onCloseActiveWindow(); setActiveMenu(null); }}>Close</div>
+                            <div className={styles.dropdownItem} onClick={(e) => { e.stopPropagation(); onCloseActiveWindow(); setActiveMenu(null) }}>Close</div>
                         </div>
                     )}
                 </div>
 
                 <div
                     className={`${styles.menuItem} ${activeMenu === 'edit' ? styles.active : ''}`}
-                    onClick={(e) => { e.stopPropagation(); handleMenuClick('edit'); }}
+                    onClick={(e) => { e.stopPropagation(); handleMenuClick('edit') }}
                     onMouseEnter={() => handleMenuHover('edit')}
                 >
                     Edit
@@ -113,10 +150,10 @@ const MenuBar: React.FC<MenuBarProps> = ({
                             <div
                                 className={`${styles.dropdownItem} ${!canUndo ? styles.disabled : ''}`}
                                 onClick={(e) => {
-                                    e.stopPropagation();
+                                    e.stopPropagation()
                                     if (canUndo) {
-                                        onUndo();
-                                        setActiveMenu(null);
+                                        onUndo()
+                                        setActiveMenu(null)
                                     }
                                 }}
                             >
@@ -126,10 +163,10 @@ const MenuBar: React.FC<MenuBarProps> = ({
                             <div
                                 className={`${styles.dropdownItem} ${!hasSelection ? styles.disabled : ''}`}
                                 onClick={(e) => {
-                                    e.stopPropagation();
+                                    e.stopPropagation()
                                     if (hasSelection) {
-                                        onCut();
-                                        setActiveMenu(null);
+                                        onCut()
+                                        setActiveMenu(null)
                                     }
                                 }}
                             >
@@ -138,10 +175,10 @@ const MenuBar: React.FC<MenuBarProps> = ({
                             <div
                                 className={`${styles.dropdownItem} ${!hasSelection ? styles.disabled : ''}`}
                                 onClick={(e) => {
-                                    e.stopPropagation();
+                                    e.stopPropagation()
                                     if (hasSelection) {
-                                        onCopy();
-                                        setActiveMenu(null);
+                                        onCopy()
+                                        setActiveMenu(null)
                                     }
                                 }}
                             >
@@ -150,10 +187,10 @@ const MenuBar: React.FC<MenuBarProps> = ({
                             <div
                                 className={`${styles.dropdownItem} ${!hasClipboard ? styles.disabled : ''}`}
                                 onClick={(e) => {
-                                    e.stopPropagation();
+                                    e.stopPropagation()
                                     if (hasClipboard) {
-                                        onPaste();
-                                        setActiveMenu(null);
+                                        onPaste()
+                                        setActiveMenu(null)
                                     }
                                 }}
                             >
@@ -162,9 +199,9 @@ const MenuBar: React.FC<MenuBarProps> = ({
                             <div
                                 className={styles.dropdownItem}
                                 onClick={(e) => {
-                                    e.stopPropagation();
-                                    onClear();
-                                    setActiveMenu(null);
+                                    e.stopPropagation()
+                                    onClear()
+                                    setActiveMenu(null)
                                 }}
                             >
                                 Clear
@@ -179,7 +216,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
                 <div className={styles.clock}>{formatTime(time)}</div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default MenuBar;
+export default MenuBar

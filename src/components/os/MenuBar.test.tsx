@@ -15,6 +15,7 @@ describe('MenuBar', () => {
     const mockProps = {
         onOpenWindow: vi.fn(),
         onCloseActiveWindow: vi.fn(),
+        onOpenDialog: vi.fn(),
         onUndo: vi.fn(),
         onCut: vi.fn(),
         onCopy: vi.fn(),
@@ -184,18 +185,16 @@ describe('MenuBar', () => {
             expect(mockProps.onOpenWindow).toHaveBeenCalledWith('new_folder', 'New Folder', null);
         });
 
-        it('shows alert for unimplemented Open feature', () => {
-            const alertMock = vi.spyOn(window, 'alert').mockImplementation(() => {});
+        it('calls onOpenDialog when Open is clicked', () => {
             fireEvent.click(screen.getByText('Open'));
-            expect(alertMock).toHaveBeenCalledWith('Open feature not implemented yet.');
-            alertMock.mockRestore();
+            expect(mockProps.onOpenDialog).toHaveBeenCalled();
         });
 
-        it('shows alert for unimplemented Print feature', () => {
-            const alertMock = vi.spyOn(window, 'alert').mockImplementation(() => {});
+        it('calls window.print when Print is clicked', () => {
+            const printMock = vi.spyOn(window, 'print').mockImplementation(() => {});
             fireEvent.click(screen.getByText('Print'));
-            expect(alertMock).toHaveBeenCalledWith('Print feature not implemented yet.');
-            alertMock.mockRestore();
+            expect(printMock).toHaveBeenCalled();
+            printMock.mockRestore();
         });
 
         it('calls onCloseActiveWindow for Close', () => {

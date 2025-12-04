@@ -1,0 +1,232 @@
+@use '../../styles/tokens';
+@use '../../styles/mixins';
+
+.finder {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: tokens.$color-surface;
+  font-family: tokens.$font-system;
+
+  /* Toolbar */
+  .toolbar {
+    @include mixins.toolbar-strip;
+    justify-content: space-between;
+    min-height: tokens.$size-28;
+    gap: tokens.$space-8;
+  }
+
+  .navButton {
+    width: tokens.$size-28;
+    height: tokens.$size-24;
+    @include mixins.toolbar-toggle-button;
+    font-size: tokens.$font-size-12;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: tokens.$space-4;
+    font-size: tokens.$font-size-12;
+    color: tokens.$color-text;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .breadcrumbItem {
+    cursor: pointer;
+    padding: tokens.$space-2 tokens.$space-4;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: tokens.$color-selection-bg;
+      color: tokens.$color-surface;
+    }
+  }
+
+  .separator {
+    color: tokens.$color-border-gray;
+    user-select: none;
+  }
+
+  .viewToggle {
+    display: flex;
+    gap: tokens.$space-2;
+  }
+
+  .viewButton {
+    width: tokens.$size-24;
+    height: tokens.$size-24;
+
+    @include mixins.toolbar-toggle-button;
+    font-size: tokens.$font-size-14;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Content Area */
+  .content {
+    flex: 1;
+    overflow: auto;
+    padding: tokens.$space-8;
+    background-color: tokens.$color-surface;
+    position: relative;
+  }
+
+  .loading,
+  .error,
+  .empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: tokens.$color-text-disabled;
+    font-size: tokens.$font-size-12;
+  }
+
+  .error {
+    color: #c00;
+  }
+
+  /* Icon View */
+  .iconView {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(tokens.$size-80, 1fr));
+    gap: tokens.$space-16;
+    padding: tokens.$space-8;
+  }
+
+  .iconItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: tokens.$space-4;
+    padding: tokens.$space-8;
+    cursor: default;
+    user-select: none;
+    border-radius: tokens.$space-2;
+
+    &.selected {
+      background-color: tokens.$color-selection-bg;
+
+      .label {
+        color: tokens.$color-surface;
+      }
+    }
+
+    &:hover:not(.selected) {
+      background-color: tokens.$color-window-bg;
+    }
+  }
+
+  .icon {
+    width: tokens.$size-48;
+    height: tokens.$size-48;
+    image-rendering: pixelated;
+  }
+
+  .iconPlaceholder {
+    width: tokens.$size-48;
+    height: tokens.$size-48;
+    border: tokens.$space-1 solid tokens.$color-window-bg;
+    background-color: tokens.$color-surface;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: tokens.$color-text-disabled;
+    font-size: tokens.$font-size-24;
+  }
+
+  .label {
+    font-size: tokens.$font-size-11;
+    text-align: center;
+    overflow-wrap: break-word;
+    max-width: tokens.$size-80;
+    color: tokens.$color-text;
+  }
+
+  /* List View */
+  .listView {
+    width: 100%;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: tokens.$font-size-12;
+    color: tokens.$color-text;
+
+    thead {
+      background-color: tokens.$color-toolbar-bg;
+      border-bottom: tokens.$space-2 solid tokens.$color-border-gray;
+
+      th {
+        text-align: left;
+        padding: tokens.$space-4 tokens.$space-8;
+        font-weight: bold;
+        border-right: tokens.$space-1 solid tokens.$color-border-gray;
+
+        &:last-child {
+          border-right: none;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        cursor: default;
+
+        &:hover:not(.selected) {
+          background-color: tokens.$color-window-bg;
+        }
+
+        &.selected {
+          background-color: tokens.$color-selection-bg;
+          color: tokens.$color-surface;
+        }
+
+        td {
+          padding: tokens.$space-4 tokens.$space-8;
+          border-bottom: tokens.$space-1 solid tokens.$color-window-bg;
+        }
+      }
+    }
+  }
+
+  .smallIcon {
+    width: tokens.$size-16;
+    height: tokens.$size-16;
+    margin-right: tokens.$space-4;
+    vertical-align: middle;
+    image-rendering: pixelated;
+  }
+
+  .smallIconPlaceholder {
+    display: inline-block;
+    width: tokens.$size-16;
+    height: tokens.$size-16;
+    margin-right: tokens.$space-4;
+    vertical-align: middle;
+    text-align: center;
+    line-height: tokens.$size-16;
+    font-size: tokens.$font-size-12;
+  }
+
+  /* Status Bar */
+  .statusBar {
+    padding: tokens.$space-4 tokens.$space-8;
+
+    @include mixins.status-bar;
+    min-height: tokens.$size-20;
+  }
+}
+
