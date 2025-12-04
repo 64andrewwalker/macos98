@@ -12,6 +12,7 @@ Detailed specifications for the macOS 98 5-layer architecture redesign.
 | [04-kernel-layer-spec](./04-kernel-layer-spec.md) | Kernel | OS-like services (VFS, EventBus, Tasks) |
 | [05-ui-shell-layer-spec](./05-ui-shell-layer-spec.md) | UI Shell | Window manager, desktop service |
 | [06-app-framework-layer-spec](./06-app-framework-layer-spec.md) | App Framework | App lifecycle and context |
+| [07-persistence-layer-spec](./07-persistence-layer-spec.md) | Persistence | Data storage and restoration |
 | [07-testing-strategy](./07-testing-strategy.md) | Testing | TDD approach and test patterns |
 | [08-development-roadmap](./08-development-roadmap.md) | Roadmap | Implementation phases |
 
