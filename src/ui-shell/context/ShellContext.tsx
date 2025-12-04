@@ -51,9 +51,10 @@ function ShellHooksProvider({
 
 /**
  * Initialize the desktop service with default icons
+ * Enables auto-save for persistence across page reloads
  */
 function initializeDesktopWithIcons() {
-  const desktopService = createDesktopService()
+  const desktopService = createDesktopService({ autoSave: true })
   
   // Calculate icon positions
   const withPositions = arrangeIconPositions(
@@ -68,8 +69,11 @@ function initializeDesktopWithIcons() {
     }))
   )
 
-  // Add initial icons
+  // Add initial icons with stable IDs for persistence
   initialIcons.forEach((iconData, index) => {
+    // Use a stable ID based on the legacy ID to support persistence
+    const stableId = `desktop-icon-${iconData.id}`
+    
     const target: IconTarget = {
       type: iconData.type,
       appId: iconData.type === 'app' ? iconData.id : undefined,
@@ -77,6 +81,7 @@ function initializeDesktopWithIcons() {
     }
 
     const newIcon = desktopService.addIcon({
+      id: stableId, // Use stable ID
       name: iconData.label,
       icon: iconData.icon,
       position: { x: withPositions[index].x, y: withPositions[index].y },
@@ -89,6 +94,9 @@ function initializeDesktopWithIcons() {
       children: iconData.children
     })
   })
+
+  // Restore saved positions and wallpaper (if any)
+  desktopService.restoreState()
 
   return desktopService
 }

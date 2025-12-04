@@ -302,6 +302,20 @@ Key findings:
 
 ---
 
+## ✅ Persistence Features (Complete)
+
+| Feature | Status | User Story | Tests |
+|---------|--------|------------|-------|
+| Wallpaper persistence | ✅ Complete | US-SYS-001 | 9 |
+| Desktop icon position persistence | ✅ Complete | US-SYS-002 | 8 |
+| New folder persistence | ⚠️ Partial | US-SYS-003 | — |
+| File content persistence | ✅ Complete | US-SYS-004 | 25 |
+
+TDD Session: [`docs/tdd-session-persistence.md`](docs/tdd-session-persistence.md)  
+Architecture: [`docs/design-docs/07-persistence-layer-spec.md`](docs/design-docs/07-persistence-layer-spec.md)
+
+---
+
 ## 📦 Dependency Health
 
 Last audit: December 2024 | Report: [`docs/reports/dependency-report.md`](docs/reports/dependency-report.md)
@@ -319,6 +333,7 @@ Last audit: December 2024 | Report: [`docs/reports/dependency-report.md`](docs/r
 ## 📚 Related Documents
 
 - [`docs/architecture-redesign.md`](docs/architecture-redesign.md) - Full migration plan
+- [`docs/user-stories.md`](docs/user-stories.md) - User stories for all apps (48 stories)
 - [`docs/reports/sync-audit-report.md`](docs/reports/sync-audit-report.md) - Documentation sync audit
 - [`docs/reports/api-review-v2.md`](docs/reports/api-review-v2.md) - API design review
 - [`docs/reports/dependency-report.md`](docs/reports/dependency-report.md) - Dependency audit
@@ -326,3 +341,4 @@ Last audit: December 2024 | Report: [`docs/reports/dependency-report.md`](docs/r
 - [`docs/design-docs/04-kernel-layer-spec.md`](docs/design-docs/04-kernel-layer-spec.md) - Kernel spec
 - [`docs/design-docs/05-ui-shell-layer-spec.md`](docs/design-docs/05-ui-shell-layer-spec.md) - UI Shell spec
 - [`docs/design-docs/06-app-framework-layer-spec.md`](docs/design-docs/06-app-framework-layer-spec.md) - App Framework spec
+- [`docs/design-docs/07-persistence-layer-spec.md`](docs/design-docs/07-persistence-layer-spec.md) - Persistence spec

@@ -89,8 +89,9 @@ export interface DesktopService {
   // Icon management
   /**
    * Add an icon to the desktop
+   * @param icon - Icon data (id is optional, will be generated if not provided)
    */
-  addIcon(icon: Omit<DesktopIcon, 'id'>): DesktopIcon
+  addIcon(icon: Omit<DesktopIcon, 'id'> & { id?: string }): DesktopIcon
 
   /**
    * Remove an icon from the desktop
@@ -163,5 +164,26 @@ export interface DesktopService {
    * Trigger a context menu event
    */
   triggerContextMenu(x: number, y: number, iconId?: string): void
+
+  // Persistence
+  /**
+   * Save current desktop state to storage
+   */
+  saveState(): void
+
+  /**
+   * Restore desktop state from storage
+   */
+  restoreState(): void
+}
+
+/**
+ * Options for creating a DesktopService
+ */
+export interface DesktopServiceOptions {
+  /** Auto-save state when wallpaper or icon positions change */
+  autoSave?: boolean
+  /** Auto-restore state when service is created */
+  autoRestore?: boolean
 }
 

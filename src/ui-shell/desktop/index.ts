@@ -3,8 +3,15 @@
  */
 
 export { createDesktopService } from './desktop-service'
+export {
+  saveDesktopSettings,
+  loadDesktopSettings,
+  clearDesktopSettings,
+  type DesktopSettings
+} from './desktop-persistence'
 export type {
   DesktopService,
+  DesktopServiceOptions,
   DesktopIcon,
   IconPosition,
   IconTarget,

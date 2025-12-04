@@ -7,6 +7,7 @@
 
 import type {
   DesktopService,
+  DesktopServiceOptions,
   DesktopIcon,
   IconPosition,
   DesktopEvent,
@@ -15,6 +16,7 @@ import type {
   ContextMenuCallback
 } from './types'
 import type { Unsubscribe } from '../../kernel/event-bus/types'
+import { saveDesktopSettings, loadDesktopSettings } from './desktop-persistence'
 
 // Icon grid constants
 const GRID_MARGIN_X = 20
@@ -35,7 +37,9 @@ function generateIconId(): string {
 /**
  * Create a new DesktopService instance
  */
-export function createDesktopService(): DesktopService {
+export function createDesktopService(options: DesktopServiceOptions = {}): DesktopService {
+  const { autoSave = false, autoRestore = false } = options
+
   // State
   let wallpaper = ''
   let wallpaperMode: 'tile' | 'center' | 'fill' | 'fit' = 'tile'
@@ -53,6 +57,13 @@ export function createDesktopService(): DesktopService {
     }
   }
 
+  // Auto-save helper
+  function doAutoSave(): void {
+    if (autoSave) {
+      saveState()
+    }
+  }
+
   // Wallpaper
   function setWallpaper(url: string, mode?: 'tile' | 'center' | 'fill' | 'fit'): void {
     wallpaper = url
@@ -60,6 +71,7 @@ export function createDesktopService(): DesktopService {
       wallpaperMode = mode
     }
     notifyChange({ type: 'wallpaperChanged' })
+    doAutoSave()
   }
 
   function getWallpaper(): string {
@@ -71,10 +83,13 @@ export function createDesktopService(): DesktopService {
   }
 
   // Icon management
-  function addIcon(iconData: Omit<DesktopIcon, 'id'>): DesktopIcon {
+  function addIcon(iconData: Omit<DesktopIcon, 'id'> & { id?: string }): DesktopIcon {
     const icon: DesktopIcon = {
-      id: generateIconId(),
-      ...iconData
+      id: iconData.id ?? generateIconId(),
+      name: iconData.name,
+      icon: iconData.icon,
+      position: iconData.position,
+      target: iconData.target
     }
     icons.push(icon)
     notifyChange({ type: 'iconAdded', iconId: icon.id, icon })
@@ -98,6 +113,7 @@ export function createDesktopService(): DesktopService {
 
     icon.position = { ...position }
     notifyChange({ type: 'iconMoved', iconId, icon })
+    doAutoSave()
   }
 
   function getIcon(iconId: string): DesktopIcon | undefined {
@@ -195,6 +211,42 @@ export function createDesktopService(): DesktopService {
     }
   }
 
+  // Persistence
+  function saveState(): void {
+    const iconPositions: Record<string, IconPosition> = {}
+    for (const icon of icons) {
+      iconPositions[icon.id] = { ...icon.position }
+    }
+
+    saveDesktopSettings({
+      wallpaper,
+      wallpaperMode,
+      iconPositions
+    })
+  }
+
+  function restoreState(): void {
+    const settings = loadDesktopSettings()
+    if (!settings) return
+
+    // Restore wallpaper
+    wallpaper = settings.wallpaper
+    wallpaperMode = settings.wallpaperMode
+
+    // Restore icon positions
+    for (const icon of icons) {
+      const savedPosition = settings.iconPositions[icon.id]
+      if (savedPosition) {
+        icon.position = { ...savedPosition }
+      }
+    }
+  }
+
+  // Auto-restore on creation if enabled
+  if (autoRestore) {
+    restoreState()
+  }
+
   return {
     setWallpaper,
     getWallpaper,
@@ -213,7 +265,9 @@ export function createDesktopService(): DesktopService {
     onIconDoubleClick,
     onContextMenu,
     triggerIconDoubleClick,
-    triggerContextMenu
+    triggerContextMenu,
+    saveState,
+    restoreState
   }
 }
 
