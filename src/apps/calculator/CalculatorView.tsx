@@ -92,7 +92,6 @@ export const CalculatorView: React.FC = () => {
   return (
     <div className={styles.calculator}>
       <div className={styles.display} data-testid="display">{display}</div>
-      <div className={styles.keypad}>
         <button onClick={() => clear()} className={styles.clear} data-testid="btn-clear">C</button>
         <button onClick={() => performOperation('/')} data-testid="btn-divide">/</button>
         <button onClick={() => performOperation('*')} data-testid="btn-multiply">*</button>
@@ -114,7 +113,6 @@ export const CalculatorView: React.FC = () => {
 
         <button onClick={() => inputDigit('0')} className={styles.zero} data-testid="btn-0">0</button>
         <button onClick={() => inputDot()} data-testid="btn-dot">.</button>
-      </div>
     </div>
   )
 }
