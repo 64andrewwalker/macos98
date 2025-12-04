@@ -22,7 +22,7 @@ Phase 0 ──▶ Phase 1 ──▶ Phase 2 ──▶ Phase 3 ──▶ Phase 4 
 | 4 | App Framework | ✅ Complete | 87 passing |
 | 5 | App Migration | ✅ **Complete** | — |
 
-**Total Tests: 781 passing** (1 skipped)
+**Unit Tests: 782 passing** (1 skipped) | **E2E Tests: 41 passing**
 
 ---
 
@@ -233,7 +233,9 @@ src/
 
 ---
 
-## 🧪 Running Tests
+## 🧪 Testing
+
+### Unit Tests (Vitest)
 
 ```bash
 # All tests
@@ -244,10 +246,73 @@ pnpm test src/platform/
 pnpm test src/kernel/
 pnpm test src/ui-shell/
 pnpm test src/app-framework/
+```
 
-# Lint & build
+### E2E Tests (Playwright)
+
+| Test File | Tests | Coverage |
+|-----------|-------|----------|
+| `e2e/desktop.spec.ts` | 5 | Desktop icons, window opening |
+| `e2e/calculator.spec.ts` | 8 | Calculator operations |
+| `e2e/tictactoe.spec.ts` | 4 | Game functionality |
+| `e2e/text-editor.spec.ts` | 14 | Editor features, persistence |
+| `e2e/menubar.spec.ts` | 10 | Menu interactions |
+
+```bash
+# Run E2E tests (start dev server first: pnpm dev)
+pnpm test:e2e
+
+# Run with UI
+pnpm test:e2e:ui
+
+# View report
+pnpm test:e2e:report
+```
+
+### Quality Gates
+
+```bash
 pnpm lint && pnpm build
 ```
+
+---
+
+## 📊 API Review
+
+Last audit: December 2024 | Report: [`docs/reports/api-review-v2.md`](docs/reports/api-review-v2.md)
+
+**Overall Score: 92/100**
+
+| Criterion | Score |
+|-----------|-------|
+| Naming Consistency | 95 |
+| Type Safety | 90 |
+| Error Handling | 88 |
+| Documentation | 95 |
+| Interface Cohesion | 92 |
+| Return Type Consistency | 90 |
+
+Key findings:
+- ✅ Consistent naming patterns across all layers
+- ✅ Comprehensive JSDoc documentation
+- ✅ Strong type definitions with generics
+- ⚠️ Minor: Consider unified error handling pattern
+
+---
+
+---
+
+## 📦 Dependency Health
+
+Last audit: December 2024 | Report: [`docs/reports/dependency-report.md`](docs/reports/dependency-report.md)
+
+| Check | Status |
+|-------|--------|
+| Vulnerabilities | ✅ None (pnpm audit) |
+| License Compliance | ✅ All permissive (MIT, Apache-2.0) |
+| Outdated Packages | ✅ Updated to latest |
+| Unused Dependencies | ✅ None |
+| Duplicates | ✅ None |
 
 ---
 
@@ -255,6 +320,8 @@ pnpm lint && pnpm build
 
 - [`docs/architecture-redesign.md`](docs/architecture-redesign.md) - Full migration plan
 - [`docs/reports/sync-audit-report.md`](docs/reports/sync-audit-report.md) - Documentation sync audit
+- [`docs/reports/api-review-v2.md`](docs/reports/api-review-v2.md) - API design review
+- [`docs/reports/dependency-report.md`](docs/reports/dependency-report.md) - Dependency audit
 - [`docs/design-docs/03-platform-layer-spec.md`](docs/design-docs/03-platform-layer-spec.md) - Platform spec
 - [`docs/design-docs/04-kernel-layer-spec.md`](docs/design-docs/04-kernel-layer-spec.md) - Kernel spec
 - [`docs/design-docs/05-ui-shell-layer-spec.md`](docs/design-docs/05-ui-shell-layer-spec.md) - UI Shell spec
