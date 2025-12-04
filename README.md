@@ -43,7 +43,16 @@ See [Getting Started](docs/getting-started.md) for full setup instructions.
 |----------|-------------|
 | [Analysis Report](docs/reports/analysis-report.md) | Initial codebase analysis |
 | [Sync Audit](docs/reports/sync-audit-report.md) | Doc-code alignment audit |
-| [API Review](docs/reports/api-review.md) | Internal service API review |
+| [API Review v2](docs/reports/api-review-v2.md) | Internal service API review (latest) |
+| [Dependency Report](docs/reports/dependency-report.md) | Dependency health audit |
+| [Frontend Redesign](docs/reports/frontend-redesign.md) | Calculator UI redesign |
+| [TDD Session: Persistence](docs/reports/tdd-session-persistence.md) | Persistence feature development |
+
+### Reference
+
+| Document | Description |
+|----------|-------------|
+| [User Stories](docs/user-stories.md) | Feature requirements (48 stories) |
 
 ## Project Status
 

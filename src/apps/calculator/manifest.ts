@@ -12,7 +12,7 @@ export const calculatorManifest: AppManifest = {
   icon: calculatorIcon,
   window: {
     width: 200,
-    height: 300,
+    height: 250,
     resizable: false
   }
 }

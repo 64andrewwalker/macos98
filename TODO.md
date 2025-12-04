@@ -342,3 +342,11 @@ Last audit: December 2024 | Report: [`docs/reports/dependency-report.md`](docs/r
 - [`docs/design-docs/05-ui-shell-layer-spec.md`](docs/design-docs/05-ui-shell-layer-spec.md) - UI Shell spec
 - [`docs/design-docs/06-app-framework-layer-spec.md`](docs/design-docs/06-app-framework-layer-spec.md) - App Framework spec
 - [`docs/design-docs/07-persistence-layer-spec.md`](docs/design-docs/07-persistence-layer-spec.md) - Persistence spec
+
+---
+
+## 🎨 Frontend Redesign
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Calculator Layout | ✅ Complete | Switched to CSS Grid for pixel-perfect alignment |
